@@ -1,0 +1,5 @@
+
+{
+  "name": "KeyMash - Bitwise Keybindings",
+  "description": "A high-performance keyboard binding library for the web that uses bitmasks and bitwise operations to compose complex chords and shortcuts."
+}
