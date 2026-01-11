@@ -4,18 +4,33 @@ import KeyMashDemo from './components/KeyMashDemo';
 import CodeBlock from './components/CodeBlock';
 
 const App: React.FC = () => {
-  const exampleCode = `import { hold, press, bind } from "keymash";
+  const exampleCode = `import { keymash, hold, press } from "keymash";
 
-bind(window, {
-  // Use + to combine keys naturally
-  [hold.ctrl + press.t]() { 
-    console.log('New Tab') 
-  },
-  
-  // Use | for "OR" (alternatives)
-  [hold.ctrl + (press.o | press.k)]() { 
-    console.log('Search') 
-  }
+const km = keymash({
+  label: 'My App',
+  bindings: [
+    {
+      combo: hold.ctrl + press.t,
+      handler: () => console.log('New Tab'),
+      label: 'New Tab'
+    },
+    // Use | for "OR" (alternatives)
+    {
+      combo: hold.ctrl + (press.o | press.k),
+      handler: () => console.log('Search'),
+      label: 'Search'
+    }
+  ]
+});
+
+// Dynamic binding - shorthand
+km.bind(hold.ctrl + press.s, () => console.log('Save'));
+
+// Dynamic binding - full object
+km.bind({
+  combo: hold.ctrl + press.n,
+  handler: () => console.log('New'),
+  label: 'New File'
 });`;
 
   return (

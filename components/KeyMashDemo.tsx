@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { hold, press, bind } from '../lib/keymash';
+import { keymash, hold, press } from '../lib/keymash';
 
 const KeyMashDemo: React.FC = () => {
   const [currentMask, setCurrentMask] = useState<bigint>(0n);
@@ -11,17 +11,22 @@ const KeyMashDemo: React.FC = () => {
   };
 
   useEffect(() => {
-    const unbind = bind(window as any, {
-      [hold.ctrl + press.t]: () => addLog('Matched: Ctrl + T'),
-      [hold.ctrl + hold.shift + press.p]: () => addLog('Matched: Ctrl + Shift + P'),
-      [hold.alt + (press.ArrowUp | press.ArrowDown)]: () => addLog('Matched: Alt + Arrow Key'),
-      [hold.ctrl + (press.o | press.k)]: () => addLog('Matched: Ctrl + (O or K)'),
-      [press.Escape]: () => addLog('Matched: Escape'),
-      [press.Space]: () => addLog('Matched: Space'),
-      [press.Enter]: () => addLog('Matched: Enter'),
-    }, (mask) => setCurrentMask(mask));
+    const km = keymash({
+      label: 'Demo',
+      bindings: [
+        { combo: hold.ctrl + press.t, handler: () => addLog('Matched: Ctrl + T'), label: 'New Tab' },
+        { combo: hold.ctrl + hold.shift + press.p, handler: () => addLog('Matched: Ctrl + Shift + P'), label: 'Command Palette' },
+        { combo: hold.alt + (press.ArrowUp | press.ArrowDown), handler: () => addLog('Matched: Alt + Arrow Key'), label: 'Move Line' },
+        { combo: hold.ctrl + (press.o | press.k), handler: () => addLog('Matched: Ctrl + (O or K)'), label: 'Quick Open' },
+        { combo: press.Escape, handler: () => addLog('Matched: Escape'), label: 'Cancel' },
+        { combo: press.Space, handler: () => addLog('Matched: Space'), label: 'Space' },
+        { combo: press.Enter, handler: () => addLog('Matched: Enter'), label: 'Confirm' },
+      ]
+    });
 
-    return unbind;
+    km.onUpdate((mask) => setCurrentMask(mask));
+
+    return () => km.destroy();
   }, []);
 
   const getIsActive = (mask: bigint) => {
