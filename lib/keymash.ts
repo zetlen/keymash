@@ -4,34 +4,63 @@ import { BindingMap, KeyHandler } from '../types';
 const KEY_CODE_MAP: Record<string, number> = {
   'Control': 1, 'Shift': 2, 'Alt': 3, 'Meta': 4,
   'CapsLock': 5, 'Tab': 6, 'Escape': 7, 'Backspace': 8,
-  'Enter': 9, 'Space': 10,
+  'Enter': 9, 'Space': 10, ' ': 10,
   'ArrowUp': 20, 'ArrowDown': 21, 'ArrowLeft': 22, 'ArrowRight': 23,
 };
 
-for (let i = 65; i <= 90; i++) KEY_CODE_MAP[String.fromCharCode(i).toLowerCase()] = i;
-for (let i = 0; i < 10; i++) KEY_CODE_MAP[i.toString()] = 48 + i;
-
 const getBitPos = (key: string): number => {
   const normalized = key.length === 1 ? key.toLowerCase() : key;
-  return KEY_CODE_MAP[normalized] || (normalized.charCodeAt(0) % 100) + 128;
+  if (KEY_CODE_MAP[normalized]) return KEY_CODE_MAP[normalized];
+  if (normalized.length === 1) return normalized.charCodeAt(0);
+  return (normalized.charCodeAt(0) % 100) + 128;
 };
 
 const HOLD_OFFSET = 0n;
 const PRESS_OFFSET = 256n;
 
-export const hold = new Proxy({} as any, {
-  get: (_, prop: string) => {
-    const key = prop === 'ctrl' ? 'Control' : prop === 'shift' ? 'Shift' : prop === 'alt' ? 'Alt' : prop === 'meta' ? 'Meta' : prop;
-    return 1n << (BigInt(getBitPos(key)) + HOLD_OFFSET);
-  }
-});
+export const hold: Record<string, bigint> = {};
+export const press: Record<string, bigint> = {};
 
-export const press = new Proxy({} as any, {
-  get: (_, prop: string) => {
-    const key = prop === 'ctrl' ? 'Control' : prop === 'shift' ? 'Shift' : prop === 'alt' ? 'Alt' : prop === 'meta' ? 'Meta' : prop;
-    return 1n << (BigInt(getBitPos(key)) + PRESS_OFFSET);
+const register = (key: string, alias?: string) => {
+  const bit = BigInt(getBitPos(key));
+  hold[key] = 1n << (bit + HOLD_OFFSET);
+  press[key] = 1n << (bit + PRESS_OFFSET);
+  if (alias) {
+    hold[alias] = hold[key];
+    press[alias] = press[key];
   }
-});
+};
+
+// Populate known keys
+Object.keys(KEY_CODE_MAP).forEach(k => register(k));
+
+// Aliases
+register('Control', 'ctrl');
+register('Shift', 'shift');
+register('Alt', 'alt');
+register('Meta', 'meta');
+register('Escape', 'esc');
+
+// ASCII printable characters
+for (let i = 32; i < 127; i++) {
+  const char = String.fromCharCode(i);
+  if (!hold[char]) register(char);
+}
+
+// Function keys
+for (let i = 1; i <= 12; i++) register(`F${i}`);
+
+/**
+ * Helper for binding keys that aren't in the standard set.
+ * Usage: key('MediaPlay')
+ */
+export const key = (char: string) => {
+  const bit = BigInt(getBitPos(char));
+  return {
+    hold: 1n << (bit + HOLD_OFFSET),
+    press: 1n << (bit + PRESS_OFFSET)
+  };
+};
 
 /**
  * Explodes bindings that use OR (|) in the press range.
@@ -70,17 +99,20 @@ export function bind(target: HTMLElement | Window, bindings: BindingMap, onUpdat
   const activeKeys = new Set<string>();
   const lookup = processBindings(bindings);
 
+  const getHoldMask = (k: string) => hold[k] || (1n << (BigInt(getBitPos(k)) + HOLD_OFFSET));
+  const getPressMask = (k: string) => press[k] || (1n << (BigInt(getBitPos(k)) + PRESS_OFFSET));
+
   const handleKeyDown = (e: KeyboardEvent) => {
     // If the key is already held, we don't want to re-trigger the "press" bit logic
     // unless we want repeat behavior. For shortcuts, we usually don't.
     if (activeKeys.has(e.key)) return;
 
     let holdMask = 0n;
-    activeKeys.forEach(key => {
-      holdMask |= (1n << (BigInt(getBitPos(key)) + HOLD_OFFSET));
+    activeKeys.forEach(k => {
+      holdMask |= getHoldMask(k);
     });
 
-    const pressMask = (1n << (BigInt(getBitPos(e.key)) + PRESS_OFFSET));
+    const pressMask = getPressMask(e.key);
     const totalMask = holdMask | pressMask;
 
     if (onUpdate) onUpdate(totalMask);
@@ -97,7 +129,7 @@ export function bind(target: HTMLElement | Window, bindings: BindingMap, onUpdat
     activeKeys.delete(e.key);
     if (onUpdate) {
         let holdMask = 0n;
-        activeKeys.forEach(key => holdMask |= (1n << BigInt(getBitPos(key))));
+        activeKeys.forEach(k => holdMask |= getHoldMask(k));
         onUpdate(holdMask);
     }
   };

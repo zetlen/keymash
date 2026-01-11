@@ -1,20 +1,68 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# KeyMash
 
-# Run and deploy your AI Studio app
+Stop parsing strings. Start masking bits. The definitive keyboard library for the modern web.
 
-This contains everything you need to run your app locally.
+## Why?
 
-View your app in AI Studio: https://ai.studio/apps/temp/1
+KeyMash maps every key to a unique bit in a 512-bit space.
+- **0-255**: Hold state (keys currently down)
+- **256-511**: Press state (key that just triggered the event)
 
-## Run Locally
+By using the bitwise OR operator (`|`), you create a unique `BigInt` mask for any possible keyboard chord. This allows for **O(1)** lookup complexity, regardless of how complex the shortcut is.
 
-**Prerequisites:**  Node.js
+## Usage
+
+```typescript
+import { hold, press, bind } from './lib/keymash';
+
+// Bind to window or any HTMLElement
+bind(window, {
+  // Simple chord: Ctrl + T
+  // You can use (+) to combine keys naturally!
+  [hold.ctrl + press.t]: (e) => { 
+    e.preventDefault();
+    console.log('New Tab');
+  },
+  
+  // Multi-trigger: Ctrl + (O or K)
+  // Use (|) for "OR" logic (alternatives)
+  [hold.ctrl + (press.o | press.k)]: () => { 
+    console.log('Open or Search');
+  },
+
+  // Complex: Ctrl + Shift + P
+  [hold.ctrl + hold.shift + press.p]: () => {
+    console.log('Command Palette');
+  }
+});
+```
+
+## How it works
+
+KeyMash maps every key to a unique bit.
+- `hold.ctrl` is a number like `...00010`
+- `press.t` is a number like `...01000`
+
+Combining them with `+` results in `...01010`, which uniquely identifies that specific chord.
+Using `|` works too, but `+` feels more like "Ctrl + T".
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## API
+
+### `hold` & `press`
+Static objects containing pre-calculated bitmasks for common keys.
+- `hold.ctrl`, `hold.shift`, `hold.alt`, `hold.meta`
+- `press.a` through `press.z`
+- `press.Enter`, `press.Escape`, `press.Space`
+- `press.ArrowUp`, `press.F1`, etc.
+
+### `key(char: string)`
+Helper for binding keys that aren't in the standard set.
+```typescript
+import { key } from './lib/keymash';
+
+const { hold: holdPlay, press: pressPlay } = key('MediaPlay');
+```
+
+### `bind(target, bindings)`
+Attaches event listeners. Returns an `unbind` function.
