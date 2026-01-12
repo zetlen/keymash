@@ -111,7 +111,16 @@ km.bind({
         <section id="demo" className="py-10">
           <div className="mb-16 space-y-4">
             <h2 className="text-3xl font-bold text-gray-900">Interactive Demo</h2>
-            <p className="text-gray-500">Focus the window to test the bindings.</p>
+            <p className="text-gray-500 max-w-2xl">
+              Type{' '}
+              <code className="bg-gray-100 px-1.5 py-0.5 rounded text-blue-600 font-mono text-sm">
+                "show me"
+              </code>{' '}
+              to enter trapped mode. All keyboard input will be captured and visualized on the
+              keyboard below. Press{' '}
+              <code className="bg-gray-100 px-1.5 py-0.5 rounded font-mono text-sm">Esc</code> to
+              exit.
+            </p>
           </div>
           <KeyMashDemo />
         </section>

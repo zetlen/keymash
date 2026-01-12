@@ -1,53 +1,295 @@
 import type React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import type { Keymash } from '../lib/keymash';
 import { hold, keymash, press } from '../lib/keymash';
+
+const TRIGGER_PHRASE = 'show me';
+const TRIGGER_CHARS = TRIGGER_PHRASE.split('').map((char, idx) => ({
+  char,
+  key: `trigger-${idx}-${char === ' ' ? 'space' : char}`,
+}));
 
 const KeyMashDemo: React.FC = () => {
   const [currentMask, setCurrentMask] = useState<bigint>(0n);
-  const [logs, setLogs] = useState<{ id: number; text: string }[]>([]);
+  const [logs, setLogs] = useState<
+    { id: number; text: string; type: 'info' | 'action' | 'exit' }[]
+  >([]);
+  const [isTrapped, setIsTrapped] = useState(false);
+  const [typedBuffer, setTypedBuffer] = useState('');
+  const containerRef = useRef<HTMLDivElement>(null);
+  const globalKmRef = useRef<Keymash | null>(null);
+  const modalKmRef = useRef<Keymash | null>(null);
 
-  const addLog = useCallback((text: string) => {
-    setLogs((prev) => [{ id: Date.now(), text }, ...prev].slice(0, 8));
+  const addLog = useCallback((text: string, type: 'info' | 'action' | 'exit' = 'info') => {
+    setLogs((prev) => [{ id: Date.now(), text, type }, ...prev].slice(0, 12));
   }, []);
 
+  const enterModalMode = useCallback(() => {
+    setIsTrapped(true);
+    setTypedBuffer('');
+    addLog('TRAPPED! Focus is now captured.', 'action');
+    addLog('Press Escape to exit. Try all the keys!', 'info');
+
+    globalKmRef.current?.setActive(false);
+    modalKmRef.current?.setActive(true);
+    containerRef.current?.focus();
+  }, [addLog]);
+
+  const exitModalMode = useCallback(() => {
+    setIsTrapped(false);
+    setTypedBuffer('');
+    addLog('Escaped! Back to normal mode.', 'exit');
+
+    modalKmRef.current?.setActive(false);
+    globalKmRef.current?.setActive(true);
+  }, [addLog]);
+
   useEffect(() => {
-    const km = keymash({
-      label: 'Demo',
-      bindings: [
-        {
-          combo: hold.ctrl + press.t,
-          handler: () => addLog('Matched: Ctrl + T'),
-          label: 'New Tab',
-        },
-        {
-          combo: hold.ctrl + hold.shift + press.p,
-          handler: () => addLog('Matched: Ctrl + Shift + P'),
-          label: 'Command Palette',
-        },
-        {
-          combo: hold.alt + (press.ArrowUp | press.ArrowDown),
-          handler: () => addLog('Matched: Alt + Arrow Key'),
-          label: 'Move Line',
-        },
-        {
-          combo: hold.ctrl + (press.o | press.k),
-          handler: () => addLog('Matched: Ctrl + (O or K)'),
-          label: 'Quick Open',
-        },
-        { combo: press.Escape, handler: () => addLog('Matched: Escape'), label: 'Cancel' },
-        { combo: press.Space, handler: () => addLog('Matched: Space'), label: 'Space' },
-        { combo: press.Enter, handler: () => addLog('Matched: Enter'), label: 'Confirm' },
-      ],
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Track buffer for UI display (separate from sequence detection)
+    let uiBuffer = '';
+
+    // Global keymash - listens for the trigger phrase
+    const globalKm = keymash({
+      scope: window,
+      label: 'Global (type "show me")',
+    });
+    globalKmRef.current = globalKm;
+
+    // Use built-in sequence detection for trigger
+    globalKm.sequence(TRIGGER_PHRASE, () => {
+      uiBuffer = '';
+      setTypedBuffer('');
+      enterModalMode();
     });
 
-    km.onUpdate((mask) => setCurrentMask(mask));
+    // Track typed characters for UI highlighting
+    const chars = 'abcdefghijklmnopqrstuvwxyz ';
+    for (const char of chars) {
+      globalKm.bind(press[char], () => {
+        uiBuffer += char;
+        if (uiBuffer.length > TRIGGER_PHRASE.length) {
+          uiBuffer = uiBuffer.slice(-TRIGGER_PHRASE.length);
+        }
+        setTypedBuffer(uiBuffer);
+      });
+    }
 
-    return () => km.destroy();
-  }, [addLog]);
+    // Modal keymash - scoped to the container for focus trapping
+    const modalKm = keymash({
+      scope: container,
+      label: 'Modal Mode',
+    });
+    modalKmRef.current = modalKm;
+
+    // Real-time key visualization
+    modalKm.onUpdate((mask) => setCurrentMask(mask));
+
+    // Exit with Escape
+    modalKm.bind({
+      combo: press.Escape,
+      handler: (e) => {
+        e?.preventDefault();
+        exitModalMode();
+      },
+      label: 'Exit Modal',
+    });
+
+    // Some fun bindings to show in the log
+    modalKm.bind({
+      combo: hold.ctrl + press.t,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('Ctrl+T - New tab (blocked!)', 'action');
+      },
+      label: 'New Tab',
+    });
+
+    modalKm.bind({
+      combo: hold.ctrl + hold.shift + press.p,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('Ctrl+Shift+P - Command palette!', 'action');
+      },
+      label: 'Command Palette',
+    });
+
+    modalKm.bind({
+      combo: hold.alt + (press.ArrowUp | press.ArrowDown),
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('Alt+Arrow - Move line!', 'action');
+      },
+      label: 'Move Line',
+      repeat: true,
+    });
+
+    // Arrow keys
+    modalKm.bind({
+      combo: press.ArrowUp,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('↑ Arrow Up', 'action');
+      },
+      label: 'Up',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.ArrowDown,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('↓ Arrow Down', 'action');
+      },
+      label: 'Down',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.ArrowLeft,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('← Arrow Left', 'action');
+      },
+      label: 'Left',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.ArrowRight,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('→ Arrow Right', 'action');
+      },
+      label: 'Right',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.Enter,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('Enter - Confirmed!', 'action');
+      },
+      label: 'Confirm',
+    });
+
+    modalKm.bind({
+      combo: press.Space,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('Space - Toggle!', 'action');
+      },
+      label: 'Toggle',
+    });
+
+    // Vim-style navigation
+    modalKm.bind({
+      combo: press.h,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('h (vim left)', 'action');
+      },
+      label: 'Vim Left',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.j,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('j (vim down)', 'action');
+      },
+      label: 'Vim Down',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.k,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('k (vim up)', 'action');
+      },
+      label: 'Vim Up',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: press.l,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('l (vim right)', 'action');
+      },
+      label: 'Vim Right',
+      repeat: true,
+    });
+
+    modalKm.bind({
+      combo: hold.shift + press.g,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('Shift+G - Go to end', 'action');
+      },
+      label: 'Go to End',
+    });
+
+    modalKm.bind({
+      combo: press.g,
+      handler: (e) => {
+        e?.preventDefault();
+        addLog('g - Go to start', 'action');
+      },
+      label: 'Go to Start',
+    });
+
+    // Catch-all to trap ALL unbound keyboard input
+    modalKm.bind({
+      combo: press.ANY,
+      handler: (e) => {
+        e?.preventDefault();
+        // Silently trap - the keyboard visual shows what's pressed
+      },
+      label: 'Trap All Input',
+    });
+
+    // Modal starts inactive
+    modalKm.setActive(false);
+
+    // Global starts active
+    globalKm.setActive(true);
+
+    return () => {
+      globalKm.destroy();
+      modalKm.destroy();
+    };
+  }, [addLog, enterModalMode, exitModalMode]);
 
   const getIsActive = (mask: bigint) => {
     return (currentMask & mask) !== 0n;
   };
+
+  // Calculate which letters of the trigger phrase are matched
+  const getMatchedLetters = (): boolean[] => {
+    const result = new Array(TRIGGER_PHRASE.length).fill(false);
+    const buffer = typedBuffer.toLowerCase();
+
+    // Find how many consecutive characters from the end of the buffer match the start of the phrase
+    for (let matchLen = Math.min(buffer.length, TRIGGER_PHRASE.length); matchLen > 0; matchLen--) {
+      const bufferEnd = buffer.slice(-matchLen);
+      const phraseStart = TRIGGER_PHRASE.slice(0, matchLen);
+      if (bufferEnd === phraseStart) {
+        for (let i = 0; i < matchLen; i++) {
+          result[i] = true;
+        }
+        break;
+      }
+    }
+    return result;
+  };
+
+  const matchedLetters = getMatchedLetters();
 
   // Helper to get combined mask (Hold | Press) for a key
   const m = (key: string) => (hold[key] || 0n) | (press[key] || 0n);
@@ -179,35 +421,92 @@ const KeyMashDemo: React.FC = () => {
   return (
     <div className="w-full flex justify-center">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 overflow-x-auto">
-        {/* Keyboard Container */}
+        {/* Focus Container */}
         <div
-          className="relative bg-gray-50 rounded-2xl border border-gray-100 mx-auto select-none"
-          style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
+          ref={containerRef}
+          role="application"
+          aria-label="Keyboard demo - type 'show me' to enter trapped mode"
+          tabIndex={0}
+          className="outline-none"
         >
-          {keys.map((keyDef) => {
-            const isActive = getIsActive(keyDef.m);
-            return (
+          {/* Status Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
               <div
-                key={keyDef.id}
                 className={`
-                  absolute flex items-center justify-center text-[10px] font-bold rounded-md transition-all duration-75
-                  ${
-                    isActive
-                      ? 'bg-blue-600 text-white shadow-inner translate-y-[1px]'
-                      : 'bg-white text-gray-500 border-b-2 border-gray-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
-                  }
+                  w-3 h-3 rounded-full transition-colors duration-300
+                  ${isTrapped ? 'bg-red-500 animate-pulse' : 'bg-green-500'}
                 `}
-                style={{
-                  left: keyDef.x * (U_SIZE + GAP) + GAP + 10, // Added padding
-                  top: keyDef.y * (U_SIZE + GAP) + GAP + 10,
-                  width: keyDef.w * U_SIZE + (keyDef.w - 1) * GAP,
-                  height: keyDef.h * U_SIZE + (keyDef.h - 1) * GAP,
-                }}
-              >
-                {keyDef.l}
+              />
+              <span className={`font-semibold ${isTrapped ? 'text-red-700' : 'text-gray-700'}`}>
+                {isTrapped ? 'FOCUS TRAPPED' : 'Normal Mode'}
+              </span>
+            </div>
+            {isTrapped ? (
+              <kbd className="px-2 py-1 bg-white border border-red-200 rounded text-xs font-mono text-red-600 shadow-sm">
+                Press ESC to exit
+              </kbd>
+            ) : (
+              <div className="flex items-center gap-1 text-sm">
+                <span className="text-gray-500">Type</span>
+                <span className="font-mono tracking-wider">
+                  {TRIGGER_CHARS.map(({ char, key }, i) => (
+                    <span
+                      key={key}
+                      className={`
+                        inline-block transition-all duration-150
+                        ${matchedLetters[i] ? 'text-blue-600 font-bold scale-110' : 'text-gray-400'}
+                        ${char === ' ' ? 'w-2' : ''}
+                      `}
+                    >
+                      {char === ' ' ? '\u00A0' : char}
+                    </span>
+                  ))}
+                </span>
+                <span className="text-gray-500">to trap focus</span>
               </div>
-            );
-          })}
+            )}
+          </div>
+
+          {/* Keyboard Container */}
+          <div
+            className={`
+              relative rounded-2xl border mx-auto select-none transition-all duration-300
+              ${
+                isTrapped
+                  ? 'bg-gradient-to-br from-red-50 to-orange-50 border-red-200'
+                  : 'bg-gray-50 border-gray-100'
+              }
+            `}
+            style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
+          >
+            {keys.map((keyDef) => {
+              const isActive = getIsActive(keyDef.m);
+              return (
+                <div
+                  key={keyDef.id}
+                  className={`
+                    absolute flex items-center justify-center text-[10px] font-bold rounded-md transition-all duration-75
+                    ${
+                      isActive
+                        ? 'bg-blue-600 text-white shadow-inner translate-y-[1px]'
+                        : isTrapped
+                          ? 'bg-white text-gray-500 border-b-2 border-red-100 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
+                          : 'bg-white text-gray-500 border-b-2 border-gray-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
+                    }
+                  `}
+                  style={{
+                    left: keyDef.x * (U_SIZE + GAP) + GAP + 10,
+                    top: keyDef.y * (U_SIZE + GAP) + GAP + 10,
+                    width: keyDef.w * U_SIZE + (keyDef.w - 1) * GAP,
+                    height: keyDef.h * U_SIZE + (keyDef.h - 1) * GAP,
+                  }}
+                >
+                  {keyDef.l}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Logs */}
@@ -215,15 +514,55 @@ const KeyMashDemo: React.FC = () => {
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
             Event Log
           </h3>
-          <div className="font-mono text-sm space-y-2 h-32 overflow-y-auto">
-            {logs.length === 0 && <div className="text-gray-300 italic">Try pressing keys...</div>}
+          <div className="font-mono text-sm space-y-2 h-48 overflow-y-auto">
+            {logs.length === 0 && (
+              <div className="text-gray-300 italic">Type "show me" to enter trapped mode...</div>
+            )}
             {logs.map((log) => (
-              <div key={log.id} className="flex items-center gap-3 text-gray-700">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                {log.text}
+              <div key={log.id} className="flex items-center gap-3">
+                <span
+                  className={`
+                    w-1.5 h-1.5 rounded-full shrink-0
+                    ${log.type === 'action' ? 'bg-orange-500' : ''}
+                    ${log.type === 'exit' ? 'bg-green-500' : ''}
+                    ${log.type === 'info' ? 'bg-blue-500' : ''}
+                  `}
+                />
+                <span
+                  className={`
+                    ${log.type === 'action' ? 'text-orange-700' : ''}
+                    ${log.type === 'exit' ? 'text-green-700' : ''}
+                    ${log.type === 'info' ? 'text-gray-600' : ''}
+                  `}
+                >
+                  {log.text}
+                </span>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Code Example */}
+        <div className="border-t border-gray-100 mt-6 pt-6">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+            How It Works
+          </h3>
+          <pre className="bg-gray-900 text-gray-100 rounded-lg p-4 text-xs overflow-x-auto">
+            <code>{`// Global keymash with sequence detection
+const globalKm = keymash({ scope: window });
+globalKm.sequence('show me', () => enterTrapMode());
+
+// Modal keymash traps ALL input
+const modalKm = keymash({ scope: container });
+modalKm.bind(press.Escape, exitTrapMode);
+modalKm.bind(press.ANY, (e) => e?.preventDefault());
+
+// Keyboard visualizer uses onUpdate
+modalKm.onUpdate((mask) => {
+  const isCtrlPressed = (mask & hold.ctrl) !== 0n;
+  // Update UI based on real-time key state
+});`}</code>
+          </pre>
         </div>
       </div>
     </div>

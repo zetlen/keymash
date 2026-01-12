@@ -1,11 +1,55 @@
 import type {
   Binding,
+  ConflictHandler,
   FullBinding,
   IKeymash,
   KeyCombo,
   KeyComboHandler,
   KeymashConfig,
+  SequenceHandler,
 } from '../types';
+
+// =============================================================================
+// DEVELOPMENT MODE
+// =============================================================================
+
+/**
+ * Development mode flag. Set to true in development builds.
+ * Bundlers like Vite, webpack, and Rollup will tree-shake this code in production
+ * when the build is configured with NODE_ENV=production.
+ *
+ * To enable development warnings:
+ * - Define __DEV__ as true in your bundler config for development
+ * - Define __DEV__ as false (or rely on dead code elimination) for production
+ */
+declare const __DEV__: boolean | undefined;
+
+const isDev = typeof __DEV__ !== 'undefined' ? __DEV__ : process.env.NODE_ENV !== 'production';
+
+let globalConflictHandler: ConflictHandler = 'warn';
+
+/**
+ * Configure how keymash handles binding conflicts in development mode.
+ * Has no effect in production builds.
+ *
+ * @param handler - 'ignore' | 'warn' | 'error' | custom function
+ */
+export function setConflictHandler(handler: ConflictHandler): void {
+  globalConflictHandler = handler;
+}
+
+function reportConflict(message: string, handler: ConflictHandler = globalConflictHandler): void {
+  if (!isDev) return;
+
+  if (handler === 'ignore') return;
+  if (handler === 'warn') {
+    console.warn(`[keymash] ${message}`);
+  } else if (handler === 'error') {
+    throw new Error(`[keymash] ${message}`);
+  } else if (typeof handler === 'function') {
+    handler(message);
+  }
+}
 
 // =============================================================================
 // BIT POSITION MAPPING
@@ -59,12 +103,17 @@ const PRESS_OFFSET = 256n;
 const HOLD_RANGE_MASK = (1n << 256n) - 1n;
 const PRESS_RANGE_MASK = ((1n << 256n) - 1n) << 256n;
 
+// Special sentinel for catch-all bindings (uses bit 255 which is reserved)
+const ANY_SENTINEL = 1n << 255n;
+const ANY_HOLD = ANY_SENTINEL;
+const ANY_PRESS = ANY_SENTINEL << 256n;
+
 // =============================================================================
 // HOLD & PRESS HELPERS
 // =============================================================================
 
-export const hold: Record<string, bigint> = {};
-export const press: Record<string, bigint> = {};
+export const hold: Record<string, bigint> = { ANY: ANY_HOLD };
+export const press: Record<string, bigint> = { ANY: ANY_PRESS };
 
 const register = (key: string, alias?: string) => {
   const bit = BigInt(getBitPos(key));
@@ -233,16 +282,43 @@ function getKeymashInstances(target: HTMLElement | Window): Set<Keymash> | undef
 // KEYMASH CLASS
 // =============================================================================
 
+// Internal sequence registration
+interface SequenceBinding {
+  sequence: string;
+  handler: SequenceHandler;
+  id: number;
+}
+
 export class Keymash implements IKeymash {
   label: string;
+  /**
+   * The scope element for this keymash. Events are filtered by containment.
+   * @deprecated Use `scope` instead of `target`.
+   */
   target: HTMLElement | Window;
   bindings: Binding[] = [];
+
+  /**
+   * Alias for `target`. The scope element for this keymash.
+   * Events are captured at window level but only processed if the event
+   * originated from within this element (or window for global capture).
+   */
+  get scope(): HTMLElement | Window {
+    return this.target;
+  }
 
   private _active: boolean = false;
   private _activeKeys: Set<string> = new Set();
   private _lookup: Map<string, Binding> = new Map();
   private _changeListeners: Set<() => void> = new Set();
   private _onUpdate?: (mask: bigint) => void;
+
+  // Sequence tracking
+  private _sequences: SequenceBinding[] = [];
+  private _sequenceBuffer: string = '';
+  private _sequenceIdCounter: number = 0;
+  private _lastKeyTime: number = 0;
+  private _sequenceTimeout: number = 1000; // Reset buffer after 1 second of inactivity
 
   // Bound handlers for proper cleanup
   private _boundHandleKeyDown: (e: KeyboardEvent) => void;
@@ -251,7 +327,8 @@ export class Keymash implements IKeymash {
 
   constructor(config: KeymashConfig = {}) {
     this.label = config.label ?? '';
-    this.target = config.target ?? window;
+    // Prefer scope over deprecated target
+    this.target = config.scope ?? config.target ?? window;
 
     // Bind event handlers
     this._boundHandleKeyDown = this._handleKeyDown.bind(this);
@@ -306,19 +383,22 @@ export class Keymash implements IKeymash {
 
   /**
    * Activate or deactivate event listeners.
+   * Note: Listeners are always attached to window, but events are filtered
+   * based on whether the configured target contains the event target.
    */
   setActive(active: boolean): void {
     if (this._active === active) return;
     this._active = active;
 
     if (active) {
-      this.target.addEventListener('keydown', this._boundHandleKeyDown as EventListener);
-      this.target.addEventListener('keyup', this._boundHandleKeyUp as EventListener);
+      // Always listen on window - we filter by target containment in handlers
+      window.addEventListener('keydown', this._boundHandleKeyDown as EventListener);
+      window.addEventListener('keyup', this._boundHandleKeyUp as EventListener);
       window.addEventListener('blur', this._boundHandleBlur);
       registerTarget(this.target, this);
     } else {
-      this.target.removeEventListener('keydown', this._boundHandleKeyDown as EventListener);
-      this.target.removeEventListener('keyup', this._boundHandleKeyUp as EventListener);
+      window.removeEventListener('keydown', this._boundHandleKeyDown as EventListener);
+      window.removeEventListener('keyup', this._boundHandleKeyUp as EventListener);
       window.removeEventListener('blur', this._boundHandleBlur);
       unregisterTarget(this.target, this);
       this._activeKeys.clear();
@@ -356,10 +436,118 @@ export class Keymash implements IKeymash {
     this.setActive(false);
     this._changeListeners.clear();
     this._onUpdate = undefined;
+    this._sequences = [];
+    this._sequenceBuffer = '';
+  }
+
+  /**
+   * Register a sequence trigger. Fires handler when the typed sequence is detected.
+   * Returns an unsubscribe function.
+   *
+   * @param sequence - The character sequence to match (e.g., "show me")
+   * @param handler - Function called when sequence is matched
+   * @param options - Optional configuration { timeout?: number }
+   */
+  sequence(sequence: string, handler: SequenceHandler, options?: { timeout?: number }): () => void {
+    const id = ++this._sequenceIdCounter;
+    const normalizedSequence = sequence.toLowerCase();
+    const binding: SequenceBinding = { sequence: normalizedSequence, handler, id };
+
+    // Check for sequence conflicts in development mode
+    if (isDev) {
+      const labelInfo = this.label ? ` in keymash "${this.label}"` : '';
+
+      for (const existing of this._sequences) {
+        // Check for exact duplicates
+        if (existing.sequence === normalizedSequence) {
+          reportConflict(
+            `Duplicate sequence "${sequence}"${labelInfo}. ` +
+              `New handler will also fire (both handlers will be called).`,
+          );
+        }
+        // Check for prefix conflicts (one sequence is a prefix of another)
+        else if (normalizedSequence.endsWith(existing.sequence)) {
+          reportConflict(
+            `Sequence conflict${labelInfo}: "${existing.sequence}" is a suffix of "${sequence}". ` +
+              `The shorter sequence "${existing.sequence}" will fire first and may prevent the longer one.`,
+          );
+        } else if (existing.sequence.endsWith(normalizedSequence)) {
+          reportConflict(
+            `Sequence conflict${labelInfo}: "${sequence}" is a suffix of "${existing.sequence}". ` +
+              `The shorter sequence "${sequence}" will fire first and may prevent the longer one.`,
+          );
+        }
+      }
+    }
+
+    this._sequences.push(binding);
+
+    if (options?.timeout !== undefined) {
+      this._sequenceTimeout = options.timeout;
+    }
+
+    this._notifyChange();
+
+    // Return unsubscribe function
+    return () => {
+      this._sequences = this._sequences.filter((s) => s.id !== id);
+      this._notifyChange();
+    };
+  }
+
+  /**
+   * Check if any registered sequences match the current buffer.
+   */
+  private _checkSequences(key: string): void {
+    // Only track single printable characters for sequences
+    if (key.length !== 1) return;
+
+    const now = Date.now();
+
+    // Reset buffer if too much time has passed
+    if (now - this._lastKeyTime > this._sequenceTimeout) {
+      this._sequenceBuffer = '';
+    }
+    this._lastKeyTime = now;
+
+    // Add key to buffer (lowercase for case-insensitive matching)
+    this._sequenceBuffer += key.toLowerCase();
+
+    // Keep buffer trimmed to longest sequence length + some margin
+    const maxLen = Math.max(50, ...this._sequences.map((s) => s.sequence.length));
+    if (this._sequenceBuffer.length > maxLen) {
+      this._sequenceBuffer = this._sequenceBuffer.slice(-maxLen);
+    }
+
+    // Check all sequences
+    for (const seq of this._sequences) {
+      if (this._sequenceBuffer.endsWith(seq.sequence)) {
+        // Reset buffer after match to prevent immediate re-triggering
+        this._sequenceBuffer = '';
+        seq.handler(seq.sequence, undefined, this);
+        break; // Only fire first matching sequence
+      }
+    }
   }
 
   private _addBindings(bindings: Binding[]): void {
     for (const binding of bindings) {
+      // Check for duplicate bindings in development mode
+      if (isDev) {
+        for (const [key] of explodeBinding(binding)) {
+          const existing = this._lookup.get(key);
+          if (existing) {
+            const newComboText = comboToText(binding.combo);
+            const existingComboText = comboToText(existing.combo);
+            const labelInfo = this.label ? ` in keymash "${this.label}"` : '';
+            reportConflict(
+              `Duplicate binding for "${newComboText}"${labelInfo}. ` +
+                `New binding will override existing binding for "${existingComboText}".`,
+            );
+          }
+        }
+      }
+
       this.bindings.push(binding);
       // Add to lookup (exploding OR'd combos)
       for (const [key, b] of explodeBinding(binding)) {
@@ -391,7 +579,27 @@ export class Keymash implements IKeymash {
     return press[k] || 1n << (BigInt(getBitPos(k)) + PRESS_OFFSET);
   }
 
+  /**
+   * Check if this keymash should handle an event based on target containment.
+   * Returns true if:
+   * - target is window (global capture), or
+   * - target is an element that contains the event target
+   */
+  private _shouldHandleEvent(e: KeyboardEvent): boolean {
+    // Window target means capture all events
+    if (this.target === window) return true;
+
+    // For element targets, check if the event originated from within the target
+    const eventTarget = e.target as Node | null;
+    if (!eventTarget) return false;
+
+    return (this.target as HTMLElement).contains(eventTarget);
+  }
+
   private _handleKeyDown(e: KeyboardEvent): void {
+    // Only handle events for our target
+    if (!this._shouldHandleEvent(e)) return;
+
     // Compute hold mask once
     let holdMask = 0n;
     for (const k of this._activeKeys) {
@@ -401,7 +609,17 @@ export class Keymash implements IKeymash {
     const pressMask = this._getPressMask(e.key);
     const totalMask = holdMask | pressMask;
     const maskKey = totalMask.toString();
-    const binding = this._lookup.get(maskKey);
+
+    // Check for exact binding first, then fall back to ANY binding
+    let binding = this._lookup.get(maskKey);
+    if (!binding) {
+      // Check for catch-all press.ANY binding (with same hold modifiers)
+      const anyMask = holdMask | ANY_PRESS;
+      binding = this._lookup.get(anyMask.toString());
+    }
+
+    // Check sequences
+    this._checkSequences(e.key);
 
     if (this._activeKeys.has(e.key)) {
       // Key repeat - only fire if repeat is enabled for this binding
@@ -424,10 +642,17 @@ export class Keymash implements IKeymash {
       }
     }
 
-    this._activeKeys.add(e.key);
+    // Only add to activeKeys if still active
+    // (handler may have called setActive(false) which cleared _activeKeys)
+    if (this._active) {
+      this._activeKeys.add(e.key);
+    }
   }
 
   private _handleKeyUp(e: KeyboardEvent): void {
+    // Only handle events for our target
+    if (!this._shouldHandleEvent(e)) return;
+
     this._activeKeys.delete(e.key);
     if (this._onUpdate) {
       let holdMask = 0n;
@@ -440,6 +665,7 @@ export class Keymash implements IKeymash {
 
   private _handleBlur(): void {
     this._activeKeys.clear();
+    this._sequenceBuffer = '';
     if (this._onUpdate) this._onUpdate(0n);
   }
 }

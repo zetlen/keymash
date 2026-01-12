@@ -21,6 +21,9 @@
       "correctness": {
         "noUnusedImports": "warn",
         "noUnusedVariables": "warn"
+      },
+      "a11y": {
+        "noNoninteractiveTabindex": "off"
       }
     }
   },
