@@ -35,15 +35,15 @@ km.bind({
 
   return (
     <div className="min-h-screen bg-white text-gray-900 selection:bg-blue-100">
-      <header className="pt-32 pb-24 px-6 border-b border-gray-100">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+      <header className="pt-32 pb-24 px-8 md:px-16 border-b border-gray-100">
+        <div className="max-w-7xl space-y-6">
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900">
                 KeyMash
             </h1>
-            <p className="text-xl text-gray-500 font-medium max-w-xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-500 font-medium max-w-2xl leading-relaxed">
                 A type-safe, performance-oriented keyboard library for modern web applications.
             </p>
-            <div className="pt-4 flex justify-center gap-4">
+            <div className="pt-4 flex gap-4">
                <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">TypeScript</span>
                <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">~1kb gzipped</span>
                <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">Zero Dependencies</span>
@@ -51,10 +51,10 @@ km.bind({
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-24 space-y-32">
+      <main className="max-w-7xl px-8 md:px-16 py-24 space-y-32">
         
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-            <div className="space-y-8">
+        <section className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-16 items-start">
+            <div className="space-y-8 max-w-md">
                 <div>
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">Declarative Bindings</h2>
                     <p className="text-gray-600 leading-relaxed">
@@ -94,7 +94,7 @@ km.bind({
         </section>
 
         <section id="demo" className="py-10">
-            <div className="text-center mb-16 space-y-4">
+            <div className="mb-16 space-y-4">
                 <h2 className="text-3xl font-bold text-gray-900">Interactive Demo</h2>
                 <p className="text-gray-500">Focus the window to test the bindings.</p>
             </div>
@@ -103,7 +103,7 @@ km.bind({
 
       </main>
 
-      <footer className="py-12 text-center border-t border-gray-100 bg-gray-50 text-gray-400 text-sm">
+      <footer className="py-12 px-8 md:px-16 border-t border-gray-100 bg-gray-50 text-gray-400 text-sm">
         <p>&copy; {new Date().getFullYear()} KeyMash. MIT License.</p>
       </footer>
     </div>
