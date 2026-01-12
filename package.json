@@ -27,12 +27,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anthropics/keymash.git"
+    "url": "git+https://github.com/zetlen/keymash.git"
   },
   "bugs": {
-    "url": "https://github.com/anthropics/keymash/issues"
+    "url": "https://github.com/zetlen/keymash/issues"
   },
-  "homepage": "https://github.com/anthropics/keymash#readme",
+  "homepage": "https://zetlen.github.io/keymash/",
   "scripts": {
     "prepare": "lefthook install",
     "dev": "vite",
