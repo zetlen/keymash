@@ -571,12 +571,11 @@ export class Keymash implements IKeymash {
     }
   }
 
-  private _getHoldMask(k: string): bigint {
-    return hold[k] || 1n << (BigInt(getBitPos(k)) + HOLD_OFFSET);
-  }
-
-  private _getPressMask(k: string): bigint {
-    return press[k] || 1n << (BigInt(getBitPos(k)) + PRESS_OFFSET);
+  private _getMask(k: string, offset: bigint, cache: Record<string, bigint>): bigint {
+    if (cache[k]) return cache[k];
+    const mask = 1n << (BigInt(getBitPos(k)) + offset);
+    cache[k] = mask;
+    return mask;
   }
 
   /**
@@ -603,10 +602,10 @@ export class Keymash implements IKeymash {
     // Compute hold mask once
     let holdMask = 0n;
     for (const k of this._activeKeys) {
-      holdMask |= this._getHoldMask(k);
+      holdMask |= this._getMask(k, HOLD_OFFSET, hold);
     }
 
-    const pressMask = this._getPressMask(e.key);
+    const pressMask = this._getMask(e.key, PRESS_OFFSET, press);
     const totalMask = holdMask | pressMask;
     const maskKey = totalMask.toString();
 
@@ -657,7 +656,7 @@ export class Keymash implements IKeymash {
     if (this._onUpdate) {
       let holdMask = 0n;
       for (const k of this._activeKeys) {
-        holdMask |= this._getHoldMask(k);
+        holdMask |= this._getMask(k, HOLD_OFFSET, hold);
       }
       this._onUpdate(holdMask);
     }
