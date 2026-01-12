@@ -37,7 +37,8 @@
     "prepare": "lefthook install",
     "dev": "vite",
     "build": "vite build",
-    "build:lib": "tsc -p tsconfig.lib.json",
+    "build:lib": "vite build --config vite.config.lib.ts",
+    "build:lib:types": "tsc -p tsconfig.lib.json --emitDeclarationOnly",
     "prepublishOnly": "pnpm build:lib",
     "preview": "vite preview",
     "lint": "biome check .",
@@ -86,6 +87,7 @@
     "storybook": "^10.1.11",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.16"
   }
 }

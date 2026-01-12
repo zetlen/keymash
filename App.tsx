@@ -45,7 +45,7 @@ km.bind({
               TypeScript
             </span>
             <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">
-              ~1kb gzipped
+              ~4kb gzipped
             </span>
             <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">
               Zero Dependencies
@@ -97,6 +97,18 @@ km.bind({
                   <p className="text-sm text-gray-500 mt-1">
                     Use <code className="bg-gray-100 px-1 rounded">+</code> to combine keys and{' '}
                     <code className="bg-gray-100 px-1 rounded">|</code> for alternatives.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0">
+                  4
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Modal Scoping</h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Create multiple instances with different scopes. Activate and deactivate to
+                    implement modal keyboard modes.
                   </p>
                 </div>
               </div>
