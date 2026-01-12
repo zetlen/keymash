@@ -1,6 +1,6 @@
-
-import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { CodeBlock as ReactCodeBlock, dracula } from 'react-code-blocks';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { dracula, CodeBlock as ReactCodeBlock } from 'react-code-blocks';
 
 interface CodeBlockProps {
   code: string;
@@ -33,10 +33,9 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ code }) => {
 
   // Initialize worker
   useEffect(() => {
-    workerRef.current = new Worker(
-      new URL('../lib/prettier-worker.ts', import.meta.url),
-      { type: 'module' }
-    );
+    workerRef.current = new Worker(new URL('../lib/prettier-worker.ts', import.meta.url), {
+      type: 'module',
+    });
 
     workerRef.current.onmessage = (e) => {
       const { id, formatted, error } = e.data;

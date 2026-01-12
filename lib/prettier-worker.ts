@@ -1,7 +1,7 @@
-import { format } from 'https://unpkg.com/prettier@3.6.2/standalone.mjs';
 import * as prettierPluginBabel from 'https://unpkg.com/prettier@3.6.2/plugins/babel.mjs';
 import * as prettierPluginEstree from 'https://unpkg.com/prettier@3.6.2/plugins/estree.mjs';
 import * as prettierPluginTypescript from 'https://unpkg.com/prettier@3.6.2/plugins/typescript.mjs';
+import { format } from 'https://unpkg.com/prettier@3.6.2/standalone.mjs';
 
 self.onmessage = async (e: MessageEvent) => {
   const { id, code, printWidth } = e.data;

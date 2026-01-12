@@ -1,33 +1,49 @@
-
-import React, { useState, useEffect } from 'react';
-import { keymash, hold, press } from '../lib/keymash';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { hold, keymash, press } from '../lib/keymash';
 
 const KeyMashDemo: React.FC = () => {
   const [currentMask, setCurrentMask] = useState<bigint>(0n);
-  const [logs, setLogs] = useState<{ id: number, text: string }[]>([]);
+  const [logs, setLogs] = useState<{ id: number; text: string }[]>([]);
 
-  const addLog = (text: string) => {
-    setLogs(prev => [{ id: Date.now(), text }, ...prev].slice(0, 8));
-  };
+  const addLog = useCallback((text: string) => {
+    setLogs((prev) => [{ id: Date.now(), text }, ...prev].slice(0, 8));
+  }, []);
 
   useEffect(() => {
     const km = keymash({
       label: 'Demo',
       bindings: [
-        { combo: hold.ctrl + press.t, handler: () => addLog('Matched: Ctrl + T'), label: 'New Tab' },
-        { combo: hold.ctrl + hold.shift + press.p, handler: () => addLog('Matched: Ctrl + Shift + P'), label: 'Command Palette' },
-        { combo: hold.alt + (press.ArrowUp | press.ArrowDown), handler: () => addLog('Matched: Alt + Arrow Key'), label: 'Move Line' },
-        { combo: hold.ctrl + (press.o | press.k), handler: () => addLog('Matched: Ctrl + (O or K)'), label: 'Quick Open' },
+        {
+          combo: hold.ctrl + press.t,
+          handler: () => addLog('Matched: Ctrl + T'),
+          label: 'New Tab',
+        },
+        {
+          combo: hold.ctrl + hold.shift + press.p,
+          handler: () => addLog('Matched: Ctrl + Shift + P'),
+          label: 'Command Palette',
+        },
+        {
+          combo: hold.alt + (press.ArrowUp | press.ArrowDown),
+          handler: () => addLog('Matched: Alt + Arrow Key'),
+          label: 'Move Line',
+        },
+        {
+          combo: hold.ctrl + (press.o | press.k),
+          handler: () => addLog('Matched: Ctrl + (O or K)'),
+          label: 'Quick Open',
+        },
         { combo: press.Escape, handler: () => addLog('Matched: Escape'), label: 'Cancel' },
         { combo: press.Space, handler: () => addLog('Matched: Space'), label: 'Space' },
         { combo: press.Enter, handler: () => addLog('Matched: Enter'), label: 'Confirm' },
-      ]
+      ],
     });
 
     km.onUpdate((mask) => setCurrentMask(mask));
 
     return () => km.destroy();
-  }, []);
+  }, [addLog]);
 
   const getIsActive = (mask: bigint) => {
     return (currentMask & mask) !== 0n;
@@ -41,17 +57,26 @@ const KeyMashDemo: React.FC = () => {
   // Layout Configuration
   const U_SIZE = 44; // px per unit
   const GAP = 4; // px gap
-  
+
   interface KeyDef {
+    id: string;
     x: number;
     y: number;
     w: number;
-    h?: number;
+    h: number;
     l: string;
     m: bigint;
   }
 
-  const k = (x: number, y: number, w: number, l: string, m: bigint, h: number = 1): KeyDef => ({ x, y, w, h, l, m });
+  const k = (x: number, y: number, w: number, l: string, m: bigint, h: number = 1): KeyDef => ({
+    id: `${l}-${x}-${y}`,
+    x,
+    y,
+    w,
+    h,
+    l,
+    m,
+  });
 
   const keys: KeyDef[] = [
     // --- Row 0 (Functions) ---
@@ -148,37 +173,38 @@ const KeyMashDemo: React.FC = () => {
     k(15.25, 5.25, 1, '→', m('ArrowRight')),
   ];
 
-  const CANVAS_WIDTH = (16.25 * U_SIZE) + (16 * GAP);
-  const CANVAS_HEIGHT = (6.25 * U_SIZE) + (6 * GAP);
+  const CANVAS_WIDTH = 16.25 * U_SIZE + 16 * GAP;
+  const CANVAS_HEIGHT = 6.25 * U_SIZE + 6 * GAP;
 
   return (
     <div className="w-full flex justify-center">
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 overflow-x-auto">
-        
         {/* Keyboard Container */}
-        <div 
+        <div
           className="relative bg-gray-50 rounded-2xl border border-gray-100 mx-auto select-none"
           style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
         >
-          {keys.map((k, i) => {
-            const isActive = getIsActive(k.m);
+          {keys.map((keyDef) => {
+            const isActive = getIsActive(keyDef.m);
             return (
               <div
-                key={i}
+                key={keyDef.id}
                 className={`
                   absolute flex items-center justify-center text-[10px] font-bold rounded-md transition-all duration-75
-                  ${isActive 
-                    ? 'bg-blue-600 text-white shadow-inner translate-y-[1px]' 
-                    : 'bg-white text-gray-500 border-b-2 border-gray-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'}
+                  ${
+                    isActive
+                      ? 'bg-blue-600 text-white shadow-inner translate-y-[1px]'
+                      : 'bg-white text-gray-500 border-b-2 border-gray-200 shadow-[0_1px_2px_rgba(0,0,0,0.05)]'
+                  }
                 `}
                 style={{
-                  left: k.x * (U_SIZE + GAP) + GAP + 10, // Added padding
-                  top: k.y * (U_SIZE + GAP) + GAP + 10,
-                  width: (k.w * U_SIZE) + ((k.w - 1) * GAP), 
-                  height: (k.h! * U_SIZE) + ((k.h! - 1) * GAP),
+                  left: keyDef.x * (U_SIZE + GAP) + GAP + 10, // Added padding
+                  top: keyDef.y * (U_SIZE + GAP) + GAP + 10,
+                  width: keyDef.w * U_SIZE + (keyDef.w - 1) * GAP,
+                  height: keyDef.h * U_SIZE + (keyDef.h - 1) * GAP,
                 }}
               >
-                {k.l}
+                {keyDef.l}
               </div>
             );
           })}
@@ -186,18 +212,19 @@ const KeyMashDemo: React.FC = () => {
 
         {/* Logs */}
         <div className="border-t border-gray-100 mt-8 pt-6">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Event Log</h3>
-            <div className="font-mono text-sm space-y-2 h-32 overflow-y-auto">
-                {logs.length === 0 && <div className="text-gray-300 italic">Try pressing keys...</div>}
-                {logs.map(log => (
-                    <div key={log.id} className="flex items-center gap-3 text-gray-700">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                        {log.text}
-                    </div>
-                ))}
-            </div>
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+            Event Log
+          </h3>
+          <div className="font-mono text-sm space-y-2 h-32 overflow-y-auto">
+            {logs.length === 0 && <div className="text-gray-300 italic">Try pressing keys...</div>}
+            {logs.map((log) => (
+              <div key={log.id} className="flex items-center gap-3 text-gray-700">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                {log.text}
+              </div>
+            ))}
+          </div>
         </div>
-
       </div>
     </div>
   );

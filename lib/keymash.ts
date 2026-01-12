@@ -1,4 +1,4 @@
-import {
+import type {
   Binding,
   FullBinding,
   IKeymash,
@@ -12,10 +12,21 @@ import {
 // =============================================================================
 
 const KEY_CODE_MAP: Record<string, number> = {
-  'Control': 1, 'Shift': 2, 'Alt': 3, 'Meta': 4,
-  'CapsLock': 5, 'Tab': 6, 'Escape': 7, 'Backspace': 8,
-  'Enter': 9, 'Space': 10, ' ': 10,
-  'ArrowUp': 20, 'ArrowDown': 21, 'ArrowLeft': 22, 'ArrowRight': 23,
+  Control: 1,
+  Shift: 2,
+  Alt: 3,
+  Meta: 4,
+  CapsLock: 5,
+  Tab: 6,
+  Escape: 7,
+  Backspace: 8,
+  Enter: 9,
+  Space: 10,
+  ' ': 10,
+  ArrowUp: 20,
+  ArrowDown: 21,
+  ArrowLeft: 22,
+  ArrowRight: 23,
 };
 
 // Inverse map for comboToText
@@ -66,7 +77,9 @@ const register = (key: string, alias?: string) => {
 };
 
 // Populate known keys
-Object.keys(KEY_CODE_MAP).forEach(k => register(k));
+for (const k of Object.keys(KEY_CODE_MAP)) {
+  register(k);
+}
 
 // Aliases
 register('Control', 'ctrl');
@@ -94,7 +107,7 @@ export const key = (char: string) => {
   BIT_TO_KEY_MAP.set(Number(bit), char);
   return {
     hold: 1n << (bit + HOLD_OFFSET),
-    press: 1n << (bit + PRESS_OFFSET)
+    press: 1n << (bit + PRESS_OFFSET),
   };
 };
 
@@ -281,10 +294,10 @@ export class Keymash implements IKeymash {
    */
   unbind(combo: KeyCombo | KeyCombo[]): void {
     const combos = Array.isArray(combo) ? combo : [combo];
-    const comboStrings = new Set(combos.map(c => c.toString()));
+    const comboStrings = new Set(combos.map((c) => c.toString()));
 
     // Remove from bindings array
-    this.bindings = this.bindings.filter(b => !comboStrings.has(b.combo.toString()));
+    this.bindings = this.bindings.filter((b) => !comboStrings.has(b.combo.toString()));
 
     // Rebuild lookup
     this._rebuildLookup();
@@ -365,23 +378,25 @@ export class Keymash implements IKeymash {
   }
 
   private _notifyChange(): void {
-    this._changeListeners.forEach(fn => fn());
+    for (const fn of this._changeListeners) {
+      fn();
+    }
   }
 
   private _getHoldMask(k: string): bigint {
-    return hold[k] || (1n << (BigInt(getBitPos(k)) + HOLD_OFFSET));
+    return hold[k] || 1n << (BigInt(getBitPos(k)) + HOLD_OFFSET);
   }
 
   private _getPressMask(k: string): bigint {
-    return press[k] || (1n << (BigInt(getBitPos(k)) + PRESS_OFFSET));
+    return press[k] || 1n << (BigInt(getBitPos(k)) + PRESS_OFFSET);
   }
 
   private _handleKeyDown(e: KeyboardEvent): void {
     // Compute hold mask once
     let holdMask = 0n;
-    this._activeKeys.forEach(k => {
+    for (const k of this._activeKeys) {
       holdMask |= this._getHoldMask(k);
-    });
+    }
 
     const pressMask = this._getPressMask(e.key);
     const totalMask = holdMask | pressMask;
@@ -416,7 +431,9 @@ export class Keymash implements IKeymash {
     this._activeKeys.delete(e.key);
     if (this._onUpdate) {
       let holdMask = 0n;
-      this._activeKeys.forEach(k => holdMask |= this._getHoldMask(k));
+      for (const k of this._activeKeys) {
+        holdMask |= this._getHoldMask(k);
+      }
       this._onUpdate(holdMask);
     }
   }
@@ -446,9 +463,7 @@ export function keymash(config: KeymashConfig = {}): Keymash {
  * Gets all active bindings from a target or Keymash instance.
  * Returns an array of FullBindings with resolved properties and human-readable combo text.
  */
-export function getActiveBindings(
-  bindingsHaver?: Window | HTMLElement | Keymash
-): FullBinding[] {
+export function getActiveBindings(bindingsHaver?: Window | HTMLElement | Keymash): FullBinding[] {
   const results: FullBinding[] = [];
 
   if (bindingsHaver instanceof Keymash) {

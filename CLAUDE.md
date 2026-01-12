@@ -5,9 +5,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-pnpm dev      # Start dev server on http://localhost:3000
-pnpm build    # Build for production
-pnpm preview  # Preview production build
+pnpm dev          # Start dev server on http://localhost:3000
+pnpm build        # Build demo app for production
+pnpm build:lib    # Build library for npm publishing
+pnpm preview      # Preview production build
+
+pnpm test         # Run tests
+pnpm test:watch   # Run tests in watch mode
+pnpm test:coverage # Run tests with coverage
+
+pnpm lint         # Check linting with Biome
+pnpm lint:fix     # Fix lint issues
+pnpm format       # Format code with Biome
+
+pnpm storybook    # Start Storybook on http://localhost:6006
 ```
 
 ## Architecture
@@ -46,6 +57,21 @@ The `Keymash` class manages:
 - `FullBinding`: Extended binding with resolved properties and human-readable `comboText`
 - `IKeymash`: Public interface for instances
 
-### External Dependencies
+## Tooling
 
-Tailwind CSS and Prettier are loaded from CDN (see `index.html` import map). The core keymash library has zero runtime dependencies.
+- **Biome**: Linting and formatting (replaces ESLint + Prettier)
+- **Vitest**: Unit testing with jsdom environment
+- **Storybook**: Component documentation and visual testing
+- **Lefthook**: Git hooks for pre-commit linting and commit message validation
+- **Commitlint**: Enforces conventional commit format
+- **Release Please**: Automated changelog and npm releases via GitHub Actions
+
+## Git Workflow
+
+Commits must follow [Conventional Commits](https://conventionalcommits.org/) format:
+- `feat:` new features
+- `fix:` bug fixes
+- `docs:` documentation changes
+- `chore:` maintenance tasks
+
+Pre-commit hooks automatically lint and format staged files.
