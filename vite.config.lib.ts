@@ -1,4 +1,5 @@
 import path from 'node:path';
+import terser from '@rollup/plugin-terser';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
@@ -18,23 +19,31 @@ export default defineConfig({
       fileName: 'keymash',
     },
     outDir: 'dist/lib',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        pure_funcs: ['console.warn'],
-        drop_console: false,
-        passes: 2,
-      },
-      mangle: true,
-    },
+    minify: false, // Let rollup-plugin-terser handle it
     rollupOptions: {
       external: [],
       output: {
         preserveModules: false,
       },
+      plugins: [
+        terser({
+          compress: {
+            dead_code: true,
+            drop_debugger: true,
+            passes: 3,
+          },
+          mangle: {
+            toplevel: true,
+          },
+          format: {
+            comments: false,
+          },
+        }),
+      ],
     },
   },
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
+    __DEV__: 'false',
   },
 });

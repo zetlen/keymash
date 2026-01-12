@@ -45,7 +45,7 @@ km.bind({
               TypeScript
             </span>
             <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">
-              ~4kb gzipped
+              ~2.6kb gzipped
             </span>
             <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-semibold text-gray-600">
               Zero Dependencies
