@@ -1,20 +1,20 @@
 # KeyMash API Reference
 
-Complete API documentation for KeyMash, the keyboard binding library that uses bitwise operations for O(1) chord lookup.
+Complete API documentation for KeyMash. Keyboard shortcuts that just work.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
-- [Core Concepts](#core-concepts)
 - [API Reference](#api-reference)
   - [`keymash(config?)`](#keymashconfig)
-  - [`hold` and `press`](#hold-and-press)
+  - [Modifiers](#modifiers)
   - [`key(char)`](#keychar)
   - [`getActiveBindings(target?)`](#getactivebindingstarget)
 - [Types](#types)
 - [Modal Keymash Patterns](#modal-keymash-patterns)
 - [Advanced Usage](#advanced-usage)
+- [How It Works](#how-it-works)
 
 ---
 
@@ -33,52 +33,15 @@ yarn add keymash
 ## Quick Start
 
 ```typescript
-import { keymash, hold, press } from 'keymash';
+import { keymash, ctrl, press } from 'keymash';
 
-const km = keymash({
-  bindings: [
-    {
-      combo: hold.ctrl + press.s,
-      handler: (e) => {
-        e?.preventDefault();
-        console.log('Save!');
-      },
-      label: 'Save'
-    }
-  ]
-});
+const km = keymash();
+
+km.bind(ctrl + press.s, () => save());
 
 // Clean up when done
 km.destroy();
 ```
-
----
-
-## Core Concepts
-
-### Bit Mapping
-
-KeyMash maps each key to a unique bit in a 512-bit bigint space:
-
-- **Bits 0-255**: Hold state (modifier keys currently pressed)
-- **Bits 256-511**: Press state (the key that triggered the event)
-
-### Combining Keys
-
-Use JavaScript's native operators to define key combinations:
-
-```typescript
-// Use + to combine keys (feels natural: "Ctrl + T")
-const ctrlT = hold.ctrl + press.t;
-
-// Use | for alternatives (OR logic)
-const ctrlAOrB = hold.ctrl + (press.a | press.b);
-
-// Complex combinations
-const ctrlShiftP = hold.ctrl + hold.shift + press.p;
-```
-
-When you use `|` for alternatives, KeyMash "explodes" the combination into separate lookup entries at registration time, maintaining O(1) lookup for any chord.
 
 ---
 
@@ -104,11 +67,13 @@ function keymash(config?: KeymashConfig): Keymash;
 #### Example
 
 ```typescript
+import { keymash, ctrl, press } from 'keymash';
+
 // Basic usage with window (global shortcuts)
 const km = keymash({
   label: 'Global Shortcuts',
   bindings: [
-    { combo: hold.ctrl + press.k, handler: () => openSearch() }
+    { combo: ctrl + press.k, handler: () => openSearch() }
   ]
 });
 
@@ -118,7 +83,7 @@ const editorKm = keymash({
   scope: editor,
   label: 'Editor Shortcuts',
   bindings: [
-    { combo: hold.ctrl + press.b, handler: () => toggleBold() }
+    { combo: ctrl + press.b, handler: () => toggleBold() }
   ]
 });
 ```
@@ -134,19 +99,19 @@ Add bindings dynamically. Supports three overloads:
 ```typescript
 // Single binding object
 km.bind({
-  combo: hold.ctrl + press.n,
+  combo: ctrl + press.n,
   handler: () => createNew(),
   label: 'New File'
 });
 
 // Array of bindings
 km.bind([
-  { combo: hold.ctrl + press.c, handler: () => copy() },
-  { combo: hold.ctrl + press.v, handler: () => paste() }
+  { combo: ctrl + press.c, handler: () => copy() },
+  { combo: ctrl + press.v, handler: () => paste() }
 ]);
 
 // Shorthand: combo + handler only
-km.bind(hold.ctrl + press.z, () => undo());
+km.bind(ctrl + press.z, () => undo());
 ```
 
 #### `unbind(combo)` / `unbind(combos)`
@@ -155,10 +120,10 @@ Remove binding(s) for the given combo(s).
 
 ```typescript
 // Remove a single binding
-km.unbind(hold.ctrl + press.z);
+km.unbind(ctrl + press.z);
 
 // Remove multiple bindings
-km.unbind([hold.ctrl + press.c, hold.ctrl + press.v]);
+km.unbind([ctrl + press.c, ctrl + press.v]);
 ```
 
 #### `setActive(active: boolean)`
@@ -254,17 +219,26 @@ km.destroy();
 
 ---
 
-### `hold` and `press`
+### Modifiers
 
-Pre-populated `Record<string, bigint>` objects containing bitmasks for common keys.
-
-#### Modifier Keys (use with `hold`)
+KeyMash exports convenient shorthands for modifier keys:
 
 ```typescript
-hold.ctrl      // or hold.Control
-hold.shift     // or hold.Shift
-hold.alt       // or hold.Alt
-hold.meta      // or hold.Meta (Cmd on Mac, Win on Windows)
+import { ctrl, shift, alt, meta, cmd, press } from 'keymash';
+
+ctrl + press.s           // Ctrl+S
+shift + press.Enter      // Shift+Enter
+cmd + press.k            // Cmd+K (meta on Windows)
+ctrl + shift + press.p   // Ctrl+Shift+P
+```
+
+For the full set of modifiers, use `hold.*`:
+
+```typescript
+import { hold, press } from 'keymash';
+
+hold.ctrl + hold.shift + press.p
+hold.alt + press.Tab
 ```
 
 #### Common Keys (use with `press`)
@@ -457,7 +431,7 @@ A "modal" keymash is one that activates on a trigger and deactivates on another.
 ### Basic Modal Pattern
 
 ```typescript
-import { keymash, hold, press } from 'keymash';
+import { keymash, ctrl, press } from 'keymash';
 
 // Create an inactive keymash for the modal
 const modalKm = keymash({
@@ -490,7 +464,7 @@ const globalKm = keymash({
   label: 'Global',
   bindings: [
     {
-      combo: hold.ctrl + press.k,
+      combo: ctrl + press.k,
       handler: () => {
         globalKm.setActive(false);
         modalKm.setActive(true);
@@ -643,7 +617,7 @@ Use the `delay` option to add a delay before the handler fires:
 
 ```typescript
 km.bind({
-  combo: hold.ctrl + press.q,
+  combo: ctrl + press.q,
   handler: () => confirmQuit(),
   delay: 500,  // Wait 500ms - gives user time to release
   label: 'Quit (hold)'
@@ -668,6 +642,8 @@ km.bind({
 Scope bindings to specific elements for contextual shortcuts:
 
 ```typescript
+import { keymash, ctrl, press } from 'keymash';
+
 // Global shortcuts
 const globalKm = keymash({ scope: window });
 
@@ -675,8 +651,8 @@ const globalKm = keymash({ scope: window });
 const editorKm = keymash({
   scope: document.getElementById('editor')!,
   bindings: [
-    { combo: hold.ctrl + press.b, handler: () => bold() },
-    { combo: hold.ctrl + press.i, handler: () => italic() },
+    { combo: ctrl + press.b, handler: () => bold() },
+    { combo: ctrl + press.i, handler: () => italic() },
   ]
 });
 
@@ -706,21 +682,23 @@ km.onUpdate((mask) => {
 Change bindings on the fly:
 
 ```typescript
+import { keymash, ctrl, press } from 'keymash';
+
 const km = keymash();
 
 // Add bindings when entering a mode
 function enterEditMode() {
   km.bind([
-    { combo: hold.ctrl + press.s, handler: save },
-    { combo: hold.ctrl + press.z, handler: undo },
+    { combo: ctrl + press.s, handler: save },
+    { combo: ctrl + press.z, handler: undo },
   ]);
 }
 
 // Remove bindings when exiting
 function exitEditMode() {
   km.unbind([
-    hold.ctrl + press.s,
-    hold.ctrl + press.z,
+    ctrl + press.s,
+    ctrl + press.z,
   ]);
 }
 ```
@@ -805,6 +783,27 @@ km.bind(press.a, (event, keymash) => {
 ```
 
 KeyMash automatically calls `preventDefault()` when a binding matches, but calling it in your handler too is harmless and can be clearer.
+
+---
+
+## How It Works
+
+KeyMash uses bitwise operations for fast chord lookup. Each key maps to a unique bit in a 512-bit bigint space:
+
+- **Bits 0-255**: Hold state (modifier keys currently pressed)
+- **Bits 256-511**: Press state (the key that triggered the event)
+
+Use JavaScript's native operators to define key combinations:
+
+```typescript
+// Use + to combine keys (feels natural: "Ctrl + T")
+const ctrlT = ctrl + press.t;
+
+// Use | for alternatives (OR logic)
+const ctrlAOrB = ctrl + (press.a | press.b);
+```
+
+When you use `|` for alternatives, KeyMash "explodes" the combination into separate lookup entries at registration time, so lookup stays fast regardless of how many alternatives you define.
 
 ---
 

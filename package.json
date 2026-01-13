@@ -35,6 +35,8 @@
   "homepage": "https://zetlen.github.io/keymash/",
   "scripts": {
     "prepare": "lefthook install",
+    "docs:json": "typedoc",
+    "prebuild": "pnpm docs:json",
     "dev": "vite",
     "build": "vite build",
     "build:lib": "vite build --config vite.config.lib.ts",
@@ -87,6 +89,7 @@
     "react-dom": "^19.2.3",
     "storybook": "^10.1.11",
     "terser": "^5.44.1",
+    "typedoc": "^0.28.16",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
     "vite-plugin-dts": "^4.5.4",

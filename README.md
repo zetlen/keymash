@@ -1,68 +1,198 @@
 # KeyMash
 
-Stop parsing strings. Start masking bits. The definitive keyboard library for the modern web.
-
-## Why?
-
-KeyMash maps every key to a unique bit in a 512-bit space.
-- **0-255**: Hold state (keys currently down)
-- **256-511**: Press state (key that just triggered the event)
-
-By using the bitwise OR operator (`|`), you create a unique `BigInt` mask for any possible keyboard chord. This allows for **O(1)** lookup complexity, regardless of how complex the shortcut is.
-
-## Usage
+Keyboard shortcuts that just work. No string parsing. No modifier key bugs. No scope conflicts.
 
 ```typescript
-import { hold, press, bind } from './lib/keymash';
+import { keymash, ctrl, press } from 'keymash';
 
-// Bind to window or any HTMLElement
-bind(window, {
-  // Simple chord: Ctrl + T
-  // You can use (+) to combine keys naturally!
-  [hold.ctrl + press.t]: (e) => { 
-    e.preventDefault();
-    console.log('New Tab');
-  },
-  
-  // Multi-trigger: Ctrl + (O or K)
-  // Use (|) for "OR" logic (alternatives)
-  [hold.ctrl + (press.o | press.k)]: () => { 
-    console.log('Open or Search');
-  },
+const km = keymash();
+km.bind(ctrl + press.s, () => save());
+```
 
-  // Complex: Ctrl + Shift + P
-  [hold.ctrl + hold.shift + press.p]: () => {
-    console.log('Command Palette');
-  }
+## Install
+
+```bash
+npm install keymash
+```
+
+## Why KeyMash?
+
+**No more string parsing.** Other libraries make you write `"ctrl+shift+p"` and hope you got the casing right. KeyMash uses TypeScript operators that autocomplete.
+
+```typescript
+// Type-safe, autocompletes, catches typos at compile time
+km.bind(ctrl + shift + press.p, () => commandPalette());
+
+// Want Ctrl+K or Ctrl+O to do the same thing? Use |
+km.bind(ctrl + (press.k | press.o), () => search());
+```
+
+**Arrow keys that don't fight the browser.** KeyMash captures events at the window level, so your handlers fire before browser scrolling kicks in.
+
+**Modal UIs made simple.** Building a command palette? Vim-style modes? Create separate instances and toggle them.
+
+```typescript
+const globalKm = keymash({ label: 'Global' });
+const modalKm = keymash({ label: 'Modal' });
+
+// Start modal inactive
+modalKm.setActive(false);
+
+// Toggle between them
+globalKm.bind(ctrl + press.k, () => {
+  globalKm.setActive(false);
+  modalKm.setActive(true);
+});
+
+modalKm.bind(press.Escape, () => {
+  modalKm.setActive(false);
+  globalKm.setActive(true);
 });
 ```
 
-## How it works
+**Built-in conflict detection.** In development, KeyMash warns you when bindings collide. No more mystery debugging.
 
-KeyMash maps every key to a unique bit.
-- `hold.ctrl` is a number like `...00010`
-- `press.t` is a number like `...01000`
+**Show users their shortcuts.** Get human-readable labels for your help menu.
 
-Combining them with `+` results in `...01010`, which uniquely identifies that specific chord.
-Using `|` works too, but `+` feels more like "Ctrl + T".
+```typescript
+import { getActiveBindings } from 'keymash';
 
+getActiveBindings(km).forEach(b => {
+  console.log(`${b.comboText}: ${b.label}`);
+  // "Ctrl+S: Save"
+});
+```
+
+## Features
+
+- **~2.6kb gzipped** - Tiny footprint
+- **Zero dependencies** - Just keyboard handling, nothing else
+- **TypeScript-first** - Full type safety and autocomplete
+- **Scoped instances** - Bind to window or specific elements
+- **Sequence detection** - Trigger on typed sequences like "show me"
+- **Key repeat control** - Explicit opt-in for repeat behavior
+
+## Quick Examples
+
+### Basic binding
+
+```typescript
+import { keymash, ctrl, shift, press } from 'keymash';
+
+const km = keymash({
+  bindings: [
+    { combo: ctrl + press.s, handler: () => save(), label: 'Save' },
+    { combo: ctrl + shift + press.p, handler: () => palette(), label: 'Command Palette' },
+  ]
+});
+```
+
+### Dynamic bindings
+
+```typescript
+// Shorthand
+km.bind(ctrl + press.z, () => undo());
+
+// With options
+km.bind({
+  combo: press.ArrowDown,
+  handler: () => scrollDown(),
+  repeat: true,  // Fire on key repeat
+  label: 'Scroll Down'
+});
+```
+
+### Scoped to an element
+
+```typescript
+const editor = document.getElementById('editor');
+const editorKm = keymash({
+  scope: editor,
+  bindings: [
+    { combo: ctrl + press.b, handler: () => bold() },
+  ]
+});
+// Only active when focus is inside #editor
+```
+
+### Sequence triggers
+
+```typescript
+// Fire when user types "hello"
+km.sequence('hello', () => {
+  console.log('Hello triggered!');
+});
+```
+
+### Catch-all binding
+
+```typescript
+// Trap all keys in modal mode
+modalKm.bind({
+  combo: press.ANY,
+  handler: (e) => e?.preventDefault(),
+});
+
+// Specific bindings still take priority
+modalKm.bind(press.Escape, () => exit());
+```
 
 ## API
 
-### `hold` & `press`
-Static objects containing pre-calculated bitmasks for common keys.
-- `hold.ctrl`, `hold.shift`, `hold.alt`, `hold.meta`
-- `press.a` through `press.z`
-- `press.Enter`, `press.Escape`, `press.Space`
-- `press.ArrowUp`, `press.F1`, etc.
+### `keymash(config?)`
 
-### `key(char: string)`
-Helper for binding keys that aren't in the standard set.
+Create a new keymash instance.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `scope` | `HTMLElement \| Window` | `window` | Element to scope events to |
+| `bindings` | `Binding[]` | `[]` | Initial bindings |
+| `label` | `string` | `''` | Label for debugging |
+
+### Modifiers
+
 ```typescript
-import { key } from './lib/keymash';
+import { ctrl, shift, alt, meta, cmd, hold, press } from 'keymash';
 
-const { hold: holdPlay, press: pressPlay } = key('MediaPlay');
+// Shorthands
+ctrl + press.s           // Ctrl+S
+shift + press.Enter      // Shift+Enter
+cmd + press.k            // Cmd+K (meta on Windows)
+
+// Or use hold.* for the full set
+hold.ctrl + hold.shift + press.p
 ```
 
-### `bind(target, bindings)`
-Attaches event listeners. Returns an `unbind` function.
+### Instance Methods
+
+| Method | Description |
+|--------|-------------|
+| `bind(combo, handler)` | Add a binding |
+| `bind(binding)` | Add a binding with options |
+| `unbind(combo)` | Remove a binding |
+| `setActive(boolean)` | Enable/disable the instance |
+| `isActive()` | Check if active |
+| `sequence(str, handler)` | Trigger on typed sequence |
+| `onChange(handler)` | Subscribe to binding changes |
+| `onUpdate(handler)` | Real-time key state updates |
+| `destroy()` | Clean up all listeners |
+
+### Utilities
+
+```typescript
+import { getActiveBindings, key } from 'keymash';
+
+// Get all bindings with human-readable combo text
+getActiveBindings(km);
+
+// Create masks for non-standard keys
+const { press: pressPlay } = key('MediaPlayPause');
+```
+
+## Full Documentation
+
+See the [API Reference](https://zetlen.github.io/keymash/api) for complete documentation.
+
+## License
+
+MIT

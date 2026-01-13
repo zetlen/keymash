@@ -1,12 +1,17 @@
 import type {
   Binding,
-  ConflictHandler,
   FullBinding,
   IKeymash,
+  IntNamedKeyMap,
+  KeyAlias,
   KeyCombo,
   KeyComboHandler,
   KeymashConfig,
+  NamedKey,
+  NamedKeyMap,
+  NumeralKeyAlias,
   SequenceHandler,
+  UnionToRequiredKeys,
 } from '../types';
 
 // =============================================================================
@@ -26,51 +31,31 @@ declare const __DEV__: boolean | undefined;
 
 const isDev = typeof __DEV__ !== 'undefined' ? __DEV__ : process.env.NODE_ENV !== 'production';
 
-let globalConflictHandler: ConflictHandler = 'warn';
-
-/**
- * Configure how keymash handles binding conflicts in development mode.
- * Has no effect in production builds.
- *
- * @param handler - 'ignore' | 'warn' | 'error' | custom function
- */
-export function setConflictHandler(handler: ConflictHandler): void {
-  globalConflictHandler = handler;
-}
-
-function reportConflict(message: string, handler: ConflictHandler = globalConflictHandler): void {
-  if (!isDev) return;
-
-  if (handler === 'ignore') return;
-  if (handler === 'warn') {
-    console.warn(`[keymash] ${message}`);
-  } else if (handler === 'error') {
-    throw new Error(`[keymash] ${message}`);
-  } else if (typeof handler === 'function') {
-    handler(message);
-  }
-}
+const reportConflict: (message: string) => void = isDev
+  ? (message) => {
+      throw new Error(`[keymash] ${message}`);
+    }
+  : (_) => {};
 
 // =============================================================================
 // BIT POSITION MAPPING
 // =============================================================================
 
-const KEY_CODE_MAP: Record<string, number> = {
-  Control: 1,
-  Shift: 2,
-  Alt: 3,
-  Meta: 4,
-  CapsLock: 5,
-  Tab: 6,
-  Escape: 7,
-  Backspace: 8,
-  Enter: 9,
-  Space: 10,
+const KEY_CODE_MAP: Partial<IntNamedKeyMap> = {
+  ctrl: 1,
+  shift: 2,
+  alt: 3,
+  meta: 4,
+  capslock: 5,
+  tab: 6,
+  escape: 7,
+  backspace: 8,
+  enter: 9,
   ' ': 10,
-  ArrowUp: 20,
-  ArrowDown: 21,
-  ArrowLeft: 22,
-  ArrowRight: 23,
+  arrowup: 20,
+  arrowdown: 21,
+  arrowleft: 22,
+  arrowright: 23,
 };
 
 // Inverse map for comboToText
@@ -112,16 +97,86 @@ const ANY_PRESS = ANY_SENTINEL << 256n;
 // HOLD & PRESS HELPERS
 // =============================================================================
 
-export const hold: Record<string, bigint> = { ANY: ANY_HOLD };
-export const press: Record<string, bigint> = { ANY: ANY_PRESS };
+/**
+ * Object containing hold (modifier) key masks. Use these for keys that should be
+ * held down as part of a chord. Includes common modifiers and aliases.
+ *
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { hold, press } from 'keymash';
+ *
+ * // Common modifiers
+ * hold.ctrl    // Control key
+ * hold.shift   // Shift key
+ * hold.alt     // Alt/Option key
+ * hold.meta    // Meta/Command key
+ *
+ * // Combine with + operator
+ * const combo = hold.ctrl + hold.shift + press.p;
+ * ```
+ */
+export const hold: NamedKeyMap = { any: ANY_HOLD } as unknown as NamedKeyMap;
 
-const register = (key: string, alias?: string) => {
+/**
+ * Object containing press key masks. Use these for the key that triggers the binding.
+ * Includes letters, numbers, special keys, and function keys.
+ *
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { hold, press } from 'keymash';
+ *
+ * // Letters and numbers
+ * press.a, press.z, press['1']
+ *
+ * // Special keys
+ * press.Enter, press.Escape, press.Space
+ * press.ArrowUp, press.ArrowDown
+ *
+ * // Function keys
+ * press.F1, press.F12
+ *
+ * // Catch-all (matches any key)
+ * press.ANY
+ * ```
+ */
+export const press: NamedKeyMap = { any: ANY_PRESS } as unknown as NamedKeyMap;
+
+const numAliases = Object.fromEntries(
+  Array.from({ length: 10 }).map((_, i) => [`${i}`, [`num${i}`]]),
+) as UnionToRequiredKeys<NamedKey, NumeralKeyAlias[]>;
+const aliases: UnionToRequiredKeys<NamedKey, KeyAlias[]> = {
+  ...numAliases,
+  meta: ['windows', 'command'],
+  arrowup: ['up'],
+  arrowleft: ['left'],
+  arrowright: ['right'],
+  arrowdown: ['down'],
+  ' ': ['space'],
+  '`': ['backtick'],
+  '-': ['dash'],
+  '=': ['equals'],
+  '[': ['leftsquarebracket'],
+  ']': ['rightsquarebracket'],
+  ';': ['semicolon'],
+  "'": ['apostrophe'],
+  ',': ['comma'],
+  '.': ['period'],
+  '/': ['slash'],
+  '\\': ['backslash'],
+} as const;
+
+const register = (key: string) => {
   const bit = BigInt(getBitPos(key));
   hold[key] = 1n << (bit + HOLD_OFFSET);
   press[key] = 1n << (bit + PRESS_OFFSET);
-  if (alias) {
-    hold[alias] = hold[key];
-    press[alias] = press[key];
+  const keyAliases = aliases[key];
+  if (keyAliases) {
+    for (const alias of keyAliases) {
+      hold[alias] = hold[key];
+      press[alias] = press[key];
+    }
   }
 };
 
@@ -129,13 +184,6 @@ const register = (key: string, alias?: string) => {
 for (const k of Object.keys(KEY_CODE_MAP)) {
   register(k);
 }
-
-// Aliases
-register('Control', 'ctrl');
-register('Shift', 'shift');
-register('Alt', 'alt');
-register('Meta', 'meta');
-register('Escape', 'esc');
 
 // ASCII printable characters
 for (let i = 32; i < 127; i++) {
@@ -147,18 +195,77 @@ for (let i = 32; i < 127; i++) {
 for (let i = 1; i <= 12; i++) register(`F${i}`);
 
 /**
- * Helper for binding keys that aren't in the standard set.
- * Usage: key('MediaPlay')
+ * Helper for binding keys that aren't in the standard set, like media keys or
+ * custom key codes.
+ *
+ * @param name - The key name (e.g., 'MediaPlay', 'MediaPause')
+ * @returns Object with hold and press bigint masks for the key
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { key, keymash } from 'keymash';
+ *
+ * const { press: pressMedia } = key('MediaPlay');
+ * const km = keymash();
+ * km.bind(pressMedia, () => togglePlayback());
+ * ```
  */
-export const key = (char: string) => {
-  const bit = BigInt(getBitPos(char));
+export const key = (name: string) => {
+  const bit = BigInt(getBitPos(name));
   // Also register in BIT_TO_KEY_MAP for comboToText
-  BIT_TO_KEY_MAP.set(Number(bit), char);
+  BIT_TO_KEY_MAP.set(Number(bit), name);
   return {
     hold: 1n << (bit + HOLD_OFFSET),
     press: 1n << (bit + PRESS_OFFSET),
   };
 };
+
+// =============================================================================
+// MODIFIER SHORTHANDS
+// =============================================================================
+
+/**
+ * Shorthand for `hold.ctrl`. Use with `+` to build key combos.
+ * @category Modifiers
+ * @example
+ * ```typescript
+ * import { keymash, ctrl, shift, press } from 'keymash';
+ *
+ * const km = keymash();
+ * km.bind(ctrl + shift + press.p, () => openCommandPalette());
+ * ```
+ */
+export const ctrl = hold.ctrl;
+
+/**
+ * Shorthand for `hold.shift`. Use with `+` to build key combos.
+ * @category Modifiers
+ */
+export const shift = hold.shift;
+
+/**
+ * Shorthand for `hold.alt`. Use with `+` to build key combos.
+ * @category Modifiers
+ */
+export const alt = hold.alt;
+
+/**
+ * Shorthand for `hold.meta` (Cmd on Mac, Win on Windows).
+ * @category Modifiers
+ */
+export const meta = hold.meta;
+
+/**
+ * Alias for `meta`. Shorthand for `hold.meta` (Cmd on Mac).
+ * @category Modifiers
+ */
+export const cmd = hold.meta;
+
+/**
+ * Alias for `meta`. Shorthand for `hold.meta` (Win on Windows).
+ * @category Modifiers
+ */
+export const win = hold.meta;
 
 // =============================================================================
 // COMBO TEXT CONVERSION
@@ -289,6 +396,30 @@ interface SequenceBinding {
   id: number;
 }
 
+/**
+ * The main Keymash class that manages keyboard bindings for a specific scope.
+ * Create instances using the {@link keymash} factory function.
+ *
+ * @category Keymash Instance
+ * @example
+ * ```typescript
+ * import { keymash, ctrl, press } from 'keymash';
+ *
+ * const km = keymash({
+ *   label: 'My App',
+ *   scope: document.getElementById('app'),
+ *   bindings: [
+ *     { combo: ctrl + press.s, handler: () => save() }
+ *   ]
+ * });
+ *
+ * // Add more bindings
+ * km.bind(ctrl + press.n, () => newFile());
+ *
+ * // Clean up when done
+ * km.destroy();
+ * ```
+ */
 export class Keymash implements IKeymash {
   label: string;
   /**
@@ -571,7 +702,7 @@ export class Keymash implements IKeymash {
     }
   }
 
-  private _getMask(k: string, offset: bigint, cache: Record<string, bigint>): bigint {
+  private _getMask(k: string, offset: bigint, cache: NamedKeyMap): bigint {
     if (cache[k]) return cache[k];
     const mask = 1n << (BigInt(getBitPos(k)) + offset);
     cache[k] = mask;
@@ -674,7 +805,29 @@ export class Keymash implements IKeymash {
 // =============================================================================
 
 /**
- * Creates a new Keymash instance.
+ * Factory function to create a new Keymash instance.
+ *
+ * @param config - Optional configuration object
+ * @returns A new Keymash instance
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { keymash, ctrl, shift, press } from 'keymash';
+ *
+ * // Basic usage
+ * const km = keymash();
+ * km.bind(ctrl + press.s, () => save());
+ * km.bind(ctrl + shift + press.p, () => commandPalette());
+ *
+ * // With configuration
+ * const km2 = keymash({
+ *   label: 'Editor',
+ *   scope: document.getElementById('editor'),
+ *   bindings: [
+ *     { combo: ctrl + press.s, handler: () => save(), label: 'Save' }
+ *   ]
+ * });
+ * ```
  */
 export function keymash(config: KeymashConfig = {}): Keymash {
   return new Keymash(config);
@@ -685,21 +838,40 @@ export function keymash(config: KeymashConfig = {}): Keymash {
 // =============================================================================
 
 /**
- * Gets all active bindings from a target or Keymash instance.
+ * Gets all active bindings from a target element or Keymash instance.
  * Returns an array of FullBindings with resolved properties and human-readable combo text.
+ *
+ * @param target - Target to get bindings from (defaults to window)
+ * @returns Array of FullBinding objects with resolved properties
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { getActiveBindings, keymash, ctrl, press } from 'keymash';
+ *
+ * const km = keymash();
+ * km.bind({ combo: ctrl + press.s, handler: () => {}, label: 'Save' });
+ *
+ * // Get bindings from an instance
+ * const bindings = getActiveBindings(km);
+ * console.log(bindings[0].comboText); // "Control+s"
+ * console.log(bindings[0].label); // "Save"
+ *
+ * // Get all bindings from window
+ * const allBindings = getActiveBindings();
+ * ```
  */
-export function getActiveBindings(bindingsHaver?: Window | HTMLElement | Keymash): FullBinding[] {
+export function getActiveBindings(target?: Window | HTMLElement | Keymash): FullBinding[] {
   const results: FullBinding[] = [];
 
-  if (bindingsHaver instanceof Keymash) {
+  if (target instanceof Keymash) {
     // Direct Keymash instance
-    for (const binding of bindingsHaver.bindings) {
+    for (const binding of target.bindings) {
       results.push(toFullBinding(binding));
     }
   } else {
     // Window or HTMLElement - look up registered instances
-    const target = bindingsHaver ?? window;
-    const instances = getKeymashInstances(target);
+    const scope = target ?? window;
+    const instances = getKeymashInstances(scope);
     if (instances) {
       for (const km of instances) {
         for (const binding of km.bindings) {
