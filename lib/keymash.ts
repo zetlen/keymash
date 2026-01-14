@@ -14,16 +14,7 @@ import type {
   UnionToRequiredKeys,
 } from '../types';
 
-// =============================================================================
-// DEVELOPMENT MODE
-// =============================================================================
-
-/**
- * Development mode flag. Set to true in development builds.
- * Bundlers like Vite, webpack, and Rollup will tree-shake this code in production
- * when the build is configured with NODE_ENV=production.
- *
- * To enable development warnings:
+/** To enable development warnings:
  * - Define __DEV__ as true in your bundler config for development
  * - Define __DEV__ as false (or rely on dead code elimination) for production
  */
@@ -144,7 +135,7 @@ export const hold: NamedKeyMap = { any: ANY_HOLD } as unknown as NamedKeyMap;
 export const press: NamedKeyMap = { any: ANY_PRESS } as unknown as NamedKeyMap;
 
 const numAliases = Object.fromEntries(
-  Array.from({ length: 10 }).map((_, i) => [`${i}`, [`num${i}`]]),
+  [...Array(10).keys()].map((_, i) => [`${i}`, [`num${i}`]]),
 ) as UnionToRequiredKeys<NamedKey, NumeralKeyAlias[]>;
 const aliases: UnionToRequiredKeys<NamedKey, KeyAlias[]> = {
   ...numAliases,
