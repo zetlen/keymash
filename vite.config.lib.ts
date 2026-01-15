@@ -6,17 +6,19 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     dts({
-      include: ['lib/keymash.ts', 'types.ts'],
+      include: ['lib/keymash.ts', 'lib/keymash-core.ts', 'types.ts'],
       outDir: 'dist/lib',
       rollupTypes: true,
     }),
   ],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'lib/keymash.ts'),
+      entry: {
+        keymash: path.resolve(__dirname, 'lib/keymash.ts'),
+        core: path.resolve(__dirname, 'lib/keymash-core.ts'),
+      },
       name: 'keymash',
       formats: ['es'],
-      fileName: 'keymash',
     },
     outDir: 'dist/lib',
     minify: false, // Let rollup-plugin-terser handle it

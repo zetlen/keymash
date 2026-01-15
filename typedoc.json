@@ -1,0 +1,15 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./lib/keymash.ts", "./types.ts"],
+  "tsconfig": "./tsconfig.lib.json",
+  "json": "./docs/api.json",
+  "name": "KeyMash API",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeProtected": true,
+  "sort": ["source-order"],
+  "categoryOrder": ["Core Exports", "Keymash Instance", "Types", "*"],
+  "groupOrder": ["Functions", "Variables", "Classes", "Interfaces", "Type Aliases", "*"],
+  "blockTags": ["@example", "@param", "@returns", "@deprecated", "@default", "@category", "@see"],
+  "inlineTags": ["@link", "@inheritDoc"]
+}

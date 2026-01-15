@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { hold, key, keymash, press, setConflictHandler } from './keymash';
+import { describe, expect, it, vi } from 'vitest';
+import { hold, key, keymash, press } from './keymash';
 
 describe('keymash', () => {
   describe('hold and press objects', () => {
@@ -10,9 +10,9 @@ describe('keymash', () => {
       expect(hold.meta).toBeDefined();
     });
 
-    it('should have Control aliased to ctrl', () => {
-      expect(hold.ctrl).toBe(hold.Control);
-      expect(press.ctrl).toBe(press.Control);
+    it('should have arrow key aliases', () => {
+      expect(hold.arrowup).toBe(hold.up);
+      expect(press.arrowdown).toBe(press.down);
     });
 
     it('should have letter keys', () => {
@@ -204,7 +204,7 @@ describe('keymash', () => {
         modalKm.setActive(true);
       });
 
-      modalKm.bind(press.Escape, () => {
+      modalKm.bind(press.escape, () => {
         // Simulate exiting modal mode
         modalKm.setActive(false);
         globalKm.setActive(true);
@@ -481,7 +481,7 @@ describe('keymash', () => {
 
       expect(globalKm.bindings.length).toBe(27);
 
-      modalKm.bind(press.Escape, () => {
+      modalKm.bind(press.escape, () => {
         enteredModal = false;
         modalKm.setActive(false);
         globalKm.setActive(true);
@@ -567,7 +567,7 @@ describe('keymash', () => {
       // Verify bindings were added
       expect(globalKm.bindings.length).toBe(27);
 
-      modalKm.bind(press.Escape, () => {
+      modalKm.bind(press.escape, () => {
         enteredModal = false;
         modalKm.setActive(false);
         globalKm.setActive(true);
@@ -611,12 +611,12 @@ describe('keymash', () => {
     });
   });
 
-  describe('catch-all bindings (press.ANY)', () => {
-    it('should fire press.ANY for unbound keys', () => {
+  describe('catch-all bindings (press.any)', () => {
+    it('should fire press.any for unbound keys', () => {
       const km = keymash({ scope: window });
       const anyHandler = vi.fn();
 
-      km.bind(press.ANY, anyHandler);
+      km.bind(press.any, anyHandler);
       km.setActive(true);
 
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'q' }));
@@ -625,142 +625,19 @@ describe('keymash', () => {
       km.destroy();
     });
 
-    it('should prefer specific binding over press.ANY', () => {
+    it('should prefer specific binding over press.any', () => {
       const km = keymash({ scope: window });
       const specificHandler = vi.fn();
       const anyHandler = vi.fn();
 
       km.bind(press.a, specificHandler);
-      km.bind(press.ANY, anyHandler);
+      km.bind(press.any, anyHandler);
       km.setActive(true);
 
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
 
       expect(specificHandler).toHaveBeenCalledTimes(1);
       expect(anyHandler).not.toHaveBeenCalled();
-      km.destroy();
-    });
-  });
-
-  describe('conflict detection (development mode)', () => {
-    let warnSpy: ReturnType<typeof vi.spyOn>;
-    let customHandler: ReturnType<typeof vi.fn>;
-
-    beforeEach(() => {
-      warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-      customHandler = vi.fn();
-    });
-
-    afterEach(() => {
-      warnSpy.mockRestore();
-      setConflictHandler('warn'); // Reset to default
-    });
-
-    it('should warn on duplicate binding', () => {
-      const km = keymash();
-      km.bind(press.a, () => {});
-      km.bind(press.a, () => {}); // Duplicate
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Duplicate binding'));
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('"a"'));
-      km.destroy();
-    });
-
-    it('should warn on duplicate binding with modifiers', () => {
-      const km = keymash();
-      km.bind(hold.ctrl + press.s, () => {});
-      km.bind(hold.ctrl + press.s, () => {}); // Duplicate
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Duplicate binding'));
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Control'));
-      km.destroy();
-    });
-
-    it('should include keymash label in conflict message', () => {
-      const km = keymash({ label: 'MyApp' });
-      km.bind(press.a, () => {});
-      km.bind(press.a, () => {});
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('MyApp'));
-      km.destroy();
-    });
-
-    it('should throw on conflict when handler is set to "error"', () => {
-      setConflictHandler('error');
-      const km = keymash();
-      km.bind(press.a, () => {});
-
-      expect(() => km.bind(press.a, () => {})).toThrow('[keymash]');
-      km.destroy();
-    });
-
-    it('should ignore conflicts when handler is set to "ignore"', () => {
-      setConflictHandler('ignore');
-      const km = keymash();
-      km.bind(press.a, () => {});
-      km.bind(press.a, () => {}); // Should not warn
-
-      expect(warnSpy).not.toHaveBeenCalled();
-      km.destroy();
-    });
-
-    it('should call custom handler function', () => {
-      setConflictHandler(customHandler);
-      const km = keymash();
-      km.bind(press.a, () => {});
-      km.bind(press.a, () => {});
-
-      expect(customHandler).toHaveBeenCalledWith(expect.stringContaining('Duplicate binding'));
-      km.destroy();
-    });
-
-    it('should warn on duplicate sequence', () => {
-      const km = keymash();
-      km.sequence('abc', () => {});
-      km.sequence('abc', () => {}); // Duplicate
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Duplicate sequence'));
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('"abc"'));
-      km.destroy();
-    });
-
-    it('should warn on sequence suffix conflict (new is shorter)', () => {
-      const km = keymash();
-      km.sequence('hello', () => {});
-      km.sequence('lo', () => {}); // 'lo' is suffix of 'hello'
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Sequence conflict'));
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('"lo"'));
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('suffix'));
-      km.destroy();
-    });
-
-    it('should warn on sequence suffix conflict (new is longer)', () => {
-      const km = keymash();
-      km.sequence('lo', () => {});
-      km.sequence('hello', () => {}); // 'lo' is suffix of 'hello'
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Sequence conflict'));
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('"lo"'));
-      km.destroy();
-    });
-
-    it('should not warn when sequences do not conflict', () => {
-      const km = keymash();
-      km.sequence('abc', () => {});
-      km.sequence('xyz', () => {});
-
-      expect(warnSpy).not.toHaveBeenCalled();
-      km.destroy();
-    });
-
-    it('should not warn when bindings do not conflict', () => {
-      const km = keymash();
-      km.bind(press.a, () => {});
-      km.bind(press.b, () => {});
-      km.bind(hold.ctrl + press.a, () => {});
-
-      expect(warnSpy).not.toHaveBeenCalled();
       km.destroy();
     });
   });
