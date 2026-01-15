@@ -15,6 +15,7 @@ import {
   type Keymash,
   keymash,
   onGlobalChange,
+  press,
 } from './keymash';
 
 export type { Binding, FullBinding, KeyCombo, KeyComboHandler, SequenceHandler } from '../types';
@@ -22,6 +23,7 @@ export type { Binding, FullBinding, KeyCombo, KeyComboHandler, SequenceHandler }
 export {
   alt,
   cmd,
+  code,
   ctrl,
   getActiveBindings,
   getAllKeymashInstances,
@@ -71,8 +73,27 @@ export interface UseKeymashOptions {
   sequences?: SequenceBinding[];
 
   /**
-   * Whether the keymash should be active.
-   * @default true (if bindings provided) or false (if no bindings)
+   * Whether the keymash should be active (listening for keyboard events).
+   *
+   * **Default behavior:**
+   * - `true` if `bindings` array is provided and non-empty
+   * - `false` if no bindings are provided (you must call `setActive(true)` manually)
+   *
+   * Set explicitly to override this behavior.
+   *
+   * @example
+   * ```tsx
+   * // Auto-activates because bindings are provided
+   * useKeymash({ bindings: [...] });
+   *
+   * // Starts inactive, must activate manually
+   * const { setActive } = useKeymash({});
+   * setActive(true);
+   *
+   * // Explicit control
+   * useKeymash({ bindings: [...], active: false }); // Starts inactive
+   * useKeymash({ active: true }); // Active but no bindings yet
+   * ```
    */
   active?: boolean;
 
@@ -92,7 +113,23 @@ export interface UseKeymashOptions {
  * Return type for the useKeymash hook.
  */
 export interface UseKeymashReturn {
-  /** The underlying Keymash instance */
+  /**
+   * The underlying Keymash instance.
+   *
+   * **Note:** This will be `null` during the first render if using a ref-based scope,
+   * since the ref won't be attached to the DOM yet. Always check for null before
+   * accessing instance methods directly.
+   *
+   * @example
+   * ```tsx
+   * const { instance } = useKeymash({ scope: containerRef, bindings: [...] });
+   *
+   * // Safe access
+   * if (instance) {
+   *   console.log(instance.bindings);
+   * }
+   * ```
+   */
   instance: Keymash | null;
 
   /** Whether the keymash is currently active */
@@ -408,22 +445,42 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
  * Hook to get the current key state mask.
  * Useful for components that only need to read key state, not bind shortcuts.
  *
+ * This hook internally uses `press.any` to listen to all key events and track
+ * the current key state. The handler is a no-op since we only care about the mask.
+ *
  * @param scope - Optional scope element or ref
- * @returns Current key state mask
+ * @returns Current key state mask (bigint)
  *
  * @example
  * ```tsx
+ * import { useKeyState, hold } from 'keymash/react';
+ *
  * function KeyIndicator() {
  *   const mask = useKeyState();
  *   const isCtrl = (mask & hold.ctrl) !== 0n;
  *   return <span>{isCtrl ? 'Ctrl pressed' : 'Ctrl not pressed'}</span>;
  * }
  * ```
+ *
+ * @example
+ * ```tsx
+ * // Scoped to a specific element
+ * function ScopedIndicator() {
+ *   const containerRef = useRef<HTMLDivElement>(null);
+ *   const mask = useKeyState(containerRef);
+ *   // Only tracks keys when focus is within containerRef
+ *   return <div ref={containerRef}>...</div>;
+ * }
+ * ```
  */
 export function useKeyState(
   scope?: HTMLElement | Window | React.RefObject<HTMLElement | null>,
 ): bigint {
-  const { currentMask } = useKeymash({ scope, bindings: [{ combo: 0n, handler: () => {} }] });
+  // Use press.any to listen to all key events and track state via onUpdate
+  const { currentMask } = useKeymash({
+    scope,
+    bindings: [{ combo: press.any, handler: () => {} }],
+  });
   return currentMask;
 }
 
