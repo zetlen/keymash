@@ -67,8 +67,23 @@ for (let code = 32; code <= 126; code++) {
   }
 }
 
+// Browser key names to canonical key names
+// (browsers send 'Control', 'Shift', etc. but we use 'ctrl', 'shift')
+const BROWSER_TO_CANONICAL: Record<string, string> = {
+  control: 'ctrl',
+  shift: 'shift',
+  alt: 'alt',
+  meta: 'meta',
+  capslock: 'capslock',
+};
+
+const normalizeKey = (key: string): string => {
+  const lower = key.toLowerCase();
+  return BROWSER_TO_CANONICAL[lower] ?? lower;
+};
+
 const getBitPos = (key: string): number => {
-  const normalized = key.toLowerCase();
+  const normalized = normalizeKey(key);
   const map = KEY_CODE_MAP as Record<string, number>;
   if (map[normalized]) return map[normalized];
   if (normalized.length === 1) return normalized.charCodeAt(0);
@@ -143,6 +158,83 @@ export const hold: NamedKeyMap = { any: ANY_HOLD } as unknown as NamedKeyMap;
  * ```
  */
 export const press: NamedKeyMap = { any: ANY_PRESS } as unknown as NamedKeyMap;
+
+/**
+ * Object containing physical key code masks for layout-independent bindings.
+ * Use these when you need bindings based on physical key position rather than
+ * the character produced (e.g., WASD game controls that work on any keyboard layout).
+ *
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { keymash, code, hold } from 'keymash';
+ *
+ * const km = keymash();
+ *
+ * // Physical WASD controls (work on AZERTY, QWERTZ, etc.)
+ * km.bind(code.KeyW, () => moveForward());
+ * km.bind(code.KeyA, () => moveLeft());
+ * km.bind(code.KeyS, () => moveBackward());
+ * km.bind(code.KeyD, () => moveRight());
+ *
+ * // With modifiers
+ * km.bind(hold.shift + code.KeyW, () => sprint());
+ *
+ * // Available codes: KeyA-KeyZ, Digit0-Digit9, Space, Enter, Tab,
+ * // ArrowUp/Down/Left/Right, Escape, Backspace, and more
+ * ```
+ */
+export const code: Record<string, bigint> = { any: ANY_PRESS };
+
+// Register physical key codes (KeyA-KeyZ)
+for (let i = 0; i < 26; i++) {
+  const letter = String.fromCharCode(65 + i); // A-Z
+  const keyCode = `Key${letter}`;
+  const bit = BigInt(getBitPos(keyCode));
+  code[keyCode] = 1n << (bit + PRESS_OFFSET);
+  // Only set BIT_TO_KEY_MAP if not already set (preserve lowercase names for comboToText)
+  if (!BIT_TO_KEY_MAP.has(Number(bit))) {
+    BIT_TO_KEY_MAP.set(Number(bit), keyCode);
+  }
+}
+
+// Register digit codes (Digit0-Digit9)
+for (let i = 0; i <= 9; i++) {
+  const keyCode = `Digit${i}`;
+  const bit = BigInt(getBitPos(keyCode));
+  code[keyCode] = 1n << (bit + PRESS_OFFSET);
+  if (!BIT_TO_KEY_MAP.has(Number(bit))) {
+    BIT_TO_KEY_MAP.set(Number(bit), keyCode);
+  }
+}
+
+// Register common physical key codes
+const physicalKeys = [
+  'Space',
+  'Enter',
+  'Tab',
+  'Escape',
+  'Backspace',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ShiftLeft',
+  'ShiftRight',
+  'ControlLeft',
+  'ControlRight',
+  'AltLeft',
+  'AltRight',
+  'MetaLeft',
+  'MetaRight',
+];
+for (const keyCode of physicalKeys) {
+  const bit = BigInt(getBitPos(keyCode));
+  code[keyCode] = 1n << (bit + PRESS_OFFSET);
+  if (!BIT_TO_KEY_MAP.has(Number(bit))) {
+    BIT_TO_KEY_MAP.set(Number(bit), keyCode);
+  }
+}
 
 const numAliases = Object.fromEntries(
   [...Array(10).keys()].map((_, i) => [`${i}`, [`num${i}`]]),
@@ -390,6 +482,54 @@ function getKeymashInstances(target: HTMLElement | Window): Set<Keymash> | undef
 }
 
 // =============================================================================
+// GLOBAL INSTANCE REGISTRY
+// =============================================================================
+
+// Tracks ALL keymash instances for useKeymashBindings hook
+const globalRegistry = new Set<Keymash>();
+const globalChangeListeners = new Set<() => void>();
+
+function registerGlobal(instance: Keymash): void {
+  globalRegistry.add(instance);
+  notifyGlobalChange();
+}
+
+function unregisterGlobal(instance: Keymash): void {
+  globalRegistry.delete(instance);
+  notifyGlobalChange();
+}
+
+function notifyGlobalChange(): void {
+  for (const listener of globalChangeListeners) {
+    listener();
+  }
+}
+
+/**
+ * Get all currently instantiated (not destroyed) Keymash instances.
+ * Useful for building keyboard shortcuts dialogs.
+ *
+ * @returns Set of all active Keymash instances
+ * @category Utilities
+ */
+export function getAllKeymashInstances(): Set<Keymash> {
+  return globalRegistry;
+}
+
+/**
+ * Subscribe to changes in any keymash instance (creation, destruction, binding changes).
+ * Returns an unsubscribe function.
+ *
+ * @param listener - Function called when any keymash instance changes
+ * @returns Unsubscribe function
+ * @category Utilities
+ */
+export function onGlobalChange(listener: () => void): () => void {
+  globalChangeListeners.add(listener);
+  return () => globalChangeListeners.delete(listener);
+}
+
+// =============================================================================
 // KEYMASH CLASS
 // =============================================================================
 
@@ -427,20 +567,11 @@ interface SequenceBinding {
 export class Keymash implements IKeymash {
   label: string;
   /**
-   * The scope element for this keymash. Events are filtered by containment.
-   * @deprecated Use `scope` instead of `target`.
+   * @summary The element that all handlers are attached to.
+   * @description Events are actually bound to the window, but they are filtered by containment on this element if provided.
    */
-  target: HTMLElement | Window;
+  scope: HTMLElement | Window;
   bindings: Binding[] = [];
-
-  /**
-   * Alias for `target`. The scope element for this keymash.
-   * Events are captured at window level but only processed if the event
-   * originated from within this element (or window for global capture).
-   */
-  get scope(): HTMLElement | Window {
-    return this.target;
-  }
 
   private _active: boolean = false;
   private _activeKeys: Set<string> = new Set();
@@ -462,13 +593,15 @@ export class Keymash implements IKeymash {
 
   constructor(config: KeymashConfig = {}) {
     this.label = config.label ?? '';
-    // Prefer scope over deprecated target
-    this.target = config.scope ?? config.target ?? window;
+    this.scope = config.scope ?? window;
 
     // Bind event handlers
     this._boundHandleKeyDown = this._handleKeyDown.bind(this);
     this._boundHandleKeyUp = this._handleKeyUp.bind(this);
     this._boundHandleBlur = this._handleBlur.bind(this);
+
+    // Register in global registry
+    registerGlobal(this);
 
     // Add initial bindings
     if (config.bindings && config.bindings.length > 0) {
@@ -530,12 +663,12 @@ export class Keymash implements IKeymash {
       window.addEventListener('keydown', this._boundHandleKeyDown as EventListener);
       window.addEventListener('keyup', this._boundHandleKeyUp as EventListener);
       window.addEventListener('blur', this._boundHandleBlur);
-      registerTarget(this.target, this);
+      registerTarget(this.scope, this);
     } else {
       window.removeEventListener('keydown', this._boundHandleKeyDown as EventListener);
       window.removeEventListener('keyup', this._boundHandleKeyUp as EventListener);
       window.removeEventListener('blur', this._boundHandleBlur);
-      unregisterTarget(this.target, this);
+      unregisterTarget(this.scope, this);
       this._activeKeys.clear();
     }
 
@@ -573,6 +706,8 @@ export class Keymash implements IKeymash {
     this._onUpdate = undefined;
     this._sequences = [];
     this._sequenceBuffer = '';
+    // Remove from global registry
+    unregisterGlobal(this);
   }
 
   /**
@@ -659,7 +794,7 @@ export class Keymash implements IKeymash {
       if (this._sequenceBuffer.endsWith(seq.sequence)) {
         // Reset buffer after match to prevent immediate re-triggering
         this._sequenceBuffer = '';
-        seq.handler(seq.sequence, undefined, this);
+        seq.handler({ sequence: seq.sequence, instance: this });
         break; // Only fire first matching sequence
       }
     }
@@ -704,11 +839,13 @@ export class Keymash implements IKeymash {
     for (const fn of this._changeListeners) {
       fn();
     }
+    // Also notify global listeners for useKeymashBindings
+    notifyGlobalChange();
   }
 
   private _getMask(k: string, offset: bigint, cache: NamedKeyMap): bigint {
-    // Check original key first, then lowercase (for browser key names like 'Escape')
-    const normalized = k.toLowerCase();
+    // Normalize browser key names (e.g., 'Control' -> 'ctrl')
+    const normalized = normalizeKey(k);
     // Cast to Record for dynamic string indexing
     const c = cache as Record<string, bigint>;
     if (c[k]) return c[k];
@@ -726,33 +863,72 @@ export class Keymash implements IKeymash {
    */
   private _shouldHandleEvent(e: KeyboardEvent): boolean {
     // Window target means capture all events
-    if (this.target === window) return true;
+    if (this.scope === window) return true;
 
     // For element targets, check if the event originated from within the target
     const eventTarget = e.target as Node | null;
     if (!eventTarget) return false;
 
-    return (this.target as HTMLElement).contains(eventTarget);
+    return (this.scope as HTMLElement).contains(eventTarget);
   }
 
   private _handleKeyDown(e: KeyboardEvent): void {
     // Only handle events for our target
     if (!this._shouldHandleEvent(e)) return;
 
-    // Compute hold mask once
-    let holdMask = 0n;
-    for (const k of this._activeKeys) {
-      holdMask |= this._getMask(k, HOLD_OFFSET, hold);
+    // Skip dead keys (accent modifiers) and IME composition events
+    // Dead keys are used for international keyboards (French, German, etc.)
+    // IME composition is used for Asian language input (Japanese, Korean, Chinese)
+    if (e.key === 'Dead' || e.isComposing) return;
+
+    // Detect AltGr character entry on European keyboards
+    // On Windows, AltGr sends Ctrl+Alt simultaneously. When users press AltGr+key
+    // to type characters like { } [ ] @ on German/French keyboards, we should NOT
+    // treat this as a Ctrl+Alt+key shortcut.
+    const isAltGrCharacter =
+      e.ctrlKey && e.altKey && e.key.length === 1 && !e.metaKey && !e.shiftKey;
+    if (isAltGrCharacter) {
+      // Still track for sequences (user is typing a character)
+      this._checkSequences(e.key);
+      return;
     }
 
-    const pressMask = this._getMask(e.key, PRESS_OFFSET, press);
-    const totalMask = holdMask | pressMask;
-    const maskKey = totalMask.toString();
+    // Derive modifier state from event properties (source of truth)
+    // This prevents "ghost modifiers" when focus is lost while a modifier is held
+    let holdMask = 0n;
+    if (e.ctrlKey) holdMask |= hold.ctrl;
+    if (e.shiftKey) holdMask |= hold.shift;
+    if (e.altKey) holdMask |= hold.alt;
+    if (e.metaKey) holdMask |= hold.meta;
 
-    // Check for exact binding first, then fall back to ANY binding
-    let binding = this._lookup.get(maskKey);
+    // Also include non-standard held keys (capslock, tab, etc.) from _activeKeys
+    // These aren't available as event properties
+    for (const k of this._activeKeys) {
+      const normalized = normalizeKey(k);
+      if (!['ctrl', 'shift', 'alt', 'meta'].includes(normalized)) {
+        holdMask |= this._getMask(k, HOLD_OFFSET, hold);
+      }
+    }
+
+    // Check key-based binding (e.key = character produced)
+    const keyPressMask = this._getMask(e.key, PRESS_OFFSET, press);
+    const keyTotalMask = holdMask | keyPressMask;
+    let binding = this._lookup.get(keyTotalMask.toString());
+
+    // If no key binding, check code-based binding (e.code = physical position)
+    // This enables layout-independent bindings like WASD for game controls
+    let totalMask = keyTotalMask;
+    if (!binding && e.code) {
+      const codePressMask = this._getMask(e.code, PRESS_OFFSET, press);
+      const codeTotalMask = holdMask | codePressMask;
+      binding = this._lookup.get(codeTotalMask.toString());
+      if (binding) {
+        totalMask = codeTotalMask;
+      }
+    }
+
+    // Fall back to catch-all press.ANY binding (with same hold modifiers)
     if (!binding) {
-      // Check for catch-all press.ANY binding (with same hold modifiers)
       const anyMask = holdMask | ANY_PRESS;
       binding = this._lookup.get(anyMask.toString());
     }
@@ -760,11 +936,12 @@ export class Keymash implements IKeymash {
     // Check sequences
     this._checkSequences(e.key);
 
-    if (this._activeKeys.has(e.key)) {
+    // Use e.repeat (browser's source of truth) instead of checking _activeKeys
+    if (e.repeat) {
       // Key repeat - only fire if repeat is enabled for this binding
       if (binding?.repeat) {
         e.preventDefault();
-        binding.handler(e, this);
+        binding.handler({ event: e, instance: this });
       }
       return;
     }
@@ -775,9 +952,9 @@ export class Keymash implements IKeymash {
       e.preventDefault();
       // Handle delay if specified
       if (binding.delay && binding.delay > 0) {
-        setTimeout(() => binding.handler(e, this), binding.delay);
+        setTimeout(() => binding.handler({ event: e, instance: this }), binding.delay);
       } else {
-        binding.handler(e, this);
+        binding.handler({ event: e, instance: this });
       }
     }
 

@@ -73,13 +73,36 @@ export type NamedKeyMap = UnionToRequiredKeys<NamedKey | KeyAlias, bigint>;
 export type KeyCombo = bigint;
 
 /**
- * Handler function for key combos. Called when a binding is triggered.
+ * Context object passed to key combo handlers.
+ * Using an object parameter allows for future extensibility and cleaner destructuring.
  *
- * @param event - The keyboard event that triggered the binding
- * @param keymash - The Keymash instance that triggered the binding
  * @category Types
  */
-export type KeyComboHandler = (event?: KeyboardEvent, keymash?: IKeymash) => void;
+export interface HandlerContext {
+  /** The keyboard event that triggered the binding */
+  event: KeyboardEvent;
+  /** The Keymash instance that triggered the binding */
+  instance: IKeymash;
+}
+
+/**
+ * Handler function for key combos. Called when a binding is triggered.
+ * Receives a context object with the event and instance.
+ *
+ * @category Types
+ * @example
+ * ```typescript
+ * // Destructure what you need
+ * const handler: KeyComboHandler = ({ event, instance }) => {
+ *   event.preventDefault();
+ *   console.log('Triggered on', instance.label);
+ * };
+ *
+ * // Or ignore context entirely
+ * const simpleHandler: KeyComboHandler = () => save();
+ * ```
+ */
+export type KeyComboHandler = (context: HandlerContext) => void;
 
 /**
  * A keyboard binding configuration. Defines what key combination triggers
@@ -124,14 +147,30 @@ export interface FullBinding extends Required<Binding> {
 }
 
 /**
- * Handler function for sequence triggers. Called when a typed sequence matches.
+ * Context object passed to sequence handlers.
  *
- * @param sequence - The matched sequence string
- * @param event - The keyboard event that completed the sequence
- * @param keymash - The Keymash instance that triggered the sequence
  * @category Types
  */
-export type SequenceHandler = (sequence: string, event?: KeyboardEvent, keymash?: IKeymash) => void;
+export interface SequenceHandlerContext {
+  /** The matched sequence string */
+  sequence: string;
+  /** The Keymash instance that triggered the sequence */
+  instance: IKeymash;
+}
+
+/**
+ * Handler function for sequence triggers. Called when a typed sequence matches.
+ * Receives a context object with the sequence and instance.
+ *
+ * @category Types
+ * @example
+ * ```typescript
+ * const handler: SequenceHandler = ({ sequence, instance }) => {
+ *   console.log(`Typed "${sequence}" on ${instance.label}`);
+ * };
+ * ```
+ */
+export type SequenceHandler = (context: SequenceHandlerContext) => void;
 
 /**
  * Configuration object for creating a Keymash instance via the factory function.
@@ -160,10 +199,6 @@ export interface KeymashConfig {
    * @default window
    */
   scope?: HTMLElement | Window;
-  /**
-   * @deprecated Use `scope` instead. This will be removed in a future version.
-   */
-  target?: HTMLElement | Window;
   /** Initial bindings to register */
   bindings?: Binding[];
   /** Combo to activate this keymash (not yet implemented) */
@@ -185,13 +220,8 @@ export interface IKeymash {
   label: string;
   /**
    * The scope element for this keymash. Events are filtered by containment.
-   * Alias: `target` (deprecated)
    */
   scope: HTMLElement | Window;
-  /**
-   * @deprecated Use `scope` instead.
-   */
-  target: HTMLElement | Window;
   /** Array of all registered bindings */
   bindings: Binding[];
 
@@ -214,6 +244,18 @@ export interface IKeymash {
    * Returns an unsubscribe function.
    */
   sequence(sequence: string, handler: SequenceHandler, options?: { timeout?: number }): () => void;
+
+  /** Check if the keymash is currently active (listening for events) */
+  isActive(): boolean;
+
+  /**
+   * Set a callback for real-time key state updates (for visualizers).
+   * Called with the current bitmask whenever keys are pressed or released.
+   */
+  onUpdate(callback: (mask: bigint) => void): void;
+
+  /** Destroy the keymash instance, removing all listeners */
+  destroy(): void;
 }
 
 /**

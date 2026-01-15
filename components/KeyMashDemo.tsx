@@ -456,7 +456,7 @@ const KeyMashDemo: React.FC = () => {
                 <span className="font-mono tracking-wider">
                   {TRIGGER_CHARS.map(({ char, key }, i) => (
                     <span
-                      key={key}
+                      key={key + i}
                       className={`
                         inline-block transition-all duration-150
                         ${matchedLetters[i] ? 'text-blue-600 font-bold scale-110' : 'text-gray-400'}
@@ -484,11 +484,11 @@ const KeyMashDemo: React.FC = () => {
             `}
             style={{ width: CANVAS_WIDTH, height: CANVAS_HEIGHT }}
           >
-            {keys.map((keyDef) => {
+            {keys.map((keyDef, i) => {
               const isActive = getIsActive(keyDef.m);
               return (
                 <div
-                  key={keyDef.id}
+                  key={keyDef.id + i}
                   className={`
                     absolute flex items-center justify-center text-[10px] font-bold rounded-md transition-all duration-75
                     ${
@@ -522,8 +522,8 @@ const KeyMashDemo: React.FC = () => {
             {logs.length === 0 && (
               <div className="text-gray-300 italic">Type "show me" to enter trapped mode...</div>
             )}
-            {logs.map((log) => (
-              <div key={log.id} className="flex items-center gap-3">
+            {logs.map((log, i) => (
+              <div key={log.id + i} className="flex items-center gap-3">
                 <span
                   className={`
                     w-1.5 h-1.5 rounded-full shrink-0

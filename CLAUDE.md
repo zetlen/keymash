@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Versioning Policy
+
+**While `package.json` version is below 0.1.0, there are NO deprecation or migration concerns.** The existing codebase is small and experimental. Old APIs, patterns, or ideas can be completely removed without backwards compatibility shims, migration paths, or deprecation warnings. Just delete and replace.
+
 ## Commands
 
 ```bash
@@ -75,3 +79,44 @@ Commits must follow [Conventional Commits](https://conventionalcommits.org/) for
 - `chore:` maintenance tasks
 
 Pre-commit hooks automatically lint and format staged files.
+
+## Agent Invocation Rules
+
+This project has specialized agents in `.claude/agents/`. **Proactively invoke these agents** based on the code being modified:
+
+### keyboard-compat-advocate
+**Invoke after ANY changes to keyboard handling code:**
+- `lib/keymash.ts` or `lib/keymash-core.ts`
+- Any code touching `event.key`, `event.code`, or keyboard events
+- Key normalization or mapping logic
+- Modifier key handling (ctrl, shift, alt, meta)
+
+This agent reviews for cross-browser compatibility, international keyboard support (AZERTY, QWERTZ, etc.), and performance.
+
+### api-docs-completionist
+**Invoke after changes to public API surface:**
+- Adding new exports, types, or public methods
+- Modifying `types.ts`
+- Updating README.md documentation
+- Adding JSDoc comments
+- **Before creating any PR** for new features
+
+This agent ensures all APIs are documented, examples are accurate, and edge cases are covered.
+
+### frontend-api-reviewer
+**Invoke after changes to developer-facing APIs:**
+- New React hooks or components
+- API design decisions (method signatures, return types)
+- Documentation examples
+- README code samples
+
+This agent reviews from a frontend developer's perspective for ergonomics and usability.
+
+### Pre-PR Checklist
+
+Before creating a PR, verify these agents were invoked as needed:
+- [ ] Modified keyboard handling? → `keyboard-compat-advocate`
+- [ ] Added public API surface? → `api-docs-completionist`
+- [ ] Wrote React hooks or examples? → `frontend-api-reviewer`
+
+Use `/review` to invoke all relevant agents based on current changes.

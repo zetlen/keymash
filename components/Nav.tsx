@@ -19,14 +19,15 @@ const Nav: React.FC<NavProps> = ({ currentPath }) => {
   const isHome = currentPath === '/' || currentPath === '';
   const isApi = currentPath === '/api';
 
-  const handleDemoClick = () => {
-    if (isHome) {
-      document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
-    } else {
+  const scrollToSection = (sectionId: string) => {
+    if (!isHome) {
+      // Navigate to home first, then scroll
       window.location.hash = '#/';
       setTimeout(() => {
-        document.getElementById('demo')?.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -34,20 +35,48 @@ const Nav: React.FC<NavProps> = ({ currentPath }) => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-8 md:px-16">
         <div className="flex items-center justify-between h-16">
-          <a
-            href="#/"
-            className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
-          >
-            KeyMash
-          </a>
+          {/* Left side: Logo + internal navigation */}
           <div className="flex items-center gap-8">
-            <button
-              type="button"
-              onClick={handleDemoClick}
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+            <a
+              href="#/"
+              className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
             >
-              Demo
-            </button>
+              KeyMash
+            </a>
+            <div className="hidden md:flex items-center gap-6">
+              <button
+                type="button"
+                onClick={() => scrollToSection('about')}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                About
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('demo')}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Demo
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('usage')}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                Usage
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('react')}
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              >
+                React
+              </button>
+            </div>
+          </div>
+
+          {/* Right side: external links */}
+          <div className="flex items-center gap-6">
             <a
               href="#/api"
               className={`text-sm font-medium transition-colors ${
