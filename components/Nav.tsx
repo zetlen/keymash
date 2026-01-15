@@ -18,6 +18,7 @@ const ExternalLinkIcon: React.FC = () => (
 const Nav: React.FC<NavProps> = ({ currentPath }) => {
   const isHome = currentPath === '/' || currentPath === '';
   const isApi = currentPath === '/api';
+  const isExamples = currentPath === '/examples';
 
   const scrollToSection = (sectionId: string) => {
     if (!isHome) {
@@ -77,6 +78,14 @@ const Nav: React.FC<NavProps> = ({ currentPath }) => {
 
           {/* Right side: external links */}
           <div className="flex items-center gap-6">
+            <a
+              href="#/examples"
+              className={`text-sm font-medium transition-colors ${
+                isExamples ? 'text-blue-600' : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Examples
+            </a>
             <a
               href="#/api"
               className={`text-sm font-medium transition-colors ${
