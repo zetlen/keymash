@@ -5,15 +5,19 @@
   "type": "module",
   "main": "./dist/lib/keymash.js",
   "module": "./dist/lib/keymash.js",
-  "types": "./dist/lib/keymash.d.ts",
+  "types": "./dist/lib/lib/keymash.d.ts",
   "exports": {
     ".": {
       "import": "./dist/lib/keymash.js",
-      "types": "./dist/lib/keymash.d.ts"
+      "types": "./dist/lib/lib/keymash.d.ts"
     },
     "./core": {
       "import": "./dist/lib/core.js",
-      "types": "./dist/lib/core.d.ts"
+      "types": "./dist/lib/lib/keymash-core.d.ts"
+    },
+    "./react": {
+      "import": "./dist/lib/react.js",
+      "types": "./dist/lib/lib/keymash-react.d.ts"
     }
   },
   "files": [
@@ -25,7 +29,9 @@
     "keybindings",
     "hotkeys",
     "typescript",
-    "bitwise"
+    "bitwise",
+    "react",
+    "hooks"
   ],
   "author": "",
   "license": "MIT",
@@ -79,6 +85,7 @@
     "@storybook/addon-onboarding": "^10.1.11",
     "@storybook/addon-vitest": "^10.1.11",
     "@storybook/react-vite": "^10.1.11",
+    "@testing-library/react": "^16.3.1",
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",

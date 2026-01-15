@@ -6,9 +6,11 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     dts({
-      include: ['lib/keymash.ts', 'lib/keymash-core.ts', 'types.ts'],
+      include: ['lib/keymash.ts', 'lib/keymash-core.ts', 'lib/keymash-react.ts', 'types.ts'],
       outDir: 'dist/lib',
-      rollupTypes: true,
+      // Don't rollup types - generates .d.ts files per entry point
+      // This avoids issues with external React types and api-extractor
+      rollupTypes: false,
     }),
   ],
   build: {
@@ -16,6 +18,7 @@ export default defineConfig({
       entry: {
         keymash: path.resolve(__dirname, 'lib/keymash.ts'),
         core: path.resolve(__dirname, 'lib/keymash-core.ts'),
+        react: path.resolve(__dirname, 'lib/keymash-react.ts'),
       },
       name: 'keymash',
       formats: ['es'],
@@ -23,7 +26,7 @@ export default defineConfig({
     outDir: 'dist/lib',
     minify: false, // Let rollup-plugin-terser handle it
     rollupOptions: {
-      external: [],
+      external: ['react', 'react-dom'],
       output: {
         preserveModules: false,
       },

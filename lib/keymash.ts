@@ -67,8 +67,19 @@ for (let code = 32; code <= 126; code++) {
   }
 }
 
+// Browser key names to canonical key names
+// (browsers send 'Control', 'Shift', etc. but we use 'ctrl', 'shift')
+const BROWSER_TO_CANONICAL: Record<string, string> = {
+  control: 'ctrl',
+};
+
+const normalizeKey = (key: string): string => {
+  const lower = key.toLowerCase();
+  return BROWSER_TO_CANONICAL[lower] ?? lower;
+};
+
 const getBitPos = (key: string): number => {
-  const normalized = key.toLowerCase();
+  const normalized = normalizeKey(key);
   const map = KEY_CODE_MAP as Record<string, number>;
   if (map[normalized]) return map[normalized];
   if (normalized.length === 1) return normalized.charCodeAt(0);
@@ -707,8 +718,8 @@ export class Keymash implements IKeymash {
   }
 
   private _getMask(k: string, offset: bigint, cache: NamedKeyMap): bigint {
-    // Check original key first, then lowercase (for browser key names like 'Escape')
-    const normalized = k.toLowerCase();
+    // Normalize browser key names (e.g., 'Control' -> 'ctrl')
+    const normalized = normalizeKey(k);
     // Cast to Record for dynamic string indexing
     const c = cache as Record<string, bigint>;
     if (c[k]) return c[k];
