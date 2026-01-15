@@ -1,6 +1,6 @@
 {
   "name": "keymash",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A type-safe, performance-oriented keyboard library using bitwise operations for O(1) chord lookup",
   "type": "module",
   "main": "./dist/lib/keymash.js",
