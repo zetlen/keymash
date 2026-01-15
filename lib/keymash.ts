@@ -159,6 +159,83 @@ export const hold: NamedKeyMap = { any: ANY_HOLD } as unknown as NamedKeyMap;
  */
 export const press: NamedKeyMap = { any: ANY_PRESS } as unknown as NamedKeyMap;
 
+/**
+ * Object containing physical key code masks for layout-independent bindings.
+ * Use these when you need bindings based on physical key position rather than
+ * the character produced (e.g., WASD game controls that work on any keyboard layout).
+ *
+ * @category Core Exports
+ * @example
+ * ```typescript
+ * import { keymash, code, hold } from 'keymash';
+ *
+ * const km = keymash();
+ *
+ * // Physical WASD controls (work on AZERTY, QWERTZ, etc.)
+ * km.bind(code.KeyW, () => moveForward());
+ * km.bind(code.KeyA, () => moveLeft());
+ * km.bind(code.KeyS, () => moveBackward());
+ * km.bind(code.KeyD, () => moveRight());
+ *
+ * // With modifiers
+ * km.bind(hold.shift + code.KeyW, () => sprint());
+ *
+ * // Available codes: KeyA-KeyZ, Digit0-Digit9, Space, Enter, Tab,
+ * // ArrowUp/Down/Left/Right, Escape, Backspace, and more
+ * ```
+ */
+export const code: Record<string, bigint> = { any: ANY_PRESS };
+
+// Register physical key codes (KeyA-KeyZ)
+for (let i = 0; i < 26; i++) {
+  const letter = String.fromCharCode(65 + i); // A-Z
+  const keyCode = `Key${letter}`;
+  const bit = BigInt(getBitPos(keyCode));
+  code[keyCode] = 1n << (bit + PRESS_OFFSET);
+  // Only set BIT_TO_KEY_MAP if not already set (preserve lowercase names for comboToText)
+  if (!BIT_TO_KEY_MAP.has(Number(bit))) {
+    BIT_TO_KEY_MAP.set(Number(bit), keyCode);
+  }
+}
+
+// Register digit codes (Digit0-Digit9)
+for (let i = 0; i <= 9; i++) {
+  const keyCode = `Digit${i}`;
+  const bit = BigInt(getBitPos(keyCode));
+  code[keyCode] = 1n << (bit + PRESS_OFFSET);
+  if (!BIT_TO_KEY_MAP.has(Number(bit))) {
+    BIT_TO_KEY_MAP.set(Number(bit), keyCode);
+  }
+}
+
+// Register common physical key codes
+const physicalKeys = [
+  'Space',
+  'Enter',
+  'Tab',
+  'Escape',
+  'Backspace',
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'ShiftLeft',
+  'ShiftRight',
+  'ControlLeft',
+  'ControlRight',
+  'AltLeft',
+  'AltRight',
+  'MetaLeft',
+  'MetaRight',
+];
+for (const keyCode of physicalKeys) {
+  const bit = BigInt(getBitPos(keyCode));
+  code[keyCode] = 1n << (bit + PRESS_OFFSET);
+  if (!BIT_TO_KEY_MAP.has(Number(bit))) {
+    BIT_TO_KEY_MAP.set(Number(bit), keyCode);
+  }
+}
+
 const numAliases = Object.fromEntries(
   [...Array(10).keys()].map((_, i) => [`${i}`, [`num${i}`]]),
 ) as UnionToRequiredKeys<NamedKey, NumeralKeyAlias[]>;
@@ -816,20 +893,42 @@ export class Keymash implements IKeymash {
       return;
     }
 
-    // Compute hold mask once
+    // Derive modifier state from event properties (source of truth)
+    // This prevents "ghost modifiers" when focus is lost while a modifier is held
     let holdMask = 0n;
+    if (e.ctrlKey) holdMask |= hold.ctrl;
+    if (e.shiftKey) holdMask |= hold.shift;
+    if (e.altKey) holdMask |= hold.alt;
+    if (e.metaKey) holdMask |= hold.meta;
+
+    // Also include non-standard held keys (capslock, tab, etc.) from _activeKeys
+    // These aren't available as event properties
     for (const k of this._activeKeys) {
-      holdMask |= this._getMask(k, HOLD_OFFSET, hold);
+      const normalized = normalizeKey(k);
+      if (!['ctrl', 'shift', 'alt', 'meta'].includes(normalized)) {
+        holdMask |= this._getMask(k, HOLD_OFFSET, hold);
+      }
     }
 
-    const pressMask = this._getMask(e.key, PRESS_OFFSET, press);
-    const totalMask = holdMask | pressMask;
-    const maskKey = totalMask.toString();
+    // Check key-based binding (e.key = character produced)
+    const keyPressMask = this._getMask(e.key, PRESS_OFFSET, press);
+    const keyTotalMask = holdMask | keyPressMask;
+    let binding = this._lookup.get(keyTotalMask.toString());
 
-    // Check for exact binding first, then fall back to ANY binding
-    let binding = this._lookup.get(maskKey);
+    // If no key binding, check code-based binding (e.code = physical position)
+    // This enables layout-independent bindings like WASD for game controls
+    let totalMask = keyTotalMask;
+    if (!binding && e.code) {
+      const codePressMask = this._getMask(e.code, PRESS_OFFSET, press);
+      const codeTotalMask = holdMask | codePressMask;
+      binding = this._lookup.get(codeTotalMask.toString());
+      if (binding) {
+        totalMask = codeTotalMask;
+      }
+    }
+
+    // Fall back to catch-all press.ANY binding (with same hold modifiers)
     if (!binding) {
-      // Check for catch-all press.ANY binding (with same hold modifiers)
       const anyMask = holdMask | ANY_PRESS;
       binding = this._lookup.get(anyMask.toString());
     }
@@ -837,7 +936,8 @@ export class Keymash implements IKeymash {
     // Check sequences
     this._checkSequences(e.key);
 
-    if (this._activeKeys.has(e.key)) {
+    // Use e.repeat (browser's source of truth) instead of checking _activeKeys
+    if (e.repeat) {
       // Key repeat - only fire if repeat is enabled for this binding
       if (binding?.repeat) {
         e.preventDefault();

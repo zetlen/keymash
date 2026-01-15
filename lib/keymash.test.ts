@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { hold, key, keymash, press } from './keymash';
+import { code, hold, key, keymash, press } from './keymash';
 
 describe('keymash', () => {
   describe('hold and press objects', () => {
@@ -52,6 +52,57 @@ describe('keymash', () => {
       expect(pressMedia).toBeDefined();
       expect(typeof holdMedia).toBe('bigint');
       expect(typeof pressMedia).toBe('bigint');
+    });
+  });
+
+  describe('code object (physical key positions)', () => {
+    it('should have letter key codes', () => {
+      expect(code.KeyA).toBeDefined();
+      expect(code.KeyW).toBeDefined();
+      expect(code.KeyZ).toBeDefined();
+      expect(typeof code.KeyA).toBe('bigint');
+    });
+
+    it('should have digit key codes', () => {
+      expect(code.Digit0).toBeDefined();
+      expect(code.Digit9).toBeDefined();
+    });
+
+    it('should have common physical key codes', () => {
+      expect(code.Space).toBeDefined();
+      expect(code.Enter).toBeDefined();
+      expect(code.Escape).toBeDefined();
+      expect(code.ArrowUp).toBeDefined();
+    });
+
+    it('should create different masks than press for same logical key', () => {
+      // KeyW and 'w' should have different bit positions since they're different strings
+      expect(code.KeyW).not.toBe(press.w);
+    });
+
+    it('should work with modifiers', () => {
+      const shiftKeyW = hold.shift + code.KeyW;
+      expect(typeof shiftKeyW).toBe('bigint');
+      expect(shiftKeyW).not.toBe(code.KeyW);
+    });
+
+    it('should fire code-based bindings on matching e.code', () => {
+      const handler = vi.fn();
+      const km = keymash();
+      km.bind(code.KeyW, handler);
+      km.setActive(true);
+
+      // Simulate a key event with e.code = 'KeyW' (physical position)
+      // On AZERTY keyboard, this might produce e.key = 'z'
+      const event = new KeyboardEvent('keydown', {
+        key: 'z', // AZERTY produces 'z' for physical W position
+        code: 'KeyW',
+        bubbles: true,
+      });
+      window.dispatchEvent(event);
+
+      expect(handler).toHaveBeenCalled();
+      km.destroy();
     });
   });
 
