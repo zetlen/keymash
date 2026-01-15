@@ -12,6 +12,10 @@ Complete API documentation for KeyMash. Keyboard shortcuts that just work.
   - [`key(char)`](#keychar)
   - [`getActiveBindings(target?)`](#getactivebindingstarget)
 - [Types](#types)
+- [React Integration](#react-integration)
+  - [`useKeymash`](#usekeymashoptions)
+  - [`useKeyState`](#usekeystatescope)
+  - [`useKeymashBindings`](#usekeymashbindings)
 - [Modal Keymash Patterns](#modal-keymash-patterns)
 - [Advanced Usage](#advanced-usage)
 - [How It Works](#how-it-works)
@@ -283,9 +287,9 @@ Use `press.ANY` to create a catch-all binding that fires for any key not explici
 // Trap all keyboard input in modal mode
 modalKm.bind({
   combo: press.ANY,
-  handler: (e) => {
-    e?.preventDefault();
-    console.log('Key trapped:', e?.key);
+  handler: ({ event }) => {
+    event.preventDefault();
+    console.log('Key trapped:', event.key);
   },
   label: 'Catch All'
 });
@@ -376,30 +380,32 @@ interface Binding {
 ### KeyComboHandler
 
 ```typescript
-type KeyComboHandler = (
-  event?: KeyboardEvent,
-  keymash?: IKeymash
-) => void;
+type KeyComboHandler = (context: HandlerContext) => void;
+
+interface HandlerContext {
+  event: KeyboardEvent;
+  instance: IKeymash;
+}
 ```
 
-The handler receives:
-- `event`: The original KeyboardEvent (call `e.preventDefault()` to stop default browser behavior)
-- `keymash`: The Keymash instance that triggered the handler
+The handler receives a context object with:
+- `event`: The original KeyboardEvent (call `event.preventDefault()` to stop default browser behavior)
+- `instance`: The Keymash instance that triggered the handler
 
 ### SequenceHandler
 
 ```typescript
-type SequenceHandler = (
-  sequence: string,
-  event?: KeyboardEvent,
-  keymash?: IKeymash
-) => void;
+type SequenceHandler = (context: SequenceHandlerContext) => void;
+
+interface SequenceHandlerContext {
+  sequence: string;
+  instance: IKeymash;
+}
 ```
 
-The handler receives:
+The handler receives a context object with:
 - `sequence`: The sequence string that was matched
-- `event`: The original KeyboardEvent (may be undefined)
-- `keymash`: The Keymash instance that triggered the handler
+- `instance`: The Keymash instance that triggered the handler
 
 ### FullBinding
 
@@ -415,6 +421,293 @@ interface FullBinding extends Required<Binding> {
 
 ```typescript
 type KeyCombo = bigint;
+```
+
+---
+
+## React Integration
+
+KeyMash provides React hooks for declarative keyboard binding via `keymash/react`.
+
+### Installation
+
+```typescript
+import { useKeymash, ctrl, press, hold } from 'keymash/react';
+```
+
+All exports from `keymash` are re-exported from `keymash/react` for convenience.
+
+---
+
+### `useKeymash<T>(options?)`
+
+The primary hook for React keyboard bindings. Manages a Keymash instance with automatic cleanup on unmount.
+
+```typescript
+function useKeymash<T = unknown>(options?: UseKeymashOptions<T>): UseKeymashReturn<T>;
+```
+
+#### UseKeymashOptions
+
+| Property    | Type                                           | Default   | Description                                                                                           |
+|-------------|------------------------------------------------|-----------|-------------------------------------------------------------------------------------------------------|
+| `scope`     | `HTMLElement \| Window \| React.RefObject`     | `window`  | Element to scope bindings to. Supports refs for elements that mount later.                           |
+| `bindings`  | `ReactBinding<T>[]`                            | `[]`      | Declarative bindings. Re-registered when array changes.                                              |
+| `sequences` | `ReactSequenceBinding<T>[]`                    | `[]`      | Sequence triggers to register.                                                                        |
+| `active`    | `boolean`                                      | *varies*  | Whether listening. Defaults to `true` if bindings provided, `false` otherwise.                        |
+| `label`     | `string`                                       | `''`      | Label for debugging and `useKeymashBindings`.                                                         |
+| `onUpdate`  | `(mask: bigint) => void`                       | —         | Callback for real-time key state (for visualizers).                                                   |
+
+#### UseKeymashReturn
+
+| Property       | Type                            | Description                                                          |
+|----------------|---------------------------------|----------------------------------------------------------------------|
+| `instance`     | `Keymash \| null`               | The underlying instance. `null` on first render if using ref scope.  |
+| `isActive`     | `boolean`                       | Whether currently listening for events.                              |
+| `setActive`    | `(active: boolean) => void`     | Activate or deactivate the keymash.                                  |
+| `currentMask`  | `bigint`                        | Current key state bitmask.                                           |
+| `isKeyActive`  | `(mask: bigint) => boolean`     | Check if a key is currently pressed.                                 |
+| `triggered`    | `TriggeredBinding \| null`      | Info about the most recently triggered binding.                      |
+| `result`       | `T \| undefined`                | Value set by handler via `setResult`.                                |
+| `bind`         | `(binding: ReactBinding) => void` | Imperatively add a binding.                                        |
+| `unbind`       | `(combo: KeyCombo) => void`     | Imperatively remove a binding.                                       |
+| `sequence`     | `(seq, handler, opts?) => () => void` | Register sequence imperatively. Returns unsubscribe.            |
+| `getBindings`  | `() => FullBinding[]`           | Get all bindings from this instance.                                 |
+
+#### Basic Example
+
+```tsx
+import { useKeymash, ctrl, press, hold } from 'keymash/react';
+
+function Editor() {
+  const { isActive, isKeyActive, triggered } = useKeymash({
+    label: 'Editor',
+    bindings: [
+      { combo: ctrl + press.s, handler: () => save(), label: 'Save' },
+      { combo: ctrl + press.z, handler: () => undo(), label: 'Undo' },
+    ],
+  });
+
+  return (
+    <div>
+      <span>Status: {isActive ? 'Active' : 'Inactive'}</span>
+      <span>Ctrl held: {isKeyActive(hold.ctrl) ? 'Yes' : 'No'}</span>
+      <span>Last action: {triggered?.label}</span>
+    </div>
+  );
+}
+```
+
+#### Handler Context
+
+Handlers receive a context object with `event`, `instance`, and `setResult`:
+
+```tsx
+function SaveIndicator() {
+  const { result, triggered } = useKeymash<{ saved: boolean }>({
+    bindings: [
+      {
+        combo: ctrl + press.s,
+        handler: ({ event, instance, setResult }) => {
+          event.preventDefault();
+          saveDocument();
+          setResult({ saved: true });
+        },
+        label: 'Save',
+      },
+    ],
+  });
+
+  return (
+    <div>
+      {result?.saved && <span>Saved!</span>}
+      {triggered && <span>Triggered: {triggered.comboText}</span>}
+    </div>
+  );
+}
+```
+
+#### Scoped to Element
+
+```tsx
+function Modal() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useKeymash({
+    scope: containerRef,  // Only active when focus is inside container
+    bindings: [
+      { combo: press.escape, handler: () => closeModal() },
+      { combo: press.j, handler: () => moveDown() },
+      { combo: press.k, handler: () => moveUp() },
+    ],
+  });
+
+  return <div ref={containerRef} tabIndex={-1}>Modal content</div>;
+}
+```
+
+#### Sequences
+
+```tsx
+useKeymash({
+  sequences: [
+    { sequence: 'hello', handler: () => console.log('Hello typed!') },
+    { sequence: 'exit', handler: () => closeApp(), timeout: 2000 },
+  ],
+});
+```
+
+#### Imperative API
+
+```tsx
+function DynamicBindings() {
+  const { bind, unbind, sequence, setActive } = useKeymash();
+
+  useEffect(() => {
+    setActive(true);
+    bind({ combo: press.a, handler: () => doA() });
+
+    const unsub = sequence('test', () => console.log('test typed'));
+
+    return () => {
+      unbind(press.a);
+      unsub();
+    };
+  }, [bind, unbind, sequence, setActive]);
+
+  return <div>Dynamic bindings active</div>;
+}
+```
+
+---
+
+### `useKeyState(scope?)`
+
+Simple hook that returns the current key state bitmask. Useful for keyboard visualizers.
+
+```typescript
+function useKeyState(
+  scope?: HTMLElement | Window | React.RefObject<HTMLElement | null>
+): bigint;
+```
+
+#### Example
+
+```tsx
+import { useKeyState, hold, press } from 'keymash/react';
+
+function KeyboardVisualizer() {
+  const mask = useKeyState();
+
+  return (
+    <div>
+      <Key active={(mask & hold.ctrl) !== 0n}>Ctrl</Key>
+      <Key active={(mask & hold.shift) !== 0n}>Shift</Key>
+      <Key active={(mask & press.a) !== 0n}>A</Key>
+    </div>
+  );
+}
+```
+
+---
+
+### `useKeymashBindings()`
+
+Returns all bindings from all Keymash instances. Useful for building keyboard shortcuts dialogs.
+
+```typescript
+function useKeymashBindings(): GlobalBinding[];
+```
+
+#### GlobalBinding
+
+| Property        | Type                | Description                                |
+|-----------------|---------------------|--------------------------------------------|
+| `instance`      | `Keymash`           | The keymash instance                       |
+| `instanceLabel` | `string`            | Label of the instance                      |
+| `isActive`      | `boolean`           | Whether the instance is active             |
+| `combo`         | `KeyCombo`          | The key combo bitmask                      |
+| `comboText`     | `string`            | Human-readable combo (e.g., "ctrl+s")      |
+| `handler`       | `KeyComboHandler`   | The handler function                       |
+| `label`         | `string`            | Label for this binding                     |
+| `delay`         | `number`            | Delay before handler fires                 |
+| `repeat`        | `boolean`           | Whether repeat is enabled                  |
+
+#### Example
+
+```tsx
+import { useKeymashBindings } from 'keymash/react';
+
+function ShortcutsDialog() {
+  const bindings = useKeymashBindings();
+
+  // Group by instance
+  const grouped = bindings.reduce((acc, b) => {
+    (acc[b.instanceLabel] ||= []).push(b);
+    return acc;
+  }, {} as Record<string, typeof bindings>);
+
+  return (
+    <div>
+      {Object.entries(grouped).map(([label, items]) => (
+        <section key={label}>
+          <h3>{label}</h3>
+          <ul>
+            {items.map((b, i) => (
+              <li key={i}>
+                <kbd>{b.comboText}</kbd> {b.label}
+                {!b.isActive && <span> (inactive)</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  );
+}
+```
+
+---
+
+### React Types
+
+#### ReactBinding<T>
+
+```typescript
+interface ReactBinding<T = unknown> {
+  combo: KeyCombo;
+  handler: ReactKeyComboHandler<T>;
+  label?: string;
+  delay?: number;
+  repeat?: boolean;
+}
+```
+
+#### ReactHandlerContext<T>
+
+```typescript
+interface ReactHandlerContext<T = unknown> {
+  event: KeyboardEvent;
+  instance: IKeymash;
+  setResult: (value: T) => void;
+}
+```
+
+#### ReactKeyComboHandler<T>
+
+```typescript
+type ReactKeyComboHandler<T = unknown> = (context: ReactHandlerContext<T>) => void;
+```
+
+#### TriggeredBinding
+
+```typescript
+interface TriggeredBinding {
+  combo: KeyCombo;
+  comboText: string;
+  label: string;
+  timestamp: number;
+}
 ```
 
 ---
@@ -453,7 +746,7 @@ modalKm.bind([
     label: 'Exit Modal'
   },
   // Catch-all to trap unbound keys
-  { combo: press.ANY, handler: (e) => e?.preventDefault(), label: 'Trap All' },
+  { combo: press.ANY, handler: ({ event }) => event.preventDefault(), label: 'Trap All' },
 ]);
 
 // Start inactive
@@ -505,7 +798,7 @@ modalKm.bind(press.Escape, () => {
 });
 
 // Trap all unbound keys
-modalKm.bind(press.ANY, (e) => e?.preventDefault());
+modalKm.bind(press.ANY, ({ event }) => event.preventDefault());
 
 modalKm.setActive(false);
 ```
@@ -546,7 +839,7 @@ modalKm.bind({
 // Catch-all to truly trap all keyboard input
 modalKm.bind({
   combo: press.ANY,
-  handler: (e) => e?.preventDefault(),
+  handler: ({ event }) => event.preventDefault(),
   label: 'Trap All'
 });
 
@@ -760,9 +1053,9 @@ KeyMash supports catch-all bindings using `press.ANY` to capture any key that is
 
 ```typescript
 // Trap all unbound keys in modal mode
-modalKm.bind(press.ANY, (e) => {
-  e?.preventDefault();
-  console.log('Trapped:', e?.key);
+modalKm.bind(press.ANY, ({ event }) => {
+  event.preventDefault();
+  console.log('Trapped:', event.key);
 });
 
 // Specific bindings always take priority over ANY
@@ -771,14 +1064,14 @@ modalKm.bind(press.Escape, () => exitModal()); // This wins
 
 This is useful for creating true modal traps where you want to block ALL keyboard input.
 
-### Handler Gets Event
+### Handler Context
 
-Your handler receives the original `KeyboardEvent` and the keymash instance:
+Your handler receives a context object with the original `KeyboardEvent` and the keymash instance:
 
 ```typescript
-km.bind(press.a, (event, keymash) => {
-  event?.preventDefault();  // Already called by keymash, but safe to call again
-  console.log('Keymash label:', keymash?.label);
+km.bind(press.a, ({ event, instance }) => {
+  event.preventDefault();  // Already called by keymash, but safe to call again
+  console.log('Keymash label:', instance.label);
 });
 ```
 

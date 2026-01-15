@@ -219,7 +219,7 @@ km.sequence('hello', () => {
 // Trap all keys in modal mode
 modalKm.bind({
   combo: press.any,
-  handler: (e) => e?.preventDefault(),
+  handler: ({ event }) => event.preventDefault(),
 });
 
 // Specific bindings still take priority
