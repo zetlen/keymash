@@ -24,6 +24,9 @@
       },
       "a11y": {
         "noNoninteractiveTabindex": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off"
       }
     }
   },
