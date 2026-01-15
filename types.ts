@@ -119,7 +119,7 @@ export interface Binding {
  * @category Types
  */
 export interface FullBinding extends Required<Binding> {
-  /** Human-readable combo text (e.g., "Control+s") */
+  /** Human-readable combo text (e.g., "ctrl+s") */
   comboText: string;
 }
 

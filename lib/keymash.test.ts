@@ -10,9 +10,9 @@ describe('keymash', () => {
       expect(hold.meta).toBeDefined();
     });
 
-    it('should have Control aliased to ctrl', () => {
-      expect(hold.ctrl).toBe(hold.Control);
-      expect(press.ctrl).toBe(press.Control);
+    it('should have arrow key aliases', () => {
+      expect(hold.arrowup).toBe(hold.up);
+      expect(press.arrowdown).toBe(press.down);
     });
 
     it('should have letter keys', () => {
@@ -204,7 +204,7 @@ describe('keymash', () => {
         modalKm.setActive(true);
       });
 
-      modalKm.bind(press.Escape, () => {
+      modalKm.bind(press.escape, () => {
         // Simulate exiting modal mode
         modalKm.setActive(false);
         globalKm.setActive(true);
@@ -481,7 +481,7 @@ describe('keymash', () => {
 
       expect(globalKm.bindings.length).toBe(27);
 
-      modalKm.bind(press.Escape, () => {
+      modalKm.bind(press.escape, () => {
         enteredModal = false;
         modalKm.setActive(false);
         globalKm.setActive(true);
@@ -567,7 +567,7 @@ describe('keymash', () => {
       // Verify bindings were added
       expect(globalKm.bindings.length).toBe(27);
 
-      modalKm.bind(press.Escape, () => {
+      modalKm.bind(press.escape, () => {
         enteredModal = false;
         modalKm.setActive(false);
         globalKm.setActive(true);
@@ -611,12 +611,12 @@ describe('keymash', () => {
     });
   });
 
-  describe('catch-all bindings (press.ANY)', () => {
-    it('should fire press.ANY for unbound keys', () => {
+  describe('catch-all bindings (press.any)', () => {
+    it('should fire press.any for unbound keys', () => {
       const km = keymash({ scope: window });
       const anyHandler = vi.fn();
 
-      km.bind(press.ANY, anyHandler);
+      km.bind(press.any, anyHandler);
       km.setActive(true);
 
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'q' }));
@@ -625,13 +625,13 @@ describe('keymash', () => {
       km.destroy();
     });
 
-    it('should prefer specific binding over press.ANY', () => {
+    it('should prefer specific binding over press.any', () => {
       const km = keymash({ scope: window });
       const specificHandler = vi.fn();
       const anyHandler = vi.fn();
 
       km.bind(press.a, specificHandler);
-      km.bind(press.ANY, anyHandler);
+      km.bind(press.any, anyHandler);
       km.setActive(true);
 
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));

@@ -89,7 +89,7 @@ const KeyMashDemo: React.FC = () => {
 
     // Exit with Escape
     modalKm.bind({
-      combo: press.Escape,
+      combo: press.escape,
       handler: (e) => {
         e?.preventDefault();
         exitModalMode();
@@ -117,7 +117,7 @@ const KeyMashDemo: React.FC = () => {
     });
 
     modalKm.bind({
-      combo: hold.alt + (press.ArrowUp | press.ArrowDown),
+      combo: hold.alt + (press.arrowup | press.arrowdown),
       handler: (e) => {
         e?.preventDefault();
         addLog('Alt+Arrow - Move line!', 'action');
@@ -128,7 +128,7 @@ const KeyMashDemo: React.FC = () => {
 
     // Arrow keys
     modalKm.bind({
-      combo: press.ArrowUp,
+      combo: press.arrowup,
       handler: (e) => {
         e?.preventDefault();
         addLog('↑ Arrow Up', 'action');
@@ -138,7 +138,7 @@ const KeyMashDemo: React.FC = () => {
     });
 
     modalKm.bind({
-      combo: press.ArrowDown,
+      combo: press.arrowdown,
       handler: (e) => {
         e?.preventDefault();
         addLog('↓ Arrow Down', 'action');
@@ -148,7 +148,7 @@ const KeyMashDemo: React.FC = () => {
     });
 
     modalKm.bind({
-      combo: press.ArrowLeft,
+      combo: press.arrowleft,
       handler: (e) => {
         e?.preventDefault();
         addLog('← Arrow Left', 'action');
@@ -158,7 +158,7 @@ const KeyMashDemo: React.FC = () => {
     });
 
     modalKm.bind({
-      combo: press.ArrowRight,
+      combo: press.arrowright,
       handler: (e) => {
         e?.preventDefault();
         addLog('→ Arrow Right', 'action');
@@ -168,7 +168,7 @@ const KeyMashDemo: React.FC = () => {
     });
 
     modalKm.bind({
-      combo: press.Enter,
+      combo: press.enter,
       handler: (e) => {
         e?.preventDefault();
         addLog('Enter - Confirmed!', 'action');
@@ -177,7 +177,7 @@ const KeyMashDemo: React.FC = () => {
     });
 
     modalKm.bind({
-      combo: press.Space,
+      combo: press.space,
       handler: (e) => {
         e?.preventDefault();
         addLog('Space - Toggle!', 'action');
@@ -246,7 +246,7 @@ const KeyMashDemo: React.FC = () => {
 
     // Catch-all to trap ALL unbound keyboard input
     modalKm.bind({
-      combo: press.ANY,
+      combo: press.any,
       handler: (e) => {
         e?.preventDefault();
         // Silently trap - the keyboard visual shows what's pressed
@@ -292,9 +292,13 @@ const KeyMashDemo: React.FC = () => {
   const matchedLetters = getMatchedLetters();
 
   // Helper to get combined mask (Hold | Press) for a key
-  const m = (key: string) => (hold[key] || 0n) | (press[key] || 0n);
+  const m = (key: string): bigint => {
+    const h = hold[key as keyof typeof hold] ?? 0n;
+    const p = press[key as keyof typeof press] ?? 0n;
+    return h | p;
+  };
   // Helper for dual-character keys (e.g. 1 and !)
-  const d = (k1: string, k2: string) => m(k1) | m(k2);
+  const d = (k1: string, k2: string): bigint => m(k1) | m(k2);
 
   // Layout Configuration
   const U_SIZE = 44; // px per unit
@@ -322,7 +326,7 @@ const KeyMashDemo: React.FC = () => {
 
   const keys: KeyDef[] = [
     // --- Row 0 (Functions) ---
-    k(0, 0, 1, 'Esc', m('Escape')),
+    k(0, 0, 1, 'Esc', m('escape')),
     k(2, 0, 1, 'F1', m('F1')),
     k(3, 0, 1, 'F2', m('F2')),
     k(4, 0, 1, 'F3', m('F3')),
@@ -350,11 +354,11 @@ const KeyMashDemo: React.FC = () => {
     k(10, 1.25, 1, '0', d('0', ')')),
     k(11, 1.25, 1, '-', d('-', '_')),
     k(12, 1.25, 1, '=', d('=', '+')),
-    k(13, 1.25, 2, 'Backspace', m('Backspace')),
-    k(15.25, 1.25, 1, 'Del', m('Delete')), // Nav cluster start
+    k(13, 1.25, 2, 'Backspace', m('backspace')),
+    k(15.25, 1.25, 1, 'Del', 0n), // Delete not in NamedKeyMap
 
     // --- Row 2 (Tab/QWERTY) ---
-    k(0, 2.25, 1.5, 'Tab', m('Tab')),
+    k(0, 2.25, 1.5, 'Tab', m('tab')),
     k(1.5, 2.25, 1, 'Q', m('q')),
     k(2.5, 2.25, 1, 'W', m('w')),
     k(3.5, 2.25, 1, 'E', m('e')),
@@ -368,10 +372,10 @@ const KeyMashDemo: React.FC = () => {
     k(11.5, 2.25, 1, '[', d('[', '{')),
     k(12.5, 2.25, 1, ']', d(']', '}')),
     k(13.5, 2.25, 1.5, '\\', d('\\', '|')),
-    k(15.25, 2.25, 1, 'PgUp', m('PageUp')),
+    k(15.25, 2.25, 1, 'PgUp', 0n), // PageUp not in NamedKeyMap
 
     // --- Row 3 (Caps/ASDF) ---
-    k(0, 3.25, 1.75, 'Caps', m('CapsLock')),
+    k(0, 3.25, 1.75, 'Caps', m('capslock')),
     k(1.75, 3.25, 1, 'A', m('a')),
     k(2.75, 3.25, 1, 'S', m('s')),
     k(3.75, 3.25, 1, 'D', m('d')),
@@ -383,11 +387,11 @@ const KeyMashDemo: React.FC = () => {
     k(9.75, 3.25, 1, 'L', m('l')),
     k(10.75, 3.25, 1, ';', d(';', ':')),
     k(11.75, 3.25, 1, "'", d("'", '"')),
-    k(12.75, 3.25, 2.25, 'Enter', m('Enter')),
-    k(15.25, 3.25, 1, 'PgDn', m('PageDown')),
+    k(12.75, 3.25, 2.25, 'Enter', m('enter')),
+    k(15.25, 3.25, 1, 'PgDn', 0n), // PageDown not in NamedKeyMap
 
     // --- Row 4 (Shift/ZXCV) ---
-    k(0, 4.25, 2.25, 'Shift', m('Shift')),
+    k(0, 4.25, 2.25, 'Shift', m('shift')),
     k(2.25, 4.25, 1, 'Z', m('z')),
     k(3.25, 4.25, 1, 'X', m('x')),
     k(4.25, 4.25, 1, 'C', m('c')),
@@ -398,21 +402,21 @@ const KeyMashDemo: React.FC = () => {
     k(9.25, 4.25, 1, ',', d(',', '<')),
     k(10.25, 4.25, 1, '.', d('.', '>')),
     k(11.25, 4.25, 1, '/', d('/', '?')),
-    k(12.25, 4.25, 1.75, 'Shift', m('Shift')),
-    k(14.25, 4.25, 1, '↑', m('ArrowUp')),
-    k(15.25, 4.25, 1, 'End', m('End')),
+    k(12.25, 4.25, 1.75, 'Shift', m('shift')),
+    k(14.25, 4.25, 1, '↑', m('arrowup')),
+    k(15.25, 4.25, 1, 'End', 0n), // End not in NamedKeyMap
 
     // --- Row 5 (Mods) ---
-    k(0, 5.25, 1.25, 'Ctrl', m('Control')),
-    k(1.25, 5.25, 1.25, 'Win', m('Meta')),
-    k(2.5, 5.25, 1.25, 'Alt', m('Alt')),
-    k(3.75, 5.25, 6.25, '', m('Space')), // Spacebar
-    k(10, 5.25, 1.25, 'Alt', m('Alt')),
+    k(0, 5.25, 1.25, 'Ctrl', m('ctrl')),
+    k(1.25, 5.25, 1.25, 'Win', m('meta')),
+    k(2.5, 5.25, 1.25, 'Alt', m('alt')),
+    k(3.75, 5.25, 6.25, '', m(' ')), // Spacebar
+    k(10, 5.25, 1.25, 'Alt', m('alt')),
     k(11.25, 5.25, 1, 'Fn', 0n), // Function key (usually hardware only)
-    k(12.25, 5.25, 1, 'Ctrl', m('Control')),
-    k(13.25, 5.25, 1, '←', m('ArrowLeft')),
-    k(14.25, 5.25, 1, '↓', m('ArrowDown')),
-    k(15.25, 5.25, 1, '→', m('ArrowRight')),
+    k(12.25, 5.25, 1, 'Ctrl', m('ctrl')),
+    k(13.25, 5.25, 1, '←', m('arrowleft')),
+    k(14.25, 5.25, 1, '↓', m('arrowdown')),
+    k(15.25, 5.25, 1, '→', m('arrowright')),
   ];
 
   const CANVAS_WIDTH = 16.25 * U_SIZE + 16 * GAP;
@@ -554,8 +558,8 @@ globalKm.sequence('show me', () => enterTrapMode());
 
 // Modal keymash traps ALL input
 const modalKm = keymash({ scope: container });
-modalKm.bind(press.Escape, exitTrapMode);
-modalKm.bind(press.ANY, (e) => e?.preventDefault());
+modalKm.bind(press.escape, exitTrapMode);
+modalKm.bind(press.any, (e) => e?.preventDefault());
 
 // Keyboard visualizer uses onUpdate
 modalKm.onUpdate((mask) => {

@@ -16,7 +16,7 @@ km.bind(ctrl + (press.k | press.o), () => openSearch());
 
 // With options
 km.bind({
-  combo: press.ArrowDown,
+  combo: press.arrowdown,
   handler: () => scrollDown(),
   repeat: true,  // Fire on key repeat
   label: 'Scroll Down'

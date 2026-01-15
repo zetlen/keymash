@@ -90,7 +90,7 @@ interface ReflectionCategory {
   children: number[];
 }
 
-interface ProjectReflection {
+export interface ProjectReflection {
   id: number;
   name: string;
   kind: number;
@@ -121,7 +121,7 @@ function parseCommentParts(parts?: CommentDisplayPart[]): string {
 /**
  * Extracts a specific block tag (e.g., @example, @returns) from a comment.
  */
-function getBlockTag(comment?: Comment, tagName: string): string | undefined {
+function getBlockTag(tagName: string, comment?: Comment): string | undefined {
   if (!comment?.blockTags) return undefined;
   const tag = comment.blockTags.find((t) => t.tag === `@${tagName}`);
   if (!tag) return undefined;
@@ -139,7 +139,7 @@ function getDescription(comment?: Comment): string {
  * Gets the @category tag value from a comment.
  */
 function getCategory(comment?: Comment): string | undefined {
-  return getBlockTag(comment, 'category');
+  return getBlockTag('category', comment);
 }
 
 // =============================================================================
@@ -394,10 +394,10 @@ function parseDeclaration(decl: DeclarationReflection): ParsedApiItem {
       : undefined;
 
   // Get @returns from comment
-  const returns = getBlockTag(comment, 'returns');
+  const returns = getBlockTag('returns', comment);
 
   // Get @example from comment (remove markdown code fence if present)
-  let example = getBlockTag(comment, 'example');
+  let example = getBlockTag('example', comment);
   if (example) {
     // Remove markdown code fence wrapper if present
     example = example.replace(/^```\w*\n?/, '').replace(/\n?```$/, '');
@@ -425,7 +425,7 @@ function parseDeclaration(decl: DeclarationReflection): ParsedApiItem {
     params: params && params.length > 0 ? params : undefined,
     returns,
     example,
-    deprecated: getBlockTag(comment, 'deprecated'),
+    deprecated: getBlockTag('deprecated', comment),
     category: getCategory(comment),
     childItems: childItems && childItems.length > 0 ? childItems : undefined,
   };

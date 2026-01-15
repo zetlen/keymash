@@ -2,7 +2,7 @@ import type React from 'react';
 import { useMemo } from 'react';
 import apiJson from '../docs/api.json';
 import type { ParsedApiItem, ParsedApiSection, ParsedParam } from '../lib/docs-types';
-import { parseTypeDocJson } from '../lib/parse-typedoc-json';
+import { type ProjectReflection, parseTypeDocJson } from '../lib/parse-typedoc-json';
 import CodeBlock from './CodeBlock';
 
 interface ApiSectionProps {
@@ -136,12 +136,6 @@ km.bind(ctrl + (press.a | press.b | press.c), myHandler);
   </ApiSection>
 );
 
-// Type for the raw TypeDoc JSON - we cast to this for parsing
-interface TypeDocProject {
-  children?: unknown[];
-  [key: string]: unknown;
-}
-
 const QuickStartSection: React.FC = () => (
   <ApiSection title="Quick Start">
     <div className="prose prose-gray max-w-none">
@@ -167,7 +161,7 @@ km.destroy();`}
 const ApiReference: React.FC = () => {
   // Parse the TypeDoc JSON into sections
   const sections = useMemo(() => {
-    return parseTypeDocJson(apiJson as TypeDocProject);
+    return parseTypeDocJson(apiJson as unknown as ProjectReflection);
   }, []);
 
   return (

@@ -15,6 +15,36 @@ km.bind(ctrl + press.s, () => save());
 npm install keymash
 ```
 
+## Two Entry Points
+
+KeyMash offers two entry points to match your needs:
+
+### Full Package (~2.6kb gzipped)
+
+```typescript
+import { keymash, ctrl, press } from 'keymash';
+```
+
+Includes everything: sequences, `comboToText()`, `getActiveBindings()`, `onUpdate()`, `onChange()`, and dev mode conflict detection.
+
+### Core Package (~1kb gzipped)
+
+```typescript
+import { keymash, ctrl, press } from 'keymash/core';
+```
+
+Minimal footprint with just the essentials:
+- Type-safe key constants (`hold.*`, `press.*`)
+- OR logic for alternatives (`press.a | press.b`)
+- Catch-all bindings (`press.any`)
+- Scoped instances
+
+Missing from core: sequences, human-readable combo text, binding introspection, update callbacks, and dev mode warnings.
+
+**When to use core:** You want the smallest possible bundle and only need basic keyboard bindings. Perfect for simple apps or when you're already using a larger keyboard library elsewhere.
+
+**When to use full:** You need sequences, want to display shortcuts to users, or benefit from development-time conflict detection.
+
 ## Why KeyMash?
 
 **No more string parsing.** Other libraries make you write `"ctrl+shift+p"` and hope you got the casing right. KeyMash uses TypeScript operators that autocomplete.
@@ -44,7 +74,7 @@ globalKm.bind(ctrl + press.k, () => {
   modalKm.setActive(true);
 });
 
-modalKm.bind(press.Escape, () => {
+modalKm.bind(press.escape, () => {
   modalKm.setActive(false);
   globalKm.setActive(true);
 });
@@ -59,7 +89,7 @@ import { getActiveBindings } from 'keymash';
 
 getActiveBindings(km).forEach(b => {
   console.log(`${b.comboText}: ${b.label}`);
-  // "Ctrl+S: Save"
+  // "ctrl+s: Save"
 });
 ```
 
@@ -95,7 +125,7 @@ km.bind(ctrl + press.z, () => undo());
 
 // With options
 km.bind({
-  combo: press.ArrowDown,
+  combo: press.arrowdown,
   handler: () => scrollDown(),
   repeat: true,  // Fire on key repeat
   label: 'Scroll Down'
@@ -129,12 +159,12 @@ km.sequence('hello', () => {
 ```typescript
 // Trap all keys in modal mode
 modalKm.bind({
-  combo: press.ANY,
+  combo: press.any,
   handler: (e) => e?.preventDefault(),
 });
 
 // Specific bindings still take priority
-modalKm.bind(press.Escape, () => exit());
+modalKm.bind(press.escape, () => exit());
 ```
 
 ## API
@@ -155,9 +185,9 @@ Create a new keymash instance.
 import { ctrl, shift, alt, meta, cmd, hold, press } from 'keymash';
 
 // Shorthands
-ctrl + press.s           // Ctrl+S
-shift + press.Enter      // Shift+Enter
-cmd + press.k            // Cmd+K (meta on Windows)
+ctrl + press.s           // ctrl+s
+shift + press.enter      // shift+enter
+cmd + press.k            // meta+k (cmd is alias for meta)
 
 // Or use hold.* for the full set
 hold.ctrl + hold.shift + press.p
@@ -192,6 +222,15 @@ const { press: pressPlay } = key('MediaPlayPause');
 ## Full Documentation
 
 See the [API Reference](https://zetlen.github.io/keymash/api) for complete documentation.
+
+## Roadmap
+
+International keyboard and accessibility improvements:
+
+- [ ] **IME Composition Handling** - Properly handle `compositionstart`, `compositionupdate`, and `compositionend` events for Japanese, Korean, and Chinese input methods. Currently, bindings may fire during IME composition.
+- [ ] **AltGr Detection** - Detect `AltGraph` modifier state for European keyboards (QWERTZ, AZERTY). On Windows, AltGr sends Ctrl+Alt simultaneously, which can cause false matches.
+- [ ] **Dead Key Support** - Handle dead key sequences for international layouts (French AZERTY, German QWERTZ, Nordic keyboards) where accent characters require two keystrokes.
+- [ ] **Physical Key API** - Add `event.code`-based bindings for layout-independent shortcuts (useful for gaming WASD controls that should work regardless of keyboard layout).
 
 ## License
 

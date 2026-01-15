@@ -10,6 +10,10 @@
     ".": {
       "import": "./dist/lib/keymash.js",
       "types": "./dist/lib/keymash.d.ts"
+    },
+    "./core": {
+      "import": "./dist/lib/core.js",
+      "types": "./dist/lib/core.d.ts"
     }
   },
   "files": [

@@ -54,7 +54,7 @@ const BIT_TO_KEY_MAP: Map<number, string> = new Map();
 
 // Populate inverse map from KEY_CODE_MAP
 for (const [name, bit] of Object.entries(KEY_CODE_MAP)) {
-  // Prefer longer names over single chars (e.g., 'Space' over ' ')
+  // Prefer longer/descriptive names over single chars when displaying
   if (!BIT_TO_KEY_MAP.has(bit) || name.length > 1) {
     BIT_TO_KEY_MAP.set(bit, name);
   }
@@ -68,8 +68,9 @@ for (let code = 32; code <= 126; code++) {
 }
 
 const getBitPos = (key: string): number => {
-  const normalized = key.length === 1 ? key.toLowerCase() : key;
-  if (KEY_CODE_MAP[normalized]) return KEY_CODE_MAP[normalized];
+  const normalized = key.toLowerCase();
+  const map = KEY_CODE_MAP as Record<string, number>;
+  if (map[normalized]) return map[normalized];
   if (normalized.length === 1) return normalized.charCodeAt(0);
   return (normalized.charCodeAt(0) % 100) + 128;
 };
@@ -122,14 +123,23 @@ export const hold: NamedKeyMap = { any: ANY_HOLD } as unknown as NamedKeyMap;
  * press.a, press.z, press['1']
  *
  * // Special keys
- * press.Enter, press.Escape, press.Space
- * press.ArrowUp, press.ArrowDown
+ * press.enter, press.escape, press.space
+ * press.arrowup, press.arrowdown
+ *
+ * // Arrow key aliases (shorthand)
+ * press.up === press.arrowup
+ * press.down === press.arrowdown
+ * press.left === press.arrowleft
+ * press.right === press.arrowright
+ *
+ * // Other aliases
+ * press.space === press[' ']
  *
  * // Function keys
  * press.F1, press.F12
  *
  * // Catch-all (matches any key)
- * press.ANY
+ * press.any
  * ```
  */
 export const press: NamedKeyMap = { any: ANY_PRESS } as unknown as NamedKeyMap;
@@ -160,13 +170,16 @@ const aliases: UnionToRequiredKeys<NamedKey, KeyAlias[]> = {
 
 const register = (key: string) => {
   const bit = BigInt(getBitPos(key));
-  hold[key] = 1n << (bit + HOLD_OFFSET);
-  press[key] = 1n << (bit + PRESS_OFFSET);
-  const keyAliases = aliases[key];
+  // Cast to Record for dynamic key assignment
+  const h = hold as Record<string, bigint>;
+  const p = press as Record<string, bigint>;
+  h[key] = 1n << (bit + HOLD_OFFSET);
+  p[key] = 1n << (bit + PRESS_OFFSET);
+  const keyAliases = (aliases as Record<string, string[]>)[key];
   if (keyAliases) {
     for (const alias of keyAliases) {
-      hold[alias] = hold[key];
-      press[alias] = press[key];
+      h[alias] = h[key];
+      p[alias] = p[key];
     }
   }
 };
@@ -179,7 +192,7 @@ for (const k of Object.keys(KEY_CODE_MAP)) {
 // ASCII printable characters
 for (let i = 32; i < 127; i++) {
   const char = String.fromCharCode(i);
-  if (!hold[char]) register(char);
+  if (!(hold as Record<string, bigint>)[char]) register(char);
 }
 
 // Function keys
@@ -271,7 +284,7 @@ function comboToText(combo: KeyCombo): string {
   const pressMask = (combo & PRESS_RANGE_MASK) >> 256n;
 
   // Extract hold keys (modifiers first, then others)
-  const modifierOrder = ['Control', 'Shift', 'Alt', 'Meta'];
+  const modifierOrder = ['ctrl', 'shift', 'alt', 'meta'];
   const holdKeys: string[] = [];
 
   for (let i = 0n; i < 256n; i++) {
@@ -694,9 +707,14 @@ export class Keymash implements IKeymash {
   }
 
   private _getMask(k: string, offset: bigint, cache: NamedKeyMap): bigint {
-    if (cache[k]) return cache[k];
+    // Check original key first, then lowercase (for browser key names like 'Escape')
+    const normalized = k.toLowerCase();
+    // Cast to Record for dynamic string indexing
+    const c = cache as Record<string, bigint>;
+    if (c[k]) return c[k];
+    if (c[normalized]) return c[normalized];
     const mask = 1n << (BigInt(getBitPos(k)) + offset);
-    cache[k] = mask;
+    c[normalized] = mask;
     return mask;
   }
 
@@ -844,7 +862,7 @@ export function keymash(config: KeymashConfig = {}): Keymash {
  *
  * // Get bindings from an instance
  * const bindings = getActiveBindings(km);
- * console.log(bindings[0].comboText); // "Control+s"
+ * console.log(bindings[0].comboText); // "ctrl+s"
  * console.log(bindings[0].label); // "Save"
  *
  * // Get all bindings from window
