@@ -268,7 +268,7 @@ function ShortcutsDialog() {
                     Full library with sequences, introspection, and dev warnings
                   </td>
                   <td className="py-4 text-gray-500 font-mono text-sm whitespace-nowrap">
-                    2.86 KB
+                    3.21 KB
                   </td>
                 </tr>
                 <tr className="hover:bg-gray-50">
@@ -294,7 +294,7 @@ function ShortcutsDialog() {
                     React hooks for declarative keyboard binding
                   </td>
                   <td className="py-4 text-gray-500 font-mono text-sm whitespace-nowrap">
-                    1.27 KB
+                    1.49 KB
                   </td>
                 </tr>
               </tbody>

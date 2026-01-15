@@ -7,7 +7,7 @@
  * @packageDocumentation
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type {
   HandlerContext,
   KeyCombo,
@@ -283,9 +283,49 @@ export interface UseKeymashReturn<T = unknown> {
  *     { combo: press.escape, handler: () => closeModal() },
  *   ],
  * });
+ *
+ * @example
+ * Just one handler, minimal fuss
+ * ```tsx
+ * useKeymash(ctrl + press.s, () => save());
+ * ```
  * ```
  */
-export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): UseKeymashReturn<T> {
+export function useKeymash<T = unknown>(options?: UseKeymashOptions<T>): UseKeymashReturn<T>;
+/**
+ * Simple overload for a single key combo binding.
+ * @param combo - The key combination to bind
+ * @param handler - Function to call when the combo is triggered
+ * @param options - Additional configuration options
+ */
+export function useKeymash<T = unknown>(
+  combo: KeyCombo,
+  handler: ReactKeyComboHandler<T>,
+  options?: UseKeymashOptions<T>,
+): UseKeymashReturn<T>;
+export function useKeymash<T = unknown>(
+  first: KeyCombo | UseKeymashOptions<T> = {},
+  handlerOrOptions?: ReactKeyComboHandler<T> | UseKeymashOptions<T>,
+  thirdOptions?: UseKeymashOptions<T>,
+): UseKeymashReturn<T> {
+  // Normalize arguments
+  let options: UseKeymashOptions<T>;
+
+  if (typeof first === 'bigint') {
+    // Overload: useKeymash(combo, handler, options)
+    const combo = first;
+    const handler = handlerOrOptions as ReactKeyComboHandler<T>;
+    const baseOptions = (thirdOptions ?? {}) as UseKeymashOptions<T>;
+
+    options = {
+      ...baseOptions,
+      bindings: [{ combo, handler }, ...(baseOptions.bindings ?? [])],
+    };
+  } else {
+    // Overload: useKeymash(options)
+    options = first as UseKeymashOptions<T>;
+  }
+
   const { scope, bindings, sequences, active, label, onUpdate } = options;
 
   // Store instance in state so changes trigger re-renders
@@ -309,12 +349,30 @@ export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): Use
   const setTriggeredRef = useRef(setTriggered);
   setTriggeredRef.current = setTriggered;
 
-  // Resolve scope - handle refs, elements, and window
-  const resolvedScope = useMemo(() => {
+  // Track resolved scope element in state to handle ref mounting.
+  // Refs don't trigger re-renders when .current changes, so we need to sync
+  // the actual element into state after each render.
+  const [scopeElement, setScopeElement] = useState<HTMLElement | Window | null>(() => {
     if (!scope) return window;
-    if ('current' in scope) return scope.current ?? window;
+    if ('current' in scope) return scope.current;
     return scope;
-  }, [scope]);
+  });
+
+  // Sync scope element after each render (handles ref mounting)
+  useEffect(() => {
+    let resolved: HTMLElement | Window | null;
+    if (!scope) {
+      resolved = window;
+    } else if ('current' in scope) {
+      resolved = scope.current;
+    } else {
+      resolved = scope;
+    }
+
+    if (resolved !== scopeElement) {
+      setScopeElement(resolved);
+    }
+  });
 
   // Store onUpdate in a ref to avoid recreating instance when it changes
   const onUpdateRef = useRef(onUpdate);
@@ -327,13 +385,13 @@ export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): Use
 
   // Create instance on mount
   useEffect(() => {
-    // Don't create instance until scope is resolved (for refs)
-    if (scope && 'current' in scope && !scope.current) {
+    // Don't create instance until scope element is available
+    if (!scopeElement) {
       return;
     }
 
     const km = keymash({
-      scope: resolvedScope,
+      scope: scopeElement,
       label,
     });
 
@@ -352,7 +410,7 @@ export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): Use
       setCurrentMask(0n);
       initialActiveSetRef.current = false;
     };
-  }, [resolvedScope, label, scope]);
+  }, [scopeElement, label]);
 
   // Handle initial active state (only once when instance is created)
   useEffect(() => {

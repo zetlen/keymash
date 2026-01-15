@@ -57,6 +57,10 @@ The `Keymash` class manages:
 ### Types (`types.ts`)
 
 - `KeyCombo`: Type alias for bigint
+- `HandlerContext`: Object passed to handlers with `{ event, instance }` for extensibility
+- `KeyComboHandler`: Function type `(context: HandlerContext) => void` - handlers receive context object, not positional args
+- `SequenceHandlerContext`: Object passed to sequence handlers with `{ sequence, instance }`
+- `SequenceHandler`: Function type for sequence triggers
 - `Binding`: Config object with `combo`, `handler`, optional `label`, `delay`, `repeat`
 - `FullBinding`: Extended binding with resolved properties and human-readable `comboText`
 - `IKeymash`: Public interface for instances
