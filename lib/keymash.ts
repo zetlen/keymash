@@ -71,6 +71,10 @@ for (let code = 32; code <= 126; code++) {
 // (browsers send 'Control', 'Shift', etc. but we use 'ctrl', 'shift')
 const BROWSER_TO_CANONICAL: Record<string, string> = {
   control: 'ctrl',
+  shift: 'shift',
+  alt: 'alt',
+  meta: 'meta',
+  capslock: 'capslock',
 };
 
 const normalizeKey = (key: string): string => {
@@ -794,6 +798,23 @@ export class Keymash implements IKeymash {
   private _handleKeyDown(e: KeyboardEvent): void {
     // Only handle events for our target
     if (!this._shouldHandleEvent(e)) return;
+
+    // Skip dead keys (accent modifiers) and IME composition events
+    // Dead keys are used for international keyboards (French, German, etc.)
+    // IME composition is used for Asian language input (Japanese, Korean, Chinese)
+    if (e.key === 'Dead' || e.isComposing) return;
+
+    // Detect AltGr character entry on European keyboards
+    // On Windows, AltGr sends Ctrl+Alt simultaneously. When users press AltGr+key
+    // to type characters like { } [ ] @ on German/French keyboards, we should NOT
+    // treat this as a Ctrl+Alt+key shortcut.
+    const isAltGrCharacter =
+      e.ctrlKey && e.altKey && e.key.length === 1 && !e.metaKey && !e.shiftKey;
+    if (isAltGrCharacter) {
+      // Still track for sequences (user is typing a character)
+      this._checkSequences(e.key);
+      return;
+    }
 
     // Compute hold mask once
     let holdMask = 0n;

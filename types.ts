@@ -205,6 +205,18 @@ export interface IKeymash {
    * Returns an unsubscribe function.
    */
   sequence(sequence: string, handler: SequenceHandler, options?: { timeout?: number }): () => void;
+
+  /** Check if the keymash is currently active (listening for events) */
+  isActive(): boolean;
+
+  /**
+   * Set a callback for real-time key state updates (for visualizers).
+   * Called with the current bitmask whenever keys are pressed or released.
+   */
+  onUpdate(callback: (mask: bigint) => void): void;
+
+  /** Destroy the keymash instance, removing all listeners */
+  destroy(): void;
 }
 
 /**
