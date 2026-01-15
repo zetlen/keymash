@@ -18,19 +18,22 @@ const MODULES = [
     name: 'keymash',
     file: 'dist/lib/keymash.js',
     purpose: 'Full library with sequences, introspection, and dev warnings',
-    anchor: '#two-entry-points',
+    anchor: '#usage',
+    readmeAnchor: 'https://zetlen.github.io/keymash/#usage',
   },
   {
     name: 'keymash/core',
     file: 'dist/lib/core.js',
     purpose: 'Minimal core for basic keyboard bindings only',
-    anchor: '#core-package-1kb-gzipped',
+    anchor: '#usage',
+    readmeAnchor: 'https://zetlen.github.io/keymash/#usage',
   },
   {
     name: 'keymash/react',
     file: 'dist/lib/react.js',
     purpose: 'React hooks for declarative keyboard binding',
-    anchor: '#keymashreact',
+    anchor: '#react',
+    readmeAnchor: 'https://zetlen.github.io/keymash/#react',
   },
 ];
 
@@ -53,18 +56,22 @@ function formatSize(bytes) {
 
 // Calculate sizes once for all generators
 function getModuleSizes() {
-  return MODULES.map(({ name, file, purpose, anchor }) => ({
+  return MODULES.map(({ name, file, purpose, anchor, readmeAnchor }) => ({
     name,
     purpose,
     anchor,
+    readmeAnchor,
     size: formatSize(getGzipSize(file)),
   }));
 }
 
-// Generate markdown table for README.md
+// Generate markdown table for README.md (links to full docs site)
 function generateMarkdownTable(sizes) {
   return sizes
-    .map(({ name, purpose, anchor, size }) => `| [\`${name}\`](${anchor}) | ${purpose} | ${size} |`)
+    .map(
+      ({ name, purpose, readmeAnchor, size }) =>
+        `| [\`${name}\`](${readmeAnchor}) | ${purpose} | ${size} |`,
+    )
     .join('\n');
 }
 

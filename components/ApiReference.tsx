@@ -105,59 +105,6 @@ const ApiItem: React.FC<ApiItemProps> = ({
   </div>
 );
 
-const InstallationSection: React.FC = () => (
-  <ApiSection title="Installation">
-    <CodeBlock code={`npm install keymash\n# or\npnpm add keymash\n# or\nyarn add keymash`} />
-  </ApiSection>
-);
-
-const HowItWorksSection: React.FC = () => (
-  <ApiSection title="How It Works">
-    <div className="prose prose-gray max-w-none">
-      <p className="text-gray-600 mb-4">
-        KeyMash uses bitwise operations for fast chord lookup. Each key maps to a unique bit
-        position, so lookup is instant regardless of how many bindings you have.
-      </p>
-      <p className="text-gray-600 mb-4">
-        When you use the <code className="bg-gray-100 px-1 rounded">|</code> operator for
-        alternatives, KeyMash &quot;explodes&quot; the binding into separate lookup entries at
-        registration time:
-      </p>
-      <CodeBlock
-        code={`// This single binding:
-km.bind(ctrl + (press.a | press.b | press.c), myHandler);
-
-// Becomes three separate lookup entries internally:
-// - Ctrl+A -> myHandler
-// - Ctrl+B -> myHandler
-// - Ctrl+C -> myHandler`}
-      />
-    </div>
-  </ApiSection>
-);
-
-const QuickStartSection: React.FC = () => (
-  <ApiSection title="Quick Start">
-    <div className="prose prose-gray max-w-none">
-      <CodeBlock
-        code={`import { keymash, ctrl, shift, press } from 'keymash';
-
-const km = keymash();
-
-// Type-safe, autocompletes, catches typos at compile time
-km.bind(ctrl + press.s, () => save());
-km.bind(ctrl + shift + press.p, () => commandPalette());
-
-// Use | for alternatives
-km.bind(ctrl + (press.k | press.o), () => openSearch());
-
-// Clean up when done
-km.destroy();`}
-      />
-    </div>
-  </ApiSection>
-);
-
 const ApiReference: React.FC = () => {
   // Parse the TypeDoc JSON into sections
   const sections = useMemo(() => {
@@ -169,17 +116,15 @@ const ApiReference: React.FC = () => {
       <main className="max-w-4xl mx-auto px-8 md:px-16 py-16">
         <header className="mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">API Reference</h1>
-          <p className="text-xl text-gray-500 mb-6">
-            Keyboard shortcuts that just work. No string parsing. No modifier key bugs.
-          </p>
           <p className="text-gray-600">
-            KeyMash uses TypeScript operators for defining shortcuts. You get autocomplete, type
-            safety, and typos are caught at compile time instead of runtime.
+            Full API reference for all KeyMash modules. For usage documentation and examples, see
+            the{' '}
+            <a href="#/" className="text-blue-600 hover:underline">
+              Usage
+            </a>{' '}
+            page.
           </p>
         </header>
-
-        <InstallationSection />
-        <QuickStartSection />
 
         {sections.map((section: ParsedApiSection) => (
           <ApiSection key={section.title} title={section.title}>
@@ -198,8 +143,6 @@ const ApiReference: React.FC = () => {
             ))}
           </ApiSection>
         ))}
-
-        <HowItWorksSection />
       </main>
     </div>
   );

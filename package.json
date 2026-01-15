@@ -45,13 +45,12 @@
   "homepage": "https://zetlen.github.io/keymash/",
   "scripts": {
     "prepare": "lefthook install",
-    "docs:json": "typedoc",
-    "prebuild": "pnpm docs:json",
     "dev": "vite",
     "build": "vite build",
     "build:lib": "vite build --config vite.config.lib.ts",
-    "postbuild:lib": "node scripts/update-readme-modules.js",
     "build:lib:types": "tsc -p tsconfig.lib.json --emitDeclarationOnly",
+    "prebuild": "pnpm doc:typedoc",
+    "postbuild:lib": "pnpm doc:sizes",
     "prepublishOnly": "pnpm build:lib",
     "preview": "vite preview",
     "lint": "biome check .",
@@ -62,7 +61,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "update-readme": "node scripts/update-readme-modules.js"
+    "doc:typedoc": "typedoc",
+    "doc:sizes": "node scripts/update-readme-modules.js",
+    "doc:build": "pnpm doc:typedoc && pnpm doc:sizes"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

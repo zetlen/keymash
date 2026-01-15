@@ -1,6 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./lib/keymash.ts", "./types.ts"],
+  "entryPoints": ["./lib/keymash.ts", "./lib/keymash-react.ts", "./types.ts"],
   "tsconfig": "./tsconfig.lib.json",
   "json": "./docs/api.json",
   "name": "KeyMash API",
