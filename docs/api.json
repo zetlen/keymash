@@ -7,6 +7,3434 @@
 	"flags": {},
 	"children": [
 		{
+			"id": 127,
+			"name": "keymash/react",
+			"variant": "declaration",
+			"kind": 2,
+			"flags": {},
+			"comment": {
+				"summary": [
+					{
+						"kind": "text",
+						"text": "keymash/react - React bindings for keymash\n\nProvides a "
+					},
+					{
+						"kind": "code",
+						"text": "`useKeymash`"
+					},
+					{
+						"kind": "text",
+						"text": " hook for declarative keyboard binding in React components."
+					}
+				]
+			},
+			"children": [
+				{
+					"id": 326,
+					"name": "Binding",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 28,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L28"
+						}
+					],
+					"target": 254
+				},
+				{
+					"id": 327,
+					"name": "FullBinding",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 29,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L29"
+						}
+					],
+					"target": 260
+				},
+				{
+					"id": 328,
+					"name": "HandlerContext",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 30,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L30"
+						}
+					],
+					"target": 247
+				},
+				{
+					"id": 329,
+					"name": "KeyCombo",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 31,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L31"
+						}
+					],
+					"target": 246
+				},
+				{
+					"id": 330,
+					"name": "KeyComboHandler",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 32,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L32"
+						}
+					],
+					"target": 250
+				},
+				{
+					"id": 331,
+					"name": "SequenceHandler",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 33,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L33"
+						}
+					],
+					"target": 270
+				},
+				{
+					"id": 332,
+					"name": "SequenceHandlerContext",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 34,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L34"
+						}
+					],
+					"target": 267
+				},
+				{
+					"id": 333,
+					"name": "alt",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 38,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L38"
+						}
+					],
+					"target": 28
+				},
+				{
+					"id": 334,
+					"name": "cmd",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 39,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L39"
+						}
+					],
+					"target": 30
+				},
+				{
+					"id": 335,
+					"name": "code",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 40,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L40"
+						}
+					],
+					"target": 19
+				},
+				{
+					"id": 336,
+					"name": "ctrl",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 41,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L41"
+						}
+					],
+					"target": 26
+				},
+				{
+					"id": 337,
+					"name": "getActiveBindings",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 42,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L42"
+						}
+					],
+					"target": 14
+				},
+				{
+					"id": 338,
+					"name": "getAllKeymashInstances",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 43,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L43"
+						}
+					],
+					"target": 2
+				},
+				{
+					"id": 339,
+					"name": "hold",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 44,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L44"
+						}
+					],
+					"target": 17
+				},
+				{
+					"id": 340,
+					"name": "Keymash",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 45,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L45"
+						}
+					],
+					"target": 32
+				},
+				{
+					"id": 341,
+					"name": "key",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 46,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L46"
+						}
+					],
+					"target": 20
+				},
+				{
+					"id": 342,
+					"name": "keymash",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 47,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L47"
+						}
+					],
+					"target": 11
+				},
+				{
+					"id": 343,
+					"name": "meta",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 48,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L48"
+						}
+					],
+					"target": 29
+				},
+				{
+					"id": 344,
+					"name": "onGlobalChange",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 49,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L49"
+						}
+					],
+					"target": 4
+				},
+				{
+					"id": 345,
+					"name": "press",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 50,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L50"
+						}
+					],
+					"target": 18
+				},
+				{
+					"id": 346,
+					"name": "shift",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 51,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L51"
+						}
+					],
+					"target": 27
+				},
+				{
+					"id": 347,
+					"name": "win",
+					"variant": "reference",
+					"kind": 4194304,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 52,
+							"character": 2,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L52"
+						}
+					],
+					"target": 31
+				},
+				{
+					"id": 137,
+					"name": "ReactHandlerContext",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Extended handler context for React bindings.\nIncludes "
+							},
+							{
+								"kind": "code",
+								"text": "`setResult`"
+							},
+							{
+								"kind": "text",
+								"text": " to trigger re-renders with custom state."
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@category",
+								"content": [
+									{
+										"kind": "text",
+										"text": "Types"
+									}
+								]
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 139,
+							"name": "setResult",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Set a result value that will be available in the hook's return.\nCalling this triggers a re-render with the new result."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 66,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L66"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 140,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 141,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 142,
+													"name": "value",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"target": 138,
+														"name": "T",
+														"package": "keymash",
+														"qualifiedName": "ReactHandlerContext.T",
+														"refersToTypeParameter": true
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 143,
+							"name": "event",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isInherited": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The keyboard event that triggered the binding"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "types.ts",
+									"line": 83,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L83"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": {
+									"packageName": "typescript",
+									"packagePath": "lib/lib.dom.d.ts",
+									"qualifiedName": "KeyboardEvent"
+								},
+								"name": "KeyboardEvent",
+								"package": "typescript"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"target": 248,
+								"name": "HandlerContext.event"
+							}
+						},
+						{
+							"id": 144,
+							"name": "instance",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isInherited": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The Keymash instance that triggered the binding"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "types.ts",
+									"line": 85,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L85"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 280,
+								"name": "IKeymash",
+								"package": "keymash"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"target": 249,
+								"name": "HandlerContext.instance"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								139,
+								143,
+								144
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 61,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L61"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 138,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"target": 247,
+							"name": "HandlerContext",
+							"package": "keymash"
+						}
+					]
+				},
+				{
+					"id": 145,
+					"name": "ReactKeyComboHandler",
+					"variant": "declaration",
+					"kind": 2097152,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Handler function for React key combo bindings.\nReceives extended context with "
+							},
+							{
+								"kind": "code",
+								"text": "`setResult`"
+							},
+							{
+								"kind": "text",
+								"text": " for triggering re-renders."
+							}
+						],
+						"blockTags": [
+							{
+								"tag": "@category",
+								"content": [
+									{
+										"kind": "text",
+										"text": "Types"
+									}
+								]
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 75,
+							"character": 12,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L75"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 149,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 146,
+							"name": "__type",
+							"variant": "declaration",
+							"kind": 65536,
+							"flags": {},
+							"signatures": [
+								{
+									"id": 147,
+									"name": "__type",
+									"variant": "signature",
+									"kind": 4096,
+									"flags": {},
+									"parameters": [
+										{
+											"id": 148,
+											"name": "context",
+											"variant": "param",
+											"kind": 32768,
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"target": 137,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"target": 149,
+														"name": "T",
+														"package": "keymash",
+														"refersToTypeParameter": true
+													}
+												],
+												"name": "ReactHandlerContext",
+												"package": "keymash"
+											}
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "void"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 150,
+					"name": "ReactSequenceHandlerContext",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Extended sequence handler context for React bindings."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 152,
+							"name": "setResult",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 81,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L81"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 153,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 154,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 155,
+													"name": "value",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"target": 151,
+														"name": "T",
+														"package": "keymash",
+														"qualifiedName": "ReactSequenceHandlerContext.T",
+														"refersToTypeParameter": true
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 156,
+							"name": "sequence",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isInherited": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The matched sequence string"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "types.ts",
+									"line": 156,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L156"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"target": 268,
+								"name": "SequenceHandlerContext.sequence"
+							}
+						},
+						{
+							"id": 157,
+							"name": "instance",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isInherited": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The Keymash instance that triggered the sequence"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "types.ts",
+									"line": 158,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L158"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 280,
+								"name": "IKeymash",
+								"package": "keymash"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"target": 269,
+								"name": "SequenceHandlerContext.instance"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								152,
+								156,
+								157
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 80,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L80"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 151,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"target": 267,
+							"name": "SequenceHandlerContext",
+							"package": "keymash"
+						}
+					]
+				},
+				{
+					"id": 158,
+					"name": "ReactSequenceHandler",
+					"variant": "declaration",
+					"kind": 2097152,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Handler function for React sequence bindings."
+							}
+						]
+					},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 87,
+							"character": 12,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L87"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 162,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 159,
+							"name": "__type",
+							"variant": "declaration",
+							"kind": 65536,
+							"flags": {},
+							"signatures": [
+								{
+									"id": 160,
+									"name": "__type",
+									"variant": "signature",
+									"kind": 4096,
+									"flags": {},
+									"parameters": [
+										{
+											"id": 161,
+											"name": "context",
+											"variant": "param",
+											"kind": 32768,
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"target": 150,
+												"typeArguments": [
+													{
+														"type": "reference",
+														"target": 162,
+														"name": "T",
+														"package": "keymash",
+														"refersToTypeParameter": true
+													}
+												],
+												"name": "ReactSequenceHandlerContext",
+												"package": "keymash"
+											}
+										}
+									],
+									"type": {
+										"type": "intrinsic",
+										"name": "void"
+									}
+								}
+							]
+						}
+					}
+				},
+				{
+					"id": 163,
+					"name": "ReactBinding",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "A binding configuration for React useKeymash hook."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 165,
+							"name": "combo",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The key combination (bigint bitmask)"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 94,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L94"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "bigint"
+							}
+						},
+						{
+							"id": 166,
+							"name": "handler",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Function to call when the combo is triggered"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 96,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L96"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 145,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"target": 164,
+										"name": "T",
+										"package": "keymash",
+										"qualifiedName": "ReactBinding.T",
+										"refersToTypeParameter": true
+									}
+								],
+								"name": "ReactKeyComboHandler",
+								"package": "keymash"
+							}
+						},
+						{
+							"id": 167,
+							"name": "label",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Human-readable label for the binding"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 98,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L98"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 168,
+							"name": "delay",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Delay in milliseconds before firing the handler"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 100,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L100"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 169,
+							"name": "repeat",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Whether to fire on key repeat"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 102,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L102"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								165,
+								166,
+								167,
+								168,
+								169
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 92,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L92"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 164,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					]
+				},
+				{
+					"id": 170,
+					"name": "ReactSequenceBinding",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "A sequence binding configuration for useKeymash."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 172,
+							"name": "sequence",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The character sequence to match (e.g., \"show me\")"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 110,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L110"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 173,
+							"name": "handler",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Handler called when sequence is typed"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 112,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L112"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 158,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"target": 171,
+										"name": "T",
+										"package": "keymash",
+										"qualifiedName": "ReactSequenceBinding.T",
+										"refersToTypeParameter": true
+									}
+								],
+								"name": "ReactSequenceHandler",
+								"package": "keymash"
+							}
+						},
+						{
+							"id": 174,
+							"name": "timeout",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Timeout in ms before buffer resets (default: 1000)"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 114,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L114"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								172,
+								173,
+								174
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 108,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L108"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 171,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					]
+				},
+				{
+					"id": 175,
+					"name": "TriggeredBinding",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Information about which binding was triggered."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 176,
+							"name": "combo",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The combo that was triggered"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 122,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L122"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "bigint"
+							}
+						},
+						{
+							"id": 177,
+							"name": "comboText",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Human-readable combo text"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 124,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L124"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 178,
+							"name": "label",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The binding's label (if provided)"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 126,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L126"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 179,
+							"name": "timestamp",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Timestamp when triggered"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 128,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L128"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								176,
+								177,
+								178,
+								179
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 120,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L120"
+						}
+					]
+				},
+				{
+					"id": 180,
+					"name": "UseKeymashOptions",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Options for the useKeymash hook."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 182,
+							"name": "scope",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Element or ref to scope bindings to.\nEvents only fire when originating from within this element."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@default",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```ts\nwindow\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 140,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L140"
+								}
+							],
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"target": {
+											"packageName": "typescript",
+											"packagePath": "lib/lib.dom.d.ts",
+											"qualifiedName": "HTMLElement"
+										},
+										"name": "HTMLElement",
+										"package": "typescript"
+									},
+									{
+										"type": "reference",
+										"target": {
+											"packageName": "typescript",
+											"packagePath": "lib/lib.dom.d.ts",
+											"qualifiedName": "Window"
+										},
+										"name": "Window",
+										"package": "typescript"
+									},
+									{
+										"type": "reference",
+										"target": {
+											"packageName": "@types/react",
+											"packagePath": "index.d.ts",
+											"qualifiedName": "React.RefObject"
+										},
+										"typeArguments": [
+											{
+												"type": "union",
+												"types": [
+													{
+														"type": "reference",
+														"target": {
+															"packageName": "typescript",
+															"packagePath": "lib/lib.dom.d.ts",
+															"qualifiedName": "HTMLElement"
+														},
+														"name": "HTMLElement",
+														"package": "typescript"
+													},
+													{
+														"type": "literal",
+														"value": null
+													}
+												]
+											}
+										],
+										"name": "RefObject",
+										"package": "@types/react",
+										"qualifiedName": "React.RefObject"
+									}
+								]
+							}
+						},
+						{
+							"id": 183,
+							"name": "bindings",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Bindings to register. Handlers receive "
+									},
+									{
+										"kind": "code",
+										"text": "`{ event, instance, setResult }`"
+									},
+									{
+										"kind": "text",
+										"text": ".\nWhen bindings change, all are re-registered to ensure handlers stay current."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 146,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L146"
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"target": 163,
+									"typeArguments": [
+										{
+											"type": "reference",
+											"target": 181,
+											"name": "T",
+											"package": "keymash",
+											"qualifiedName": "UseKeymashOptions.T",
+											"refersToTypeParameter": true
+										}
+									],
+									"name": "ReactBinding",
+									"package": "keymash"
+								}
+							}
+						},
+						{
+							"id": 184,
+							"name": "sequences",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Sequence triggers to register."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 151,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L151"
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"target": 170,
+									"typeArguments": [
+										{
+											"type": "reference",
+											"target": 181,
+											"name": "T",
+											"package": "keymash",
+											"qualifiedName": "UseKeymashOptions.T",
+											"refersToTypeParameter": true
+										}
+									],
+									"name": "ReactSequenceBinding",
+									"package": "keymash"
+								}
+							}
+						},
+						{
+							"id": 185,
+							"name": "active",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Whether the keymash should be active (listening for keyboard events).\n\n**Default behavior:**\n- "
+									},
+									{
+										"kind": "code",
+										"text": "`true`"
+									},
+									{
+										"kind": "text",
+										"text": " if "
+									},
+									{
+										"kind": "code",
+										"text": "`bindings`"
+									},
+									{
+										"kind": "text",
+										"text": " array is provided and non-empty\n- "
+									},
+									{
+										"kind": "code",
+										"text": "`false`"
+									},
+									{
+										"kind": "text",
+										"text": " if no bindings are provided (you must call "
+									},
+									{
+										"kind": "code",
+										"text": "`setActive(true)`"
+									},
+									{
+										"kind": "text",
+										"text": " manually)"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 160,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L160"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 186,
+							"name": "label",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Human-readable label for debugging."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 165,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L165"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 187,
+							"name": "onUpdate",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Callback for real-time key state updates.\nUseful for building keyboard visualizers."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 171,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L171"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 188,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 189,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 190,
+													"name": "mask",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "bigint"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								182,
+								183,
+								184,
+								185,
+								186,
+								187
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 134,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L134"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 181,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					]
+				},
+				{
+					"id": 191,
+					"name": "UseKeymashReturn",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Return type for the useKeymash hook."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 193,
+							"name": "instance",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The underlying Keymash instance.\nWill be "
+									},
+									{
+										"kind": "code",
+										"text": "`null`"
+									},
+									{
+										"kind": "text",
+										"text": " on first render if using a ref-based scope."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 182,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L182"
+								}
+							],
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"target": 32,
+										"name": "Keymash",
+										"package": "keymash"
+									},
+									{
+										"type": "literal",
+										"value": null
+									}
+								]
+							}
+						},
+						{
+							"id": 194,
+							"name": "isActive",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Whether the keymash is currently active"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 185,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L185"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 195,
+							"name": "setActive",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Activate or deactivate the keymash"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 188,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L188"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 196,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 197,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 198,
+													"name": "active",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "boolean"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 199,
+							"name": "currentMask",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Current key state mask (for visualizers)"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 191,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L191"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "bigint"
+							}
+						},
+						{
+							"id": 200,
+							"name": "isKeyActive",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Check if a specific key/combo is currently pressed."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```ts\nisKeyActive(hold.ctrl) or isKeyActive(press.a)\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 197,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L197"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 201,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 202,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 203,
+													"name": "mask",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "bigint"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 204,
+							"name": "triggered",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Information about the most recently triggered binding.\nResets to null after each render cycle."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 203,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L203"
+								}
+							],
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"target": 175,
+										"name": "TriggeredBinding",
+										"package": "keymash"
+									},
+									{
+										"type": "literal",
+										"value": null
+									}
+								]
+							}
+						},
+						{
+							"id": 205,
+							"name": "result",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The result value set by the most recent handler via "
+									},
+									{
+										"kind": "code",
+										"text": "`setResult`"
+									},
+									{
+										"kind": "text",
+										"text": ".\nUse this to react to binding triggers in your component."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 209,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L209"
+								}
+							],
+							"type": {
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"target": 192,
+										"name": "T",
+										"package": "keymash",
+										"qualifiedName": "UseKeymashReturn.T",
+										"refersToTypeParameter": true
+									},
+									{
+										"type": "intrinsic",
+										"name": "undefined"
+									}
+								]
+							}
+						},
+						{
+							"id": 206,
+							"name": "bind",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Imperatively bind a key combo.\nPrefer declarative bindings via options when possible."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 215,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L215"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 207,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 208,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 209,
+													"name": "binding",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"target": 163,
+														"typeArguments": [
+															{
+																"type": "reference",
+																"target": 192,
+																"name": "T",
+																"package": "keymash",
+																"qualifiedName": "UseKeymashReturn.T",
+																"refersToTypeParameter": true
+															}
+														],
+														"name": "ReactBinding",
+														"package": "keymash"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 210,
+							"name": "unbind",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Imperatively unbind a key combo."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 220,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L220"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 211,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 212,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 213,
+													"name": "combo",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "bigint"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "void"
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 214,
+							"name": "sequence",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Register a sequence trigger imperatively.\nReturns an unsubscribe function."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 226,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L226"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 215,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 216,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"parameters": [
+												{
+													"id": 217,
+													"name": "sequence",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												},
+												{
+													"id": 218,
+													"name": "handler",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {},
+													"type": {
+														"type": "reference",
+														"target": 158,
+														"typeArguments": [
+															{
+																"type": "reference",
+																"target": 192,
+																"name": "T",
+																"package": "keymash",
+																"qualifiedName": "UseKeymashReturn.T",
+																"refersToTypeParameter": true
+															}
+														],
+														"name": "ReactSequenceHandler",
+														"package": "keymash"
+													}
+												},
+												{
+													"id": 219,
+													"name": "options",
+													"variant": "param",
+													"kind": 32768,
+													"flags": {
+														"isOptional": true
+													},
+													"type": {
+														"type": "reflection",
+														"declaration": {
+															"id": 220,
+															"name": "__type",
+															"variant": "declaration",
+															"kind": 65536,
+															"flags": {},
+															"children": [
+																{
+																	"id": 221,
+																	"name": "timeout",
+																	"variant": "declaration",
+																	"kind": 1024,
+																	"flags": {
+																		"isOptional": true
+																	},
+																	"sources": [
+																		{
+																			"fileName": "lib/keymash-react.ts",
+																			"line": 229,
+																			"character": 16,
+																			"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L229"
+																		}
+																	],
+																	"type": {
+																		"type": "intrinsic",
+																		"name": "number"
+																	}
+																}
+															],
+															"groups": [
+																{
+																	"title": "Properties",
+																	"children": [
+																		221
+																	]
+																}
+															]
+														}
+													}
+												}
+											],
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 222,
+													"name": "__type",
+													"variant": "declaration",
+													"kind": 65536,
+													"flags": {},
+													"signatures": [
+														{
+															"id": 223,
+															"name": "__type",
+															"variant": "signature",
+															"kind": 4096,
+															"flags": {},
+															"type": {
+																"type": "intrinsic",
+																"name": "void"
+															}
+														}
+													]
+												}
+											}
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 224,
+							"name": "getBindings",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Get all active bindings from this instance."
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 235,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L235"
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 225,
+									"name": "__type",
+									"variant": "declaration",
+									"kind": 65536,
+									"flags": {},
+									"signatures": [
+										{
+											"id": 226,
+											"name": "__type",
+											"variant": "signature",
+											"kind": 4096,
+											"flags": {},
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "reference",
+													"target": 260,
+													"name": "FullBinding",
+													"package": "keymash"
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								193,
+								194,
+								195,
+								199,
+								200,
+								204,
+								205,
+								206,
+								210,
+								214,
+								224
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 177,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L177"
+						}
+					],
+					"typeParameters": [
+						{
+							"id": 192,
+							"name": "T",
+							"variant": "typeParam",
+							"kind": 131072,
+							"flags": {},
+							"default": {
+								"type": "intrinsic",
+								"name": "unknown"
+							}
+						}
+					]
+				},
+				{
+					"id": 128,
+					"name": "useKeymash",
+					"variant": "declaration",
+					"kind": 64,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 288,
+							"character": 16,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L288"
+						}
+					],
+					"signatures": [
+						{
+							"id": 129,
+							"name": "useKeymash",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "React hook for declarative keyboard bindings.\n\nHandlers receive "
+									},
+									{
+										"kind": "code",
+										"text": "`{ event, instance, setResult }`"
+									},
+									{
+										"kind": "text",
+										"text": ". Call "
+									},
+									{
+										"kind": "code",
+										"text": "`setResult(value)`"
+									},
+									{
+										"kind": "text",
+										"text": " to\ntrigger a re-render and make the value available via the "
+									},
+									{
+										"kind": "code",
+										"text": "`result`"
+									},
+									{
+										"kind": "text",
+										"text": " return property."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Object with instance, state, triggered info, and result"
+											}
+										]
+									},
+									{
+										"tag": "@category",
+										"content": [
+											{
+												"kind": "text",
+												"text": "React Hooks"
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```tsx\nimport { useKeymash, ctrl, press } from 'keymash/react';\n\nfunction Editor() {\n  const { result, triggered } = useKeymash({\n    bindings: [\n      {\n        combo: ctrl + press.s,\n        handler: ({ setResult }) => setResult({ action: 'save' }),\n        label: 'Save',\n      },\n      {\n        combo: ctrl + press.z,\n        handler: ({ setResult }) => setResult({ action: 'undo' }),\n        label: 'Undo',\n      },\n    ],\n  });\n\n  useEffect(() => {\n    if (result?.action === 'save') saveDocument();\n    if (result?.action === 'undo') undoLastChange();\n  }, [result]);\n\n  return <div>Last action: {triggered?.label}</div>;\n}\n```"
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```tsx\n// Handlers can also just do work directly\nuseKeymash({\n  bindings: [\n    { combo: press.escape, handler: () => closeModal() },\n  ],\n});\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 288,
+									"character": 16,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L288"
+								}
+							],
+							"typeParameters": [
+								{
+									"id": 130,
+									"name": "T",
+									"variant": "typeParam",
+									"kind": 131072,
+									"flags": {},
+									"default": {
+										"type": "intrinsic",
+										"name": "unknown"
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 131,
+									"name": "options",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Configuration options"
+											}
+										]
+									},
+									"type": {
+										"type": "reference",
+										"target": 180,
+										"typeArguments": [
+											{
+												"type": "reference",
+												"target": 130,
+												"name": "T",
+												"package": "keymash",
+												"refersToTypeParameter": true
+											}
+										],
+										"name": "UseKeymashOptions",
+										"package": "keymash"
+									},
+									"defaultValue": "{}"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 191,
+								"typeArguments": [
+									{
+										"type": "reference",
+										"target": 130,
+										"name": "T",
+										"package": "keymash",
+										"refersToTypeParameter": true
+									}
+								],
+								"name": "UseKeymashReturn",
+								"package": "keymash"
+							}
+						}
+					]
+				},
+				{
+					"id": 132,
+					"name": "useKeyState",
+					"variant": "declaration",
+					"kind": 64,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 583,
+							"character": 16,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L583"
+						}
+					],
+					"signatures": [
+						{
+							"id": 133,
+							"name": "useKeyState",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Hook to get the current key state mask without registering bindings.\n\nReturns a bigint bitmask representing currently pressed keys. Use bitwise AND\nwith "
+									},
+									{
+										"kind": "code",
+										"text": "`hold.*`"
+									},
+									{
+										"kind": "text",
+										"text": " or "
+									},
+									{
+										"kind": "code",
+										"text": "`press.*`"
+									},
+									{
+										"kind": "text",
+										"text": " values to check specific key states. This hook\ncreates an internal keymash instance scoped to the provided element.\n\nUseful for components that only need to read key state (e.g., showing visual\nindicators) without handling keyboard shortcuts."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Current key state as a bigint bitmask"
+											}
+										]
+									},
+									{
+										"tag": "@category",
+										"content": [
+											{
+												"kind": "text",
+												"text": "React Hooks"
+											}
+										]
+									},
+									{
+										"tag": "@see",
+										"content": [
+											{
+												"kind": "text",
+												"text": " - "
+											},
+											{
+												"kind": "inline-tag",
+												"tag": "@link",
+												"text": "useKeymash",
+												"target": 128
+											},
+											{
+												"kind": "text",
+												"text": " for registering keyboard shortcuts"
+											},
+											{
+												"kind": "text",
+												"text": "\n"
+											},
+											{
+												"kind": "text",
+												"text": " - "
+											},
+											{
+												"kind": "inline-tag",
+												"tag": "@link",
+												"text": "hold",
+												"target": 17
+											},
+											{
+												"kind": "text",
+												"text": " for modifier key bitmasks"
+											},
+											{
+												"kind": "text",
+												"text": "\n"
+											},
+											{
+												"kind": "text",
+												"text": " - "
+											},
+											{
+												"kind": "inline-tag",
+												"tag": "@link",
+												"text": "press",
+												"target": 18
+											},
+											{
+												"kind": "text",
+												"text": " for key press bitmasks"
+											},
+											{
+												"kind": "text",
+												"text": "\n"
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```tsx\nimport { useKeyState, hold } from 'keymash/react';\n\nfunction KeyIndicator() {\n  const mask = useKeyState();\n  const isCtrl = (mask & hold.ctrl) !== 0n;\n  return <span>{isCtrl ? 'Ctrl pressed' : 'Ctrl not pressed'}</span>;\n}\n```"
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```tsx\n// Scoped to a specific element\nfunction ScopedIndicator() {\n  const ref = useRef<HTMLDivElement>(null);\n  const mask = useKeyState(ref);\n  return <div ref={ref} tabIndex={0}>Focus me to track keys</div>;\n}\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 583,
+									"character": 16,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L583"
+								}
+							],
+							"parameters": [
+								{
+									"id": 134,
+									"name": "scope",
+									"variant": "param",
+									"kind": 32768,
+									"flags": {
+										"isOptional": true
+									},
+									"comment": {
+										"summary": [
+											{
+												"kind": "text",
+												"text": "Element, Window, or React ref to scope key listening to. Defaults to "
+											},
+											{
+												"kind": "code",
+												"text": "`window`"
+											},
+											{
+												"kind": "text",
+												"text": "."
+											}
+										]
+									},
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "reference",
+												"target": {
+													"packageName": "typescript",
+													"packagePath": "lib/lib.dom.d.ts",
+													"qualifiedName": "HTMLElement"
+												},
+												"name": "HTMLElement",
+												"package": "typescript"
+											},
+											{
+												"type": "reference",
+												"target": {
+													"packageName": "typescript",
+													"packagePath": "lib/lib.dom.d.ts",
+													"qualifiedName": "Window"
+												},
+												"name": "Window",
+												"package": "typescript"
+											},
+											{
+												"type": "reference",
+												"target": {
+													"packageName": "@types/react",
+													"packagePath": "index.d.ts",
+													"qualifiedName": "React.RefObject"
+												},
+												"typeArguments": [
+													{
+														"type": "union",
+														"types": [
+															{
+																"type": "reference",
+																"target": {
+																	"packageName": "typescript",
+																	"packagePath": "lib/lib.dom.d.ts",
+																	"qualifiedName": "HTMLElement"
+																},
+																"name": "HTMLElement",
+																"package": "typescript"
+															},
+															{
+																"type": "literal",
+																"value": null
+															}
+														]
+													}
+												],
+												"name": "RefObject",
+												"package": "@types/react",
+												"qualifiedName": "React.RefObject"
+											}
+										]
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "bigint"
+							}
+						}
+					]
+				},
+				{
+					"id": 227,
+					"name": "GlobalBinding",
+					"variant": "declaration",
+					"kind": 256,
+					"flags": {},
+					"comment": {
+						"summary": [
+							{
+								"kind": "text",
+								"text": "Represents a binding from a specific keymash instance,\nincluding metadata about the instance."
+							}
+						]
+					},
+					"children": [
+						{
+							"id": 228,
+							"name": "instance",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The keymash instance this binding belongs to"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 600,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L600"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 32,
+								"name": "Keymash",
+								"package": "keymash"
+							}
+						},
+						{
+							"id": 229,
+							"name": "instanceLabel",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Label of the keymash instance (for grouping in UI)"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 602,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L602"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 230,
+							"name": "isActive",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Whether the keymash instance is currently active"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 604,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L604"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 231,
+							"name": "combo",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "The key combo bitmask"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 606,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L606"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "bigint"
+							}
+						},
+						{
+							"id": 232,
+							"name": "comboText",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Human-readable combo text (e.g., \"ctrl+s\")"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 608,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L608"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 233,
+							"name": "handler",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Handler function for this binding"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 610,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L610"
+								}
+							],
+							"type": {
+								"type": "reference",
+								"target": 250,
+								"name": "KeyComboHandler",
+								"package": "keymash"
+							}
+						},
+						{
+							"id": 234,
+							"name": "label",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Optional label for this specific binding"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 612,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L612"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 235,
+							"name": "delay",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Delay in ms before handler fires"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 614,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L614"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 236,
+							"name": "repeat",
+							"variant": "declaration",
+							"kind": 1024,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Whether this binding fires on key repeat"
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 616,
+									"character": 2,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L616"
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"children": [
+								228,
+								229,
+								230,
+								231,
+								232,
+								233,
+								234,
+								235,
+								236
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 598,
+							"character": 17,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L598"
+						}
+					]
+				},
+				{
+					"id": 135,
+					"name": "useKeymashBindings",
+					"variant": "declaration",
+					"kind": 64,
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "lib/keymash-react.ts",
+							"line": 646,
+							"character": 16,
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L646"
+						}
+					],
+					"signatures": [
+						{
+							"id": 136,
+							"name": "useKeymashBindings",
+							"variant": "signature",
+							"kind": 4096,
+							"flags": {},
+							"comment": {
+								"summary": [
+									{
+										"kind": "text",
+										"text": "Hook to get all bindings from all keymash instances.\nUseful for building keyboard shortcuts dialogs or help panels."
+									}
+								],
+								"blockTags": [
+									{
+										"tag": "@returns",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Array of GlobalBinding objects from all active keymash instances"
+											}
+										]
+									},
+									{
+										"tag": "@category",
+										"content": [
+											{
+												"kind": "text",
+												"text": "React Hooks"
+											}
+										]
+									},
+									{
+										"tag": "@example",
+										"content": [
+											{
+												"kind": "code",
+												"text": "```tsx\nimport { useKeymashBindings } from 'keymash/react';\n\nfunction KeyboardShortcutsDialog() {\n  const bindings = useKeymashBindings();\n\n  return (\n    <ul>\n      {bindings.map((b, i) => (\n        <li key={i}>\n          <kbd>{b.comboText}</kbd> {b.label}\n        </li>\n      ))}\n    </ul>\n  );\n}\n```"
+											}
+										]
+									}
+								]
+							},
+							"sources": [
+								{
+									"fileName": "lib/keymash-react.ts",
+									"line": 646,
+									"character": 16,
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L646"
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "reference",
+									"target": 227,
+									"name": "GlobalBinding",
+									"package": "keymash"
+								}
+							}
+						}
+					]
+				}
+			],
+			"groups": [
+				{
+					"title": "Functions",
+					"children": [
+						128,
+						132,
+						135
+					]
+				},
+				{
+					"title": "Interfaces",
+					"children": [
+						137,
+						150,
+						163,
+						170,
+						175,
+						180,
+						191,
+						227
+					]
+				},
+				{
+					"title": "Type Aliases",
+					"children": [
+						145,
+						158
+					]
+				},
+				{
+					"title": "References",
+					"children": [
+						326,
+						327,
+						328,
+						329,
+						330,
+						331,
+						332,
+						333,
+						334,
+						335,
+						336,
+						337,
+						338,
+						339,
+						340,
+						341,
+						342,
+						343,
+						344,
+						345,
+						346,
+						347
+					]
+				}
+			],
+			"categories": [
+				{
+					"title": "Types",
+					"children": [
+						137,
+						145
+					]
+				},
+				{
+					"title": "Other",
+					"children": [
+						326,
+						327,
+						328,
+						329,
+						330,
+						331,
+						332,
+						333,
+						334,
+						335,
+						336,
+						337,
+						338,
+						339,
+						340,
+						341,
+						342,
+						343,
+						344,
+						345,
+						346,
+						347,
+						150,
+						158,
+						163,
+						170,
+						175,
+						180,
+						191,
+						227
+					]
+				},
+				{
+					"title": "React Hooks",
+					"children": [
+						128,
+						132,
+						135
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "lib/keymash-react.ts",
+					"line": 1,
+					"character": 0,
+					"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash-react.ts#L1"
+				}
+			]
+		},
+		{
 			"id": 1,
 			"name": "lib/keymash",
 			"variant": "declaration",
@@ -54,12 +3482,12 @@
 							"fileName": "lib/keymash.ts",
 							"line": 126,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L126"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L126"
 						}
 					],
 					"type": {
 						"type": "reference",
-						"target": 135,
+						"target": 245,
 						"name": "NamedKeyMap",
 						"package": "keymash"
 					},
@@ -106,12 +3534,12 @@
 							"fileName": "lib/keymash.ts",
 							"line": 160,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L160"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L160"
 						}
 					],
 					"type": {
 						"type": "reference",
-						"target": 135,
+						"target": 245,
 						"name": "NamedKeyMap",
 						"package": "keymash"
 					},
@@ -158,7 +3586,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 187,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L187"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L187"
 						}
 					],
 					"type": {
@@ -194,7 +3622,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 309,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L309"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L309"
 						}
 					],
 					"signatures": [
@@ -246,7 +3674,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 309,
 									"character": 19,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L309"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L309"
 								}
 							],
 							"parameters": [
@@ -290,7 +3718,7 @@
 													"fileName": "lib/keymash.ts",
 													"line": 314,
 													"character": 4,
-													"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L314"
+													"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L314"
 												}
 											],
 											"type": {
@@ -310,7 +3738,7 @@
 													"fileName": "lib/keymash.ts",
 													"line": 315,
 													"character": 4,
-													"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L315"
+													"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L315"
 												}
 											],
 											"type": {
@@ -391,7 +3819,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 334,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L334"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L334"
 						}
 					],
 					"type": {
@@ -448,7 +3876,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 340,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L340"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L340"
 						}
 					],
 					"type": {
@@ -505,7 +3933,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 346,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L346"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L346"
 						}
 					],
 					"type": {
@@ -554,7 +3982,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 352,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L352"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L352"
 						}
 					],
 					"type": {
@@ -611,7 +4039,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 358,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L358"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L358"
 						}
 					],
 					"type": {
@@ -668,7 +4096,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 364,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L364"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L364"
 						}
 					],
 					"type": {
@@ -688,7 +4116,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 515,
 							"character": 16,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L515"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L515"
 						}
 					],
 					"signatures": [
@@ -731,7 +4159,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 515,
 									"character": 16,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L515"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L515"
 								}
 							],
 							"type": {
@@ -766,7 +4194,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 527,
 							"character": 16,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L527"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L527"
 						}
 					],
 					"signatures": [
@@ -809,7 +4237,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 527,
 									"character": 16,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L527"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L527"
 								}
 							],
 							"parameters": [
@@ -942,7 +4370,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 568,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L568"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L568"
 								}
 							],
 							"type": {
@@ -951,7 +4379,7 @@
 							},
 							"implementationOf": {
 								"type": "reference",
-								"target": 171,
+								"target": 281,
 								"name": "IKeymash.label"
 							}
 						},
@@ -989,7 +4417,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 573,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L573"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L573"
 								}
 							],
 							"type": {
@@ -1019,7 +4447,7 @@
 							},
 							"implementationOf": {
 								"type": "reference",
-								"target": 172,
+								"target": 282,
 								"name": "IKeymash.scope"
 							}
 						},
@@ -1042,14 +4470,14 @@
 									"fileName": "lib/keymash.ts",
 									"line": 574,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L574"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L574"
 								}
 							],
 							"type": {
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"target": 144,
+									"target": 254,
 									"name": "Binding",
 									"package": "keymash"
 								}
@@ -1057,7 +4485,7 @@
 							"defaultValue": "[]",
 							"implementationOf": {
 								"type": "reference",
-								"target": 173,
+								"target": 283,
 								"name": "IKeymash.bindings"
 							}
 						},
@@ -1072,7 +4500,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 594,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L594"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L594"
 								}
 							],
 							"signatures": [
@@ -1087,7 +4515,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 594,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L594"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L594"
 										}
 									],
 									"parameters": [
@@ -1099,7 +4527,7 @@
 											"flags": {},
 											"type": {
 												"type": "reference",
-												"target": 164,
+												"target": 274,
 												"name": "KeymashConfig",
 												"package": "keymash"
 											},
@@ -1126,7 +4554,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 619,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L619"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L619"
 								}
 							],
 							"signatures": [
@@ -1149,7 +4577,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 619,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L619"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L619"
 										}
 									],
 									"parameters": [
@@ -1168,7 +4596,7 @@
 													},
 													{
 														"type": "reference",
-														"target": 144,
+														"target": 254,
 														"name": "Binding",
 														"package": "keymash"
 													},
@@ -1176,7 +4604,7 @@
 														"type": "array",
 														"elementType": {
 															"type": "reference",
-															"target": 144,
+															"target": 254,
 															"name": "Binding",
 															"package": "keymash"
 														}
@@ -1194,7 +4622,7 @@
 											},
 											"type": {
 												"type": "reference",
-												"target": 140,
+												"target": 250,
 												"name": "KeyComboHandler",
 												"package": "keymash"
 											}
@@ -1206,14 +4634,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 175,
+										"target": 285,
 										"name": "IKeymash.bind"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 174,
+								"target": 284,
 								"name": "IKeymash.bind"
 							}
 						},
@@ -1228,7 +4656,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 640,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L640"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L640"
 								}
 							],
 							"signatures": [
@@ -1251,7 +4679,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 640,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L640"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L640"
 										}
 									],
 									"parameters": [
@@ -1285,14 +4713,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 183,
+										"target": 293,
 										"name": "IKeymash.unbind"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 182,
+								"target": 292,
 								"name": "IKeymash.unbind"
 							}
 						},
@@ -1307,7 +4735,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 657,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L657"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L657"
 								}
 							],
 							"signatures": [
@@ -1330,7 +4758,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 657,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L657"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L657"
 										}
 									],
 									"parameters": [
@@ -1352,14 +4780,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 186,
+										"target": 296,
 										"name": "IKeymash.setActive"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 185,
+								"target": 295,
 								"name": "IKeymash.setActive"
 							}
 						},
@@ -1374,7 +4802,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 681,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L681"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L681"
 								}
 							],
 							"signatures": [
@@ -1397,7 +4825,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 681,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L681"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L681"
 										}
 									],
 									"parameters": [
@@ -1457,14 +4885,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 189,
+										"target": 299,
 										"name": "IKeymash.onChange"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 188,
+								"target": 298,
 								"name": "IKeymash.onChange"
 							}
 						},
@@ -1479,7 +4907,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 689,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L689"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L689"
 								}
 							],
 							"signatures": [
@@ -1502,7 +4930,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 689,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L689"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L689"
 										}
 									],
 									"parameters": [
@@ -1556,14 +4984,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 207,
+										"target": 317,
 										"name": "IKeymash.onUpdate"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 206,
+								"target": 316,
 								"name": "IKeymash.onUpdate"
 							}
 						},
@@ -1578,7 +5006,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 696,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L696"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L696"
 								}
 							],
 							"signatures": [
@@ -1601,7 +5029,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 696,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L696"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L696"
 										}
 									],
 									"type": {
@@ -1610,14 +5038,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 205,
+										"target": 315,
 										"name": "IKeymash.isActive"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 204,
+								"target": 314,
 								"name": "IKeymash.isActive"
 							}
 						},
@@ -1632,7 +5060,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 703,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L703"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L703"
 								}
 							],
 							"signatures": [
@@ -1655,7 +5083,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 703,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L703"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L703"
 										}
 									],
 									"type": {
@@ -1664,14 +5092,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 213,
+										"target": 323,
 										"name": "IKeymash.destroy"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 212,
+								"target": 322,
 								"name": "IKeymash.destroy"
 							}
 						},
@@ -1686,7 +5114,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 721,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L721"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L721"
 								}
 							],
 							"signatures": [
@@ -1709,7 +5137,7 @@
 											"fileName": "lib/keymash.ts",
 											"line": 721,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L721"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L721"
 										}
 									],
 									"parameters": [
@@ -1748,7 +5176,7 @@
 											},
 											"type": {
 												"type": "reference",
-												"target": 160,
+												"target": 270,
 												"name": "SequenceHandler",
 												"package": "keymash"
 											}
@@ -1791,7 +5219,7 @@
 																	"fileName": "lib/keymash.ts",
 																	"line": 721,
 																	"character": 67,
-																	"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L721"
+																	"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L721"
 																}
 															],
 															"type": {
@@ -1837,14 +5265,14 @@
 									},
 									"implementationOf": {
 										"type": "reference",
-										"target": 196,
+										"target": 306,
 										"name": "IKeymash.sequence"
 									}
 								}
 							],
 							"implementationOf": {
 								"type": "reference",
-								"target": 195,
+								"target": 305,
 								"name": "IKeymash.sequence"
 							}
 						}
@@ -1883,13 +5311,13 @@
 							"fileName": "lib/keymash.ts",
 							"line": 567,
 							"character": 13,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L567"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L567"
 						}
 					],
 					"implementedTypes": [
 						{
 							"type": "reference",
-							"target": 170,
+							"target": 280,
 							"name": "IKeymash",
 							"package": "keymash"
 						}
@@ -1906,7 +5334,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 1018,
 							"character": 16,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L1018"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L1018"
 						}
 					],
 					"signatures": [
@@ -1958,7 +5386,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 1018,
 									"character": 16,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L1018"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L1018"
 								}
 							],
 							"parameters": [
@@ -1978,7 +5406,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"target": 164,
+										"target": 274,
 										"name": "KeymashConfig",
 										"package": "keymash"
 									},
@@ -2005,7 +5433,7 @@
 							"fileName": "lib/keymash.ts",
 							"line": 1049,
 							"character": 16,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L1049"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L1049"
 						}
 					],
 					"signatures": [
@@ -2057,7 +5485,7 @@
 									"fileName": "lib/keymash.ts",
 									"line": 1049,
 									"character": 16,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L1049"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L1049"
 								}
 							],
 							"parameters": [
@@ -2114,7 +5542,7 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"target": 150,
+									"target": 260,
 									"name": "FullBinding",
 									"package": "keymash"
 								}
@@ -2197,19 +5625,19 @@
 					"fileName": "lib/keymash.ts",
 					"line": 1,
 					"character": 0,
-					"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/lib/keymash.ts#L1"
+					"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/lib/keymash.ts#L1"
 				}
 			]
 		},
 		{
-			"id": 127,
+			"id": 237,
 			"name": "types",
 			"variant": "declaration",
 			"kind": 2,
 			"flags": {},
 			"children": [
 				{
-					"id": 131,
+					"id": 241,
 					"name": "NumeralKeyAlias",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2219,7 +5647,7 @@
 							"fileName": "types.ts",
 							"line": 12,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L12"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L12"
 						}
 					],
 					"type": {
@@ -2243,7 +5671,7 @@
 					}
 				},
 				{
-					"id": 132,
+					"id": 242,
 					"name": "KeyAlias",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2253,7 +5681,7 @@
 							"fileName": "types.ts",
 							"line": 30,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L30"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L30"
 						}
 					],
 					"type": {
@@ -2261,7 +5689,7 @@
 						"types": [
 							{
 								"type": "reference",
-								"target": 131,
+								"target": 241,
 								"name": "NumeralKeyAlias",
 								"package": "keymash"
 							},
@@ -2341,7 +5769,7 @@
 					}
 				},
 				{
-					"id": 133,
+					"id": 243,
 					"name": "NamedKey",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2351,7 +5779,7 @@
 							"fileName": "types.ts",
 							"line": 53,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L53"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L53"
 						}
 					],
 					"type": {
@@ -2401,7 +5829,7 @@
 					}
 				},
 				{
-					"id": 134,
+					"id": 244,
 					"name": "IntNamedKeyMap",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2411,7 +5839,7 @@
 							"fileName": "types.ts",
 							"line": 54,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L54"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L54"
 						}
 					],
 					"type": {
@@ -2420,7 +5848,7 @@
 						"typeArguments": [
 							{
 								"type": "reference",
-								"target": 133,
+								"target": 243,
 								"name": "NamedKey",
 								"package": "keymash"
 							},
@@ -2434,7 +5862,7 @@
 					}
 				},
 				{
-					"id": 135,
+					"id": 245,
 					"name": "NamedKeyMap",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2444,7 +5872,7 @@
 							"fileName": "types.ts",
 							"line": 55,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L55"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L55"
 						}
 					],
 					"type": {
@@ -2456,13 +5884,13 @@
 								"types": [
 									{
 										"type": "reference",
-										"target": 133,
+										"target": 243,
 										"name": "NamedKey",
 										"package": "keymash"
 									},
 									{
 										"type": "reference",
-										"target": 132,
+										"target": 242,
 										"name": "KeyAlias",
 										"package": "keymash"
 									}
@@ -2478,7 +5906,7 @@
 					}
 				},
 				{
-					"id": 136,
+					"id": 246,
 					"name": "KeyCombo",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2516,7 +5944,7 @@
 							"fileName": "types.ts",
 							"line": 73,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L73"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L73"
 						}
 					],
 					"type": {
@@ -2525,7 +5953,7 @@
 					}
 				},
 				{
-					"id": 137,
+					"id": 247,
 					"name": "HandlerContext",
 					"variant": "declaration",
 					"kind": 256,
@@ -2551,7 +5979,7 @@
 					},
 					"children": [
 						{
-							"id": 138,
+							"id": 248,
 							"name": "event",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2569,7 +5997,7 @@
 									"fileName": "types.ts",
 									"line": 83,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L83"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L83"
 								}
 							],
 							"type": {
@@ -2584,7 +6012,7 @@
 							}
 						},
 						{
-							"id": 139,
+							"id": 249,
 							"name": "instance",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2602,12 +6030,12 @@
 									"fileName": "types.ts",
 									"line": 85,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L85"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L85"
 								}
 							],
 							"type": {
 								"type": "reference",
-								"target": 170,
+								"target": 280,
 								"name": "IKeymash",
 								"package": "keymash"
 							}
@@ -2617,8 +6045,8 @@
 						{
 							"title": "Properties",
 							"children": [
-								138,
-								139
+								248,
+								249
 							]
 						}
 					],
@@ -2627,12 +6055,19 @@
 							"fileName": "types.ts",
 							"line": 81,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L81"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L81"
+						}
+					],
+					"extendedBy": [
+						{
+							"type": "reference",
+							"target": 137,
+							"name": "ReactHandlerContext"
 						}
 					]
 				},
 				{
-					"id": 140,
+					"id": 250,
 					"name": "KeyComboHandler",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -2670,34 +6105,34 @@
 							"fileName": "types.ts",
 							"line": 105,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L105"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L105"
 						}
 					],
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 141,
+							"id": 251,
 							"name": "__type",
 							"variant": "declaration",
 							"kind": 65536,
 							"flags": {},
 							"signatures": [
 								{
-									"id": 142,
+									"id": 252,
 									"name": "__type",
 									"variant": "signature",
 									"kind": 4096,
 									"flags": {},
 									"parameters": [
 										{
-											"id": 143,
+											"id": 253,
 											"name": "context",
 											"variant": "param",
 											"kind": 32768,
 											"flags": {},
 											"type": {
 												"type": "reference",
-												"target": 137,
+												"target": 247,
 												"name": "HandlerContext",
 												"package": "keymash"
 											}
@@ -2713,7 +6148,7 @@
 					}
 				},
 				{
-					"id": 144,
+					"id": 254,
 					"name": "Binding",
 					"variant": "declaration",
 					"kind": 256,
@@ -2748,7 +6183,7 @@
 					},
 					"children": [
 						{
-							"id": 145,
+							"id": 255,
 							"name": "combo",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2766,7 +6201,7 @@
 									"fileName": "types.ts",
 									"line": 127,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L127"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L127"
 								}
 							],
 							"type": {
@@ -2775,7 +6210,7 @@
 							}
 						},
 						{
-							"id": 146,
+							"id": 256,
 							"name": "handler",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2793,18 +6228,18 @@
 									"fileName": "types.ts",
 									"line": 129,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L129"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L129"
 								}
 							],
 							"type": {
 								"type": "reference",
-								"target": 140,
+								"target": 250,
 								"name": "KeyComboHandler",
 								"package": "keymash"
 							}
 						},
 						{
-							"id": 147,
+							"id": 257,
 							"name": "label",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2824,7 +6259,7 @@
 									"fileName": "types.ts",
 									"line": 131,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L131"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L131"
 								}
 							],
 							"type": {
@@ -2833,7 +6268,7 @@
 							}
 						},
 						{
-							"id": 148,
+							"id": 258,
 							"name": "delay",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2853,7 +6288,7 @@
 									"fileName": "types.ts",
 									"line": 133,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L133"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L133"
 								}
 							],
 							"type": {
@@ -2862,7 +6297,7 @@
 							}
 						},
 						{
-							"id": 149,
+							"id": 259,
 							"name": "repeat",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2882,7 +6317,7 @@
 									"fileName": "types.ts",
 									"line": 135,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L135"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L135"
 								}
 							],
 							"type": {
@@ -2895,11 +6330,11 @@
 						{
 							"title": "Properties",
 							"children": [
-								145,
-								146,
-								147,
-								148,
-								149
+								255,
+								256,
+								257,
+								258,
+								259
 							]
 						}
 					],
@@ -2908,12 +6343,12 @@
 							"fileName": "types.ts",
 							"line": 125,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L125"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L125"
 						}
 					]
 				},
 				{
-					"id": 150,
+					"id": 260,
 					"name": "FullBinding",
 					"variant": "declaration",
 					"kind": 256,
@@ -2939,7 +6374,7 @@
 					},
 					"children": [
 						{
-							"id": 152,
+							"id": 262,
 							"name": "combo",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2959,7 +6394,7 @@
 									"fileName": "types.ts",
 									"line": 127,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L127"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L127"
 								}
 							],
 							"type": {
@@ -2968,14 +6403,14 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"target": 145,
+								"target": 255,
 								"name": "Required.combo",
 								"package": "keymash",
 								"qualifiedName": "Binding.combo"
 							}
 						},
 						{
-							"id": 153,
+							"id": 263,
 							"name": "handler",
 							"variant": "declaration",
 							"kind": 1024,
@@ -2995,25 +6430,25 @@
 									"fileName": "types.ts",
 									"line": 129,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L129"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L129"
 								}
 							],
 							"type": {
 								"type": "reference",
-								"target": 140,
+								"target": 250,
 								"name": "KeyComboHandler",
 								"package": "keymash"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"target": 146,
+								"target": 256,
 								"name": "Required.handler",
 								"package": "keymash",
 								"qualifiedName": "Binding.handler"
 							}
 						},
 						{
-							"id": 154,
+							"id": 264,
 							"name": "label",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3033,7 +6468,7 @@
 									"fileName": "types.ts",
 									"line": 131,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L131"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L131"
 								}
 							],
 							"type": {
@@ -3042,14 +6477,14 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"target": 147,
+								"target": 257,
 								"name": "Required.label",
 								"package": "keymash",
 								"qualifiedName": "Binding.label"
 							}
 						},
 						{
-							"id": 155,
+							"id": 265,
 							"name": "delay",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3069,7 +6504,7 @@
 									"fileName": "types.ts",
 									"line": 133,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L133"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L133"
 								}
 							],
 							"type": {
@@ -3078,14 +6513,14 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"target": 148,
+								"target": 258,
 								"name": "Required.delay",
 								"package": "keymash",
 								"qualifiedName": "Binding.delay"
 							}
 						},
 						{
-							"id": 156,
+							"id": 266,
 							"name": "repeat",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3105,7 +6540,7 @@
 									"fileName": "types.ts",
 									"line": 135,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L135"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L135"
 								}
 							],
 							"type": {
@@ -3114,14 +6549,14 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"target": 149,
+								"target": 259,
 								"name": "Required.repeat",
 								"package": "keymash",
 								"qualifiedName": "Binding.repeat"
 							}
 						},
 						{
-							"id": 151,
+							"id": 261,
 							"name": "comboText",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3139,7 +6574,7 @@
 									"fileName": "types.ts",
 									"line": 146,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L146"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L146"
 								}
 							],
 							"type": {
@@ -3152,12 +6587,12 @@
 						{
 							"title": "Properties",
 							"children": [
-								152,
-								153,
-								154,
-								155,
-								156,
-								151
+								262,
+								263,
+								264,
+								265,
+								266,
+								261
 							]
 						}
 					],
@@ -3166,7 +6601,7 @@
 							"fileName": "types.ts",
 							"line": 144,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L144"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L144"
 						}
 					],
 					"extendedTypes": [
@@ -3180,7 +6615,7 @@
 							"typeArguments": [
 								{
 									"type": "reference",
-									"target": 144,
+									"target": 254,
 									"name": "Binding",
 									"package": "keymash"
 								}
@@ -3191,7 +6626,7 @@
 					]
 				},
 				{
-					"id": 157,
+					"id": 267,
 					"name": "SequenceHandlerContext",
 					"variant": "declaration",
 					"kind": 256,
@@ -3217,7 +6652,7 @@
 					},
 					"children": [
 						{
-							"id": 158,
+							"id": 268,
 							"name": "sequence",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3235,7 +6670,7 @@
 									"fileName": "types.ts",
 									"line": 156,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L156"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L156"
 								}
 							],
 							"type": {
@@ -3244,7 +6679,7 @@
 							}
 						},
 						{
-							"id": 159,
+							"id": 269,
 							"name": "instance",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3262,12 +6697,12 @@
 									"fileName": "types.ts",
 									"line": 158,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L158"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L158"
 								}
 							],
 							"type": {
 								"type": "reference",
-								"target": 170,
+								"target": 280,
 								"name": "IKeymash",
 								"package": "keymash"
 							}
@@ -3277,8 +6712,8 @@
 						{
 							"title": "Properties",
 							"children": [
-								158,
-								159
+								268,
+								269
 							]
 						}
 					],
@@ -3287,12 +6722,19 @@
 							"fileName": "types.ts",
 							"line": 154,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L154"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L154"
+						}
+					],
+					"extendedBy": [
+						{
+							"type": "reference",
+							"target": 150,
+							"name": "ReactSequenceHandlerContext"
 						}
 					]
 				},
 				{
-					"id": 160,
+					"id": 270,
 					"name": "SequenceHandler",
 					"variant": "declaration",
 					"kind": 2097152,
@@ -3330,34 +6772,34 @@
 							"fileName": "types.ts",
 							"line": 173,
 							"character": 12,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L173"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L173"
 						}
 					],
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 161,
+							"id": 271,
 							"name": "__type",
 							"variant": "declaration",
 							"kind": 65536,
 							"flags": {},
 							"signatures": [
 								{
-									"id": 162,
+									"id": 272,
 									"name": "__type",
 									"variant": "signature",
 									"kind": 4096,
 									"flags": {},
 									"parameters": [
 										{
-											"id": 163,
+											"id": 273,
 											"name": "context",
 											"variant": "param",
 											"kind": 32768,
 											"flags": {},
 											"type": {
 												"type": "reference",
-												"target": 157,
+												"target": 267,
 												"name": "SequenceHandlerContext",
 												"package": "keymash"
 											}
@@ -3373,7 +6815,7 @@
 					}
 				},
 				{
-					"id": 164,
+					"id": 274,
 					"name": "KeymashConfig",
 					"variant": "declaration",
 					"kind": 256,
@@ -3408,7 +6850,7 @@
 					},
 					"children": [
 						{
-							"id": 165,
+							"id": 275,
 							"name": "scope",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3439,7 +6881,7 @@
 									"fileName": "types.ts",
 									"line": 201,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L201"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L201"
 								}
 							],
 							"type": {
@@ -3469,7 +6911,7 @@
 							}
 						},
 						{
-							"id": 166,
+							"id": 276,
 							"name": "bindings",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3489,21 +6931,21 @@
 									"fileName": "types.ts",
 									"line": 203,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L203"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L203"
 								}
 							],
 							"type": {
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"target": 144,
+									"target": 254,
 									"name": "Binding",
 									"package": "keymash"
 								}
 							}
 						},
 						{
-							"id": 167,
+							"id": 277,
 							"name": "toActivate",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3523,7 +6965,7 @@
 									"fileName": "types.ts",
 									"line": 205,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L205"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L205"
 								}
 							],
 							"type": {
@@ -3532,7 +6974,7 @@
 							}
 						},
 						{
-							"id": 168,
+							"id": 278,
 							"name": "toDeactivate",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3552,7 +6994,7 @@
 									"fileName": "types.ts",
 									"line": 207,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L207"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L207"
 								}
 							],
 							"type": {
@@ -3561,7 +7003,7 @@
 							}
 						},
 						{
-							"id": 169,
+							"id": 279,
 							"name": "label",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3581,7 +7023,7 @@
 									"fileName": "types.ts",
 									"line": 209,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L209"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L209"
 								}
 							],
 							"type": {
@@ -3594,11 +7036,11 @@
 						{
 							"title": "Properties",
 							"children": [
-								165,
-								166,
-								167,
-								168,
-								169
+								275,
+								276,
+								277,
+								278,
+								279
 							]
 						}
 					],
@@ -3607,12 +7049,12 @@
 							"fileName": "types.ts",
 							"line": 194,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L194"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L194"
 						}
 					]
 				},
 				{
-					"id": 170,
+					"id": 280,
 					"name": "IKeymash",
 					"variant": "declaration",
 					"kind": 256,
@@ -3638,7 +7080,7 @@
 					},
 					"children": [
 						{
-							"id": 171,
+							"id": 281,
 							"name": "label",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3656,7 +7098,7 @@
 									"fileName": "types.ts",
 									"line": 220,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L220"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L220"
 								}
 							],
 							"type": {
@@ -3665,7 +7107,7 @@
 							}
 						},
 						{
-							"id": 172,
+							"id": 282,
 							"name": "scope",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3683,7 +7125,7 @@
 									"fileName": "types.ts",
 									"line": 224,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L224"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L224"
 								}
 							],
 							"type": {
@@ -3713,7 +7155,7 @@
 							}
 						},
 						{
-							"id": 173,
+							"id": 283,
 							"name": "bindings",
 							"variant": "declaration",
 							"kind": 1024,
@@ -3731,21 +7173,21 @@
 									"fileName": "types.ts",
 									"line": 226,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L226"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L226"
 								}
 							],
 							"type": {
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"target": 144,
+									"target": 254,
 									"name": "Binding",
 									"package": "keymash"
 								}
 							}
 						},
 						{
-							"id": 174,
+							"id": 284,
 							"name": "bind",
 							"variant": "declaration",
 							"kind": 2048,
@@ -3755,24 +7197,24 @@
 									"fileName": "types.ts",
 									"line": 231,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L231"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L231"
 								},
 								{
 									"fileName": "types.ts",
 									"line": 232,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L232"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L232"
 								},
 								{
 									"fileName": "types.ts",
 									"line": 233,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L233"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L233"
 								}
 							],
 							"signatures": [
 								{
-									"id": 175,
+									"id": 285,
 									"name": "bind",
 									"variant": "signature",
 									"kind": 4096,
@@ -3790,19 +7232,19 @@
 											"fileName": "types.ts",
 											"line": 231,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L231"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L231"
 										}
 									],
 									"parameters": [
 										{
-											"id": 176,
+											"id": 286,
 											"name": "binding",
 											"variant": "param",
 											"kind": 32768,
 											"flags": {},
 											"type": {
 												"type": "reference",
-												"target": 144,
+												"target": 254,
 												"name": "Binding",
 												"package": "keymash"
 											}
@@ -3814,7 +7256,7 @@
 									}
 								},
 								{
-									"id": 177,
+									"id": 287,
 									"name": "bind",
 									"variant": "signature",
 									"kind": 4096,
@@ -3824,12 +7266,12 @@
 											"fileName": "types.ts",
 											"line": 232,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L232"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L232"
 										}
 									],
 									"parameters": [
 										{
-											"id": 178,
+											"id": 288,
 											"name": "bindings",
 											"variant": "param",
 											"kind": 32768,
@@ -3838,7 +7280,7 @@
 												"type": "array",
 												"elementType": {
 													"type": "reference",
-													"target": 144,
+													"target": 254,
 													"name": "Binding",
 													"package": "keymash"
 												}
@@ -3851,7 +7293,7 @@
 									}
 								},
 								{
-									"id": 179,
+									"id": 289,
 									"name": "bind",
 									"variant": "signature",
 									"kind": 4096,
@@ -3861,12 +7303,12 @@
 											"fileName": "types.ts",
 											"line": 233,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L233"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L233"
 										}
 									],
 									"parameters": [
 										{
-											"id": 180,
+											"id": 290,
 											"name": "combo",
 											"variant": "param",
 											"kind": 32768,
@@ -3877,14 +7319,14 @@
 											}
 										},
 										{
-											"id": 181,
+											"id": 291,
 											"name": "handler",
 											"variant": "param",
 											"kind": 32768,
 											"flags": {},
 											"type": {
 												"type": "reference",
-												"target": 140,
+												"target": 250,
 												"name": "KeyComboHandler",
 												"package": "keymash"
 											}
@@ -3898,7 +7340,7 @@
 							]
 						},
 						{
-							"id": 182,
+							"id": 292,
 							"name": "unbind",
 							"variant": "declaration",
 							"kind": 2048,
@@ -3908,12 +7350,12 @@
 									"fileName": "types.ts",
 									"line": 236,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L236"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L236"
 								}
 							],
 							"signatures": [
 								{
-									"id": 183,
+									"id": 293,
 									"name": "unbind",
 									"variant": "signature",
 									"kind": 4096,
@@ -3931,12 +7373,12 @@
 											"fileName": "types.ts",
 											"line": 236,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L236"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L236"
 										}
 									],
 									"parameters": [
 										{
-											"id": 184,
+											"id": 294,
 											"name": "combo",
 											"variant": "param",
 											"kind": 32768,
@@ -3967,7 +7409,7 @@
 							]
 						},
 						{
-							"id": 185,
+							"id": 295,
 							"name": "setActive",
 							"variant": "declaration",
 							"kind": 2048,
@@ -3977,12 +7419,12 @@
 									"fileName": "types.ts",
 									"line": 238,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L238"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L238"
 								}
 							],
 							"signatures": [
 								{
-									"id": 186,
+									"id": 296,
 									"name": "setActive",
 									"variant": "signature",
 									"kind": 4096,
@@ -4000,12 +7442,12 @@
 											"fileName": "types.ts",
 											"line": 238,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L238"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L238"
 										}
 									],
 									"parameters": [
 										{
-											"id": 187,
+											"id": 297,
 											"name": "active",
 											"variant": "param",
 											"kind": 32768,
@@ -4024,7 +7466,7 @@
 							]
 						},
 						{
-							"id": 188,
+							"id": 298,
 							"name": "onChange",
 							"variant": "declaration",
 							"kind": 2048,
@@ -4034,12 +7476,12 @@
 									"fileName": "types.ts",
 									"line": 240,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L240"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L240"
 								}
 							],
 							"signatures": [
 								{
-									"id": 189,
+									"id": 299,
 									"name": "onChange",
 									"variant": "signature",
 									"kind": 4096,
@@ -4057,12 +7499,12 @@
 											"fileName": "types.ts",
 											"line": 240,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L240"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L240"
 										}
 									],
 									"parameters": [
 										{
-											"id": 190,
+											"id": 300,
 											"name": "handler",
 											"variant": "param",
 											"kind": 32768,
@@ -4070,14 +7512,14 @@
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 191,
+													"id": 301,
 													"name": "__type",
 													"variant": "declaration",
 													"kind": 65536,
 													"flags": {},
 													"signatures": [
 														{
-															"id": 192,
+															"id": 302,
 															"name": "__type",
 															"variant": "signature",
 															"kind": 4096,
@@ -4095,14 +7537,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 193,
+											"id": 303,
 											"name": "__type",
 											"variant": "declaration",
 											"kind": 65536,
 											"flags": {},
 											"signatures": [
 												{
-													"id": 194,
+													"id": 304,
 													"name": "__type",
 													"variant": "signature",
 													"kind": 4096,
@@ -4119,7 +7561,7 @@
 							]
 						},
 						{
-							"id": 195,
+							"id": 305,
 							"name": "sequence",
 							"variant": "declaration",
 							"kind": 2048,
@@ -4129,12 +7571,12 @@
 									"fileName": "types.ts",
 									"line": 246,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L246"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L246"
 								}
 							],
 							"signatures": [
 								{
-									"id": 196,
+									"id": 306,
 									"name": "sequence",
 									"variant": "signature",
 									"kind": 4096,
@@ -4152,12 +7594,12 @@
 											"fileName": "types.ts",
 											"line": 246,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L246"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L246"
 										}
 									],
 									"parameters": [
 										{
-											"id": 197,
+											"id": 307,
 											"name": "sequence",
 											"variant": "param",
 											"kind": 32768,
@@ -4168,20 +7610,20 @@
 											}
 										},
 										{
-											"id": 198,
+											"id": 308,
 											"name": "handler",
 											"variant": "param",
 											"kind": 32768,
 											"flags": {},
 											"type": {
 												"type": "reference",
-												"target": 160,
+												"target": 270,
 												"name": "SequenceHandler",
 												"package": "keymash"
 											}
 										},
 										{
-											"id": 199,
+											"id": 309,
 											"name": "options",
 											"variant": "param",
 											"kind": 32768,
@@ -4191,14 +7633,14 @@
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 200,
+													"id": 310,
 													"name": "__type",
 													"variant": "declaration",
 													"kind": 65536,
 													"flags": {},
 													"children": [
 														{
-															"id": 201,
+															"id": 311,
 															"name": "timeout",
 															"variant": "declaration",
 															"kind": 1024,
@@ -4210,7 +7652,7 @@
 																	"fileName": "types.ts",
 																	"line": 246,
 																	"character": 67,
-																	"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L246"
+																	"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L246"
 																}
 															],
 															"type": {
@@ -4223,7 +7665,7 @@
 														{
 															"title": "Properties",
 															"children": [
-																201
+																311
 															]
 														}
 													]
@@ -4234,14 +7676,14 @@
 									"type": {
 										"type": "reflection",
 										"declaration": {
-											"id": 202,
+											"id": 312,
 											"name": "__type",
 											"variant": "declaration",
 											"kind": 65536,
 											"flags": {},
 											"signatures": [
 												{
-													"id": 203,
+													"id": 313,
 													"name": "__type",
 													"variant": "signature",
 													"kind": 4096,
@@ -4258,7 +7700,7 @@
 							]
 						},
 						{
-							"id": 204,
+							"id": 314,
 							"name": "isActive",
 							"variant": "declaration",
 							"kind": 2048,
@@ -4268,12 +7710,12 @@
 									"fileName": "types.ts",
 									"line": 249,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L249"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L249"
 								}
 							],
 							"signatures": [
 								{
-									"id": 205,
+									"id": 315,
 									"name": "isActive",
 									"variant": "signature",
 									"kind": 4096,
@@ -4291,7 +7733,7 @@
 											"fileName": "types.ts",
 											"line": 249,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L249"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L249"
 										}
 									],
 									"type": {
@@ -4302,7 +7744,7 @@
 							]
 						},
 						{
-							"id": 206,
+							"id": 316,
 							"name": "onUpdate",
 							"variant": "declaration",
 							"kind": 2048,
@@ -4312,12 +7754,12 @@
 									"fileName": "types.ts",
 									"line": 255,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L255"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L255"
 								}
 							],
 							"signatures": [
 								{
-									"id": 207,
+									"id": 317,
 									"name": "onUpdate",
 									"variant": "signature",
 									"kind": 4096,
@@ -4335,12 +7777,12 @@
 											"fileName": "types.ts",
 											"line": 255,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L255"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L255"
 										}
 									],
 									"parameters": [
 										{
-											"id": 208,
+											"id": 318,
 											"name": "callback",
 											"variant": "param",
 											"kind": 32768,
@@ -4348,21 +7790,21 @@
 											"type": {
 												"type": "reflection",
 												"declaration": {
-													"id": 209,
+													"id": 319,
 													"name": "__type",
 													"variant": "declaration",
 													"kind": 65536,
 													"flags": {},
 													"signatures": [
 														{
-															"id": 210,
+															"id": 320,
 															"name": "__type",
 															"variant": "signature",
 															"kind": 4096,
 															"flags": {},
 															"parameters": [
 																{
-																	"id": 211,
+																	"id": 321,
 																	"name": "mask",
 																	"variant": "param",
 																	"kind": 32768,
@@ -4391,7 +7833,7 @@
 							]
 						},
 						{
-							"id": 212,
+							"id": 322,
 							"name": "destroy",
 							"variant": "declaration",
 							"kind": 2048,
@@ -4401,12 +7843,12 @@
 									"fileName": "types.ts",
 									"line": 258,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L258"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L258"
 								}
 							],
 							"signatures": [
 								{
-									"id": 213,
+									"id": 323,
 									"name": "destroy",
 									"variant": "signature",
 									"kind": 4096,
@@ -4424,7 +7866,7 @@
 											"fileName": "types.ts",
 											"line": 258,
 											"character": 2,
-											"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L258"
+											"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L258"
 										}
 									],
 									"type": {
@@ -4439,22 +7881,22 @@
 						{
 							"title": "Methods",
 							"children": [
-								174,
-								182,
-								185,
-								188,
-								195,
-								204,
-								206,
-								212
+								284,
+								292,
+								295,
+								298,
+								305,
+								314,
+								316,
+								322
 							]
 						},
 						{
 							"title": "Properties",
 							"children": [
-								171,
-								172,
-								173
+								281,
+								282,
+								283
 							]
 						}
 					],
@@ -4463,7 +7905,7 @@
 							"fileName": "types.ts",
 							"line": 218,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L218"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L218"
 						}
 					],
 					"implementedBy": [
@@ -4475,7 +7917,7 @@
 					]
 				},
 				{
-					"id": 214,
+					"id": 324,
 					"name": "KeyState",
 					"variant": "declaration",
 					"kind": 256,
@@ -4501,7 +7943,7 @@
 					},
 					"children": [
 						{
-							"id": 215,
+							"id": 325,
 							"name": "held",
 							"variant": "declaration",
 							"kind": 1024,
@@ -4519,7 +7961,7 @@
 									"fileName": "types.ts",
 									"line": 268,
 									"character": 2,
-									"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L268"
+									"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L268"
 								}
 							],
 							"type": {
@@ -4544,7 +7986,7 @@
 						{
 							"title": "Properties",
 							"children": [
-								215
+								325
 							]
 						}
 					],
@@ -4553,7 +7995,7 @@
 							"fileName": "types.ts",
 							"line": 266,
 							"character": 17,
-							"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L266"
+							"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L266"
 						}
 					]
 				}
@@ -4562,26 +8004,26 @@
 				{
 					"title": "Interfaces",
 					"children": [
-						137,
-						144,
-						150,
-						157,
-						164,
-						170,
-						214
+						247,
+						254,
+						260,
+						267,
+						274,
+						280,
+						324
 					]
 				},
 				{
 					"title": "Type Aliases",
 					"children": [
-						131,
-						132,
-						133,
-						134,
-						135,
-						136,
-						140,
-						160
+						241,
+						242,
+						243,
+						244,
+						245,
+						246,
+						250,
+						270
 					]
 				}
 			],
@@ -4589,26 +8031,26 @@
 				{
 					"title": "Types",
 					"children": [
-						136,
-						137,
-						140,
-						144,
-						150,
-						157,
-						160,
-						164,
-						170,
-						214
+						246,
+						247,
+						250,
+						254,
+						260,
+						267,
+						270,
+						274,
+						280,
+						324
 					]
 				},
 				{
 					"title": "Other",
 					"children": [
-						131,
-						132,
-						133,
-						134,
-						135
+						241,
+						242,
+						243,
+						244,
+						245
 					]
 				}
 			],
@@ -4617,7 +8059,7 @@
 					"fileName": "types.ts",
 					"line": 1,
 					"character": 0,
-					"url": "https://github.com/zetlen/keymash/blob/03826ba6e1e4e4d9316e1c2eb458ded365d6bccb/types.ts#L1"
+					"url": "https://github.com/zetlen/keymash/blob/d34d358d3991f3b4b2c1573f2589cc2a87859aca/types.ts#L1"
 				}
 			]
 		}
@@ -4626,8 +8068,9 @@
 		{
 			"title": "Modules",
 			"children": [
+				127,
 				1,
-				127
+				237
 			]
 		}
 	],
@@ -5051,447 +8494,1109 @@
 		},
 		"127": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
+			"packagePath": "lib/keymash-react.ts",
 			"qualifiedName": ""
+		},
+		"128": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "useKeymash"
+		},
+		"129": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "useKeymash"
+		},
+		"130": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "T"
 		},
 		"131": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "NumeralKeyAlias"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "options"
 		},
 		"132": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeyAlias"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "useKeyState"
 		},
 		"133": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "NamedKey"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "useKeyState"
 		},
 		"134": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IntNamedKeyMap"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "scope"
 		},
 		"135": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "NamedKeyMap"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "useKeymashBindings"
 		},
 		"136": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeyCombo"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "useKeymashBindings"
 		},
 		"137": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "HandlerContext"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactHandlerContext"
 		},
 		"138": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "HandlerContext.event"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactHandlerContext.T"
 		},
 		"139": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "HandlerContext.instance"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactHandlerContext.setResult"
 		},
 		"140": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeyComboHandler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"141": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
+			"packagePath": "lib/keymash-react.ts",
 			"qualifiedName": "__type"
 		},
 		"142": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "value"
 		},
 		"143": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
-			"qualifiedName": "context"
+			"qualifiedName": "HandlerContext.event"
 		},
 		"144": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
-			"qualifiedName": "Binding"
+			"qualifiedName": "HandlerContext.instance"
 		},
 		"145": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "Binding.combo"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactKeyComboHandler"
 		},
 		"146": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "Binding.handler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"147": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "Binding.label"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"148": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "Binding.delay"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "context"
 		},
 		"149": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "Binding.repeat"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "T"
 		},
 		"150": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "FullBinding"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceHandlerContext"
 		},
 		"151": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "FullBinding.comboText"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceHandlerContext.T"
 		},
 		"152": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "combo"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceHandlerContext.setResult"
 		},
 		"153": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "handler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"154": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "label"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"155": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "delay"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "value"
 		},
 		"156": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
-			"qualifiedName": "repeat"
+			"qualifiedName": "SequenceHandlerContext.sequence"
 		},
 		"157": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
-			"qualifiedName": "SequenceHandlerContext"
+			"qualifiedName": "SequenceHandlerContext.instance"
 		},
 		"158": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "SequenceHandlerContext.sequence"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceHandler"
 		},
 		"159": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "SequenceHandlerContext.instance"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"160": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "SequenceHandler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"161": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "context"
 		},
 		"162": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "T"
 		},
 		"163": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "context"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding"
 		},
 		"164": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeymashConfig"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding.T"
 		},
 		"165": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeymashConfig.scope"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding.combo"
 		},
 		"166": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeymashConfig.bindings"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding.handler"
 		},
 		"167": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeymashConfig.toActivate"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding.label"
 		},
 		"168": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeymashConfig.toDeactivate"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding.delay"
 		},
 		"169": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "KeymashConfig.label"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactBinding.repeat"
 		},
 		"170": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceBinding"
 		},
 		"171": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.label"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceBinding.T"
 		},
 		"172": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.scope"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceBinding.sequence"
 		},
 		"173": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.bindings"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceBinding.handler"
 		},
 		"174": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.bind"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ReactSequenceBinding.timeout"
 		},
 		"175": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.bind"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "TriggeredBinding"
 		},
 		"176": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "binding"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "TriggeredBinding.combo"
 		},
 		"177": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.bind"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "TriggeredBinding.comboText"
 		},
 		"178": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "bindings"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "TriggeredBinding.label"
 		},
 		"179": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.bind"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "TriggeredBinding.timestamp"
 		},
 		"180": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "combo"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions"
 		},
 		"181": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "handler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.T"
 		},
 		"182": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.unbind"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.scope"
 		},
 		"183": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.unbind"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.bindings"
 		},
 		"184": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "combo"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.sequences"
 		},
 		"185": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.setActive"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.active"
 		},
 		"186": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.setActive"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.label"
 		},
 		"187": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "active"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashOptions.onUpdate"
 		},
 		"188": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.onChange"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"189": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.onChange"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"190": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "handler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "mask"
 		},
 		"191": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn"
 		},
 		"192": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.T"
 		},
 		"193": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.instance"
 		},
 		"194": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.isActive"
 		},
 		"195": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.sequence"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.setActive"
 		},
 		"196": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.sequence"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"197": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "sequence"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"198": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "handler"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "active"
 		},
 		"199": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "options"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.currentMask"
 		},
 		"200": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.isKeyActive"
 		},
 		"201": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type.timeout"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
 		},
 		"202": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
+			"packagePath": "lib/keymash-react.ts",
 			"qualifiedName": "__type"
 		},
 		"203": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "__type"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "mask"
 		},
 		"204": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.isActive"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.triggered"
 		},
 		"205": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.isActive"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.result"
 		},
 		"206": {
 			"packageName": "keymash",
-			"packagePath": "types.ts",
-			"qualifiedName": "IKeymash.onUpdate"
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.bind"
 		},
 		"207": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"208": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"209": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "binding"
+		},
+		"210": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.unbind"
+		},
+		"211": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"212": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"213": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "combo"
+		},
+		"214": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.sequence"
+		},
+		"215": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"216": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"217": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "sequence"
+		},
+		"218": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "handler"
+		},
+		"219": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "options"
+		},
+		"220": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"221": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type.timeout"
+		},
+		"222": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"223": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"224": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "UseKeymashReturn.getBindings"
+		},
+		"225": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"226": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "__type"
+		},
+		"227": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding"
+		},
+		"228": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.instance"
+		},
+		"229": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.instanceLabel"
+		},
+		"230": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.isActive"
+		},
+		"231": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.combo"
+		},
+		"232": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.comboText"
+		},
+		"233": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.handler"
+		},
+		"234": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.label"
+		},
+		"235": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.delay"
+		},
+		"236": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "GlobalBinding.repeat"
+		},
+		"237": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": ""
+		},
+		"241": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "NumeralKeyAlias"
+		},
+		"242": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeyAlias"
+		},
+		"243": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "NamedKey"
+		},
+		"244": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IntNamedKeyMap"
+		},
+		"245": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "NamedKeyMap"
+		},
+		"246": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeyCombo"
+		},
+		"247": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "HandlerContext"
+		},
+		"248": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "HandlerContext.event"
+		},
+		"249": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "HandlerContext.instance"
+		},
+		"250": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeyComboHandler"
+		},
+		"251": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"252": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"253": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "context"
+		},
+		"254": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "Binding"
+		},
+		"255": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "Binding.combo"
+		},
+		"256": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "Binding.handler"
+		},
+		"257": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "Binding.label"
+		},
+		"258": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "Binding.delay"
+		},
+		"259": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "Binding.repeat"
+		},
+		"260": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "FullBinding"
+		},
+		"261": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "FullBinding.comboText"
+		},
+		"262": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "combo"
+		},
+		"263": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "handler"
+		},
+		"264": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "label"
+		},
+		"265": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "delay"
+		},
+		"266": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "repeat"
+		},
+		"267": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "SequenceHandlerContext"
+		},
+		"268": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "SequenceHandlerContext.sequence"
+		},
+		"269": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "SequenceHandlerContext.instance"
+		},
+		"270": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "SequenceHandler"
+		},
+		"271": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"272": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"273": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "context"
+		},
+		"274": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeymashConfig"
+		},
+		"275": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeymashConfig.scope"
+		},
+		"276": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeymashConfig.bindings"
+		},
+		"277": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeymashConfig.toActivate"
+		},
+		"278": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeymashConfig.toDeactivate"
+		},
+		"279": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "KeymashConfig.label"
+		},
+		"280": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash"
+		},
+		"281": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.label"
+		},
+		"282": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.scope"
+		},
+		"283": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.bindings"
+		},
+		"284": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.bind"
+		},
+		"285": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.bind"
+		},
+		"286": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "binding"
+		},
+		"287": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.bind"
+		},
+		"288": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "bindings"
+		},
+		"289": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.bind"
+		},
+		"290": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "combo"
+		},
+		"291": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "handler"
+		},
+		"292": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.unbind"
+		},
+		"293": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.unbind"
+		},
+		"294": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "combo"
+		},
+		"295": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.setActive"
+		},
+		"296": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.setActive"
+		},
+		"297": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "active"
+		},
+		"298": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.onChange"
+		},
+		"299": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.onChange"
+		},
+		"300": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "handler"
+		},
+		"301": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"302": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"303": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"304": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"305": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.sequence"
+		},
+		"306": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.sequence"
+		},
+		"307": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "sequence"
+		},
+		"308": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "handler"
+		},
+		"309": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "options"
+		},
+		"310": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"311": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type.timeout"
+		},
+		"312": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"313": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "__type"
+		},
+		"314": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.isActive"
+		},
+		"315": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.isActive"
+		},
+		"316": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "IKeymash.onUpdate"
 		},
-		"208": {
+		"317": {
+			"packageName": "keymash",
+			"packagePath": "types.ts",
+			"qualifiedName": "IKeymash.onUpdate"
+		},
+		"318": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "callback"
 		},
-		"209": {
+		"319": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "__type"
 		},
-		"210": {
+		"320": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "__type"
 		},
-		"211": {
+		"321": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "mask"
 		},
-		"212": {
+		"322": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "IKeymash.destroy"
 		},
-		"213": {
+		"323": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "IKeymash.destroy"
 		},
-		"214": {
+		"324": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "KeyState"
 		},
-		"215": {
+		"325": {
 			"packageName": "keymash",
 			"packagePath": "types.ts",
 			"qualifiedName": "KeyState.held"
+		},
+		"326": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "Binding"
+		},
+		"327": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "FullBinding"
+		},
+		"328": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "HandlerContext"
+		},
+		"329": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "KeyCombo"
+		},
+		"330": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "KeyComboHandler"
+		},
+		"331": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "SequenceHandler"
+		},
+		"332": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "SequenceHandlerContext"
+		},
+		"333": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "alt"
+		},
+		"334": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "cmd"
+		},
+		"335": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "code"
+		},
+		"336": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "ctrl"
+		},
+		"337": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "getActiveBindings"
+		},
+		"338": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "getAllKeymashInstances"
+		},
+		"339": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "hold"
+		},
+		"340": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "Keymash"
+		},
+		"341": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "key"
+		},
+		"342": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "keymash"
+		},
+		"343": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "meta"
+		},
+		"344": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "onGlobalChange"
+		},
+		"345": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "press"
+		},
+		"346": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "shift"
+		},
+		"347": {
+			"packageName": "keymash",
+			"packagePath": "lib/keymash-react.ts",
+			"qualifiedName": "win"
 		}
 	},
 	"files": {
 		"entries": {
 			"1": "lib/keymash.ts",
-			"2": "types.ts",
-			"3": "README.md",
-			"4": ""
+			"2": "lib/keymash-react.ts",
+			"3": "types.ts",
+			"4": "README.md",
+			"5": ""
 		},
 		"reflections": {
 			"1": 1,
 			"2": 127,
-			"3": 0,
-			"4": 0
+			"3": 237,
+			"4": 0,
+			"5": 0
 		}
 	}
 }

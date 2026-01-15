@@ -244,6 +244,8 @@ export interface UseKeymashReturn<T = unknown> {
  * @param options - Configuration options
  * @returns Object with instance, state, triggered info, and result
  *
+ * @category React Hooks
+ *
  * @example
  * ```tsx
  * import { useKeymash, ctrl, press } from 'keymash/react';
@@ -540,11 +542,22 @@ export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): Use
 }
 
 /**
- * Hook to get the current key state mask.
- * Useful for components that only need to read key state, not bind shortcuts.
+ * Hook to get the current key state mask without registering bindings.
  *
- * @param scope - Optional scope element or ref
- * @returns Current key state mask (bigint)
+ * Returns a bigint bitmask representing currently pressed keys. Use bitwise AND
+ * with `hold.*` or `press.*` values to check specific key states. This hook
+ * creates an internal keymash instance scoped to the provided element.
+ *
+ * Useful for components that only need to read key state (e.g., showing visual
+ * indicators) without handling keyboard shortcuts.
+ *
+ * @param scope - Element, Window, or React ref to scope key listening to. Defaults to `window`.
+ * @returns Current key state as a bigint bitmask
+ *
+ * @category React Hooks
+ * @see {@link useKeymash} for registering keyboard shortcuts
+ * @see {@link hold} for modifier key bitmasks
+ * @see {@link press} for key press bitmasks
  *
  * @example
  * ```tsx
@@ -554,6 +567,16 @@ export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): Use
  *   const mask = useKeyState();
  *   const isCtrl = (mask & hold.ctrl) !== 0n;
  *   return <span>{isCtrl ? 'Ctrl pressed' : 'Ctrl not pressed'}</span>;
+ * }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // Scoped to a specific element
+ * function ScopedIndicator() {
+ *   const ref = useRef<HTMLDivElement>(null);
+ *   const mask = useKeyState(ref);
+ *   return <div ref={ref} tabIndex={0}>Focus me to track keys</div>;
  * }
  * ```
  */
@@ -598,6 +621,8 @@ export interface GlobalBinding {
  * Useful for building keyboard shortcuts dialogs or help panels.
  *
  * @returns Array of GlobalBinding objects from all active keymash instances
+ *
+ * @category React Hooks
  *
  * @example
  * ```tsx
@@ -664,7 +689,3 @@ export function useKeymashBindings(): GlobalBinding[] {
 
   return bindings;
 }
-
-// Legacy type exports for backwards compatibility during migration
-/** @deprecated Use ReactBinding instead */
-export type SequenceBinding = ReactSequenceBinding;
