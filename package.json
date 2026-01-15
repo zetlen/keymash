@@ -50,6 +50,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:lib": "vite build --config vite.config.lib.ts",
+    "postbuild:lib": "node scripts/update-readme-modules.js",
     "build:lib:types": "tsc -p tsconfig.lib.json --emitDeclarationOnly",
     "prepublishOnly": "pnpm build:lib",
     "preview": "vite preview",
@@ -60,7 +61,8 @@
     "build-storybook": "storybook build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "update-readme": "node scripts/update-readme-modules.js"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",

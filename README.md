@@ -15,6 +15,14 @@ km.bind(ctrl + press.s, () => save());
 npm install keymash
 ```
 
+## Modules
+
+<!-- MODULES_TABLE_START -->
+| [`keymash`](#two-entry-points) | Full library with sequences, introspection, and dev warnings | 2.86 KB |
+| [`keymash/core`](#core-package-1kb-gzipped) | Minimal core for basic keyboard bindings only | 1.07 KB |
+| [`keymash/react`](#keymashreact) | React hooks for declarative keyboard binding | 1.27 KB |
+<!-- MODULES_TABLE_END -->
+
 ## Two Entry Points
 
 KeyMash offers two entry points to match your needs:
@@ -44,6 +52,57 @@ Missing from core: sequences, human-readable combo text, binding introspection, 
 **When to use core:** You want the smallest possible bundle and only need basic keyboard bindings. Perfect for simple apps or when you're already using a larger keyboard library elsewhere.
 
 **When to use full:** You need sequences, want to display shortcuts to users, or benefit from development-time conflict detection.
+
+## keymash/react
+
+React hooks for declarative keyboard binding.
+
+```typescript
+import { useKeymash, ctrl, press, hold } from 'keymash/react';
+
+function Editor() {
+  const { isActive, isKeyActive } = useKeymash({
+    label: 'Editor',
+    bindings: [
+      { combo: ctrl + press.s, handler: () => save(), label: 'Save' },
+      { combo: ctrl + press.z, handler: () => undo(), label: 'Undo' },
+    ],
+  });
+
+  return (
+    <div>
+      <span>Ctrl: {isKeyActive(hold.ctrl) ? 'pressed' : ''}</span>
+    </div>
+  );
+}
+```
+
+### useKeymash
+
+The main hook for keyboard bindings. Returns `instance`, `isActive`, `setActive`, `currentMask`, `isKeyActive`, `bind`, `unbind`, `sequence`, and `getBindings`.
+
+### useKeymashBindings
+
+Get all bindings from all keymash instances. Useful for building keyboard shortcuts dialogs.
+
+```typescript
+import { useKeymashBindings } from 'keymash/react';
+
+function ShortcutsDialog() {
+  const bindings = useKeymashBindings();
+
+  return (
+    <ul>
+      {bindings.map((b, i) => (
+        <li key={i}>
+          <kbd>{b.comboText}</kbd> {b.label}
+          {!b.isActive && <span>(inactive)</span>}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
 
 ## Why KeyMash?
 
