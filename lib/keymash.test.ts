@@ -191,7 +191,7 @@ describe('keymash', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'c' }));
 
       expect(handler).toHaveBeenCalledTimes(1);
-      expect(handler).toHaveBeenCalledWith('abc', undefined, km);
+      expect(handler).toHaveBeenCalledWith({ sequence: 'abc', instance: km });
       km.destroy();
     });
 

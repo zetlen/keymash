@@ -114,7 +114,7 @@ describe('keymash/react', () => {
 
       act(() => {
         result.current.setActive(true);
-        result.current.bind(press.b, handler);
+        result.current.bind({ combo: press.b, handler });
       });
 
       act(() => {
@@ -131,7 +131,7 @@ describe('keymash/react', () => {
       // Bind imperatively (not declaratively, so unbind won't be overridden)
       act(() => {
         result.current.setActive(true);
-        result.current.bind(press.c, handler);
+        result.current.bind({ combo: press.c, handler });
       });
 
       act(() => {

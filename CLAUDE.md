@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Versioning Policy
+
+**While `package.json` version is below 0.1.0, there are NO deprecation or migration concerns.** The existing codebase is small and experimental. Old APIs, patterns, or ideas can be completely removed without backwards compatibility shims, migration paths, or deprecation warnings. Just delete and replace.
+
 ## Commands
 
 ```bash

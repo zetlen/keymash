@@ -8,7 +8,13 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Binding, KeyCombo, KeyComboHandler, SequenceHandler } from '../types';
+import type {
+  HandlerContext,
+  KeyCombo,
+  KeyComboHandler,
+  SequenceHandler,
+  SequenceHandlerContext,
+} from '../types';
 import {
   getActiveBindings,
   getAllKeymashInstances,
@@ -18,7 +24,15 @@ import {
   press,
 } from './keymash';
 
-export type { Binding, FullBinding, KeyCombo, KeyComboHandler, SequenceHandler } from '../types';
+export type {
+  Binding,
+  FullBinding,
+  HandlerContext,
+  KeyCombo,
+  KeyComboHandler,
+  SequenceHandler,
+  SequenceHandlerContext,
+} from '../types';
 // Re-export everything from keymash for convenience
 export {
   alt,
@@ -39,21 +53,85 @@ export {
 } from './keymash';
 
 /**
+ * Extended handler context for React bindings.
+ * Includes `setResult` to trigger re-renders with custom state.
+ *
+ * @category Types
+ */
+export interface ReactHandlerContext<T = unknown> extends HandlerContext {
+  /**
+   * Set a result value that will be available in the hook's return.
+   * Calling this triggers a re-render with the new result.
+   */
+  setResult: (value: T) => void;
+}
+
+/**
+ * Handler function for React key combo bindings.
+ * Receives extended context with `setResult` for triggering re-renders.
+ *
+ * @category Types
+ */
+export type ReactKeyComboHandler<T = unknown> = (context: ReactHandlerContext<T>) => void;
+
+/**
+ * Extended sequence handler context for React bindings.
+ */
+export interface ReactSequenceHandlerContext<T = unknown> extends SequenceHandlerContext {
+  setResult: (value: T) => void;
+}
+
+/**
+ * Handler function for React sequence bindings.
+ */
+export type ReactSequenceHandler<T = unknown> = (context: ReactSequenceHandlerContext<T>) => void;
+
+/**
+ * A binding configuration for React useKeymash hook.
+ */
+export interface ReactBinding<T = unknown> {
+  /** The key combination (bigint bitmask) */
+  combo: KeyCombo;
+  /** Function to call when the combo is triggered */
+  handler: ReactKeyComboHandler<T>;
+  /** Human-readable label for the binding */
+  label?: string;
+  /** Delay in milliseconds before firing the handler */
+  delay?: number;
+  /** Whether to fire on key repeat */
+  repeat?: boolean;
+}
+
+/**
  * A sequence binding configuration for useKeymash.
  */
-export interface SequenceBinding {
+export interface ReactSequenceBinding<T = unknown> {
   /** The character sequence to match (e.g., "show me") */
   sequence: string;
   /** Handler called when sequence is typed */
-  handler: SequenceHandler;
+  handler: ReactSequenceHandler<T>;
   /** Timeout in ms before buffer resets (default: 1000) */
   timeout?: number;
 }
 
 /**
+ * Information about which binding was triggered.
+ */
+export interface TriggeredBinding {
+  /** The combo that was triggered */
+  combo: KeyCombo;
+  /** Human-readable combo text */
+  comboText: string;
+  /** The binding's label (if provided) */
+  label: string;
+  /** Timestamp when triggered */
+  timestamp: number;
+}
+
+/**
  * Options for the useKeymash hook.
  */
-export interface UseKeymashOptions {
+export interface UseKeymashOptions<T = unknown> {
   /**
    * Element or ref to scope bindings to.
    * Events only fire when originating from within this element.
@@ -62,15 +140,15 @@ export interface UseKeymashOptions {
   scope?: HTMLElement | Window | React.RefObject<HTMLElement | null>;
 
   /**
-   * Initial bindings to register.
-   * Changes to this array will update bindings (compared by combo).
+   * Bindings to register. Handlers receive `{ event, instance, setResult }`.
+   * When bindings change, all are re-registered to ensure handlers stay current.
    */
-  bindings?: Binding[];
+  bindings?: ReactBinding<T>[];
 
   /**
    * Sequence triggers to register.
    */
-  sequences?: SequenceBinding[];
+  sequences?: ReactSequenceBinding<T>[];
 
   /**
    * Whether the keymash should be active (listening for keyboard events).
@@ -78,22 +156,6 @@ export interface UseKeymashOptions {
    * **Default behavior:**
    * - `true` if `bindings` array is provided and non-empty
    * - `false` if no bindings are provided (you must call `setActive(true)` manually)
-   *
-   * Set explicitly to override this behavior.
-   *
-   * @example
-   * ```tsx
-   * // Auto-activates because bindings are provided
-   * useKeymash({ bindings: [...] });
-   *
-   * // Starts inactive, must activate manually
-   * const { setActive } = useKeymash({});
-   * setActive(true);
-   *
-   * // Explicit control
-   * useKeymash({ bindings: [...], active: false }); // Starts inactive
-   * useKeymash({ active: true }); // Active but no bindings yet
-   * ```
    */
   active?: boolean;
 
@@ -112,23 +174,10 @@ export interface UseKeymashOptions {
 /**
  * Return type for the useKeymash hook.
  */
-export interface UseKeymashReturn {
+export interface UseKeymashReturn<T = unknown> {
   /**
    * The underlying Keymash instance.
-   *
-   * **Note:** This will be `null` during the first render if using a ref-based scope,
-   * since the ref won't be attached to the DOM yet. Always check for null before
-   * accessing instance methods directly.
-   *
-   * @example
-   * ```tsx
-   * const { instance } = useKeymash({ scope: containerRef, bindings: [...] });
-   *
-   * // Safe access
-   * if (instance) {
-   *   console.log(instance.bindings);
-   * }
-   * ```
+   * Will be `null` on first render if using a ref-based scope.
    */
   instance: Keymash | null;
 
@@ -148,13 +197,22 @@ export interface UseKeymashReturn {
   isKeyActive: (mask: bigint) => boolean;
 
   /**
+   * Information about the most recently triggered binding.
+   * Resets to null after each render cycle.
+   */
+  triggered: TriggeredBinding | null;
+
+  /**
+   * The result value set by the most recent handler via `setResult`.
+   * Use this to react to binding triggers in your component.
+   */
+  result: T | undefined;
+
+  /**
    * Imperatively bind a key combo.
    * Prefer declarative bindings via options when possible.
    */
-  bind: {
-    (combo: KeyCombo, handler: KeyComboHandler): void;
-    (binding: Binding): void;
-  };
+  bind: (binding: ReactBinding<T>) => void;
 
   /**
    * Imperatively unbind a key combo.
@@ -167,7 +225,7 @@ export interface UseKeymashReturn {
    */
   sequence: (
     sequence: string,
-    handler: SequenceHandler,
+    handler: ReactSequenceHandler<T>,
     options?: { timeout?: number },
   ) => () => void;
 
@@ -180,88 +238,74 @@ export interface UseKeymashReturn {
 /**
  * React hook for declarative keyboard bindings.
  *
+ * Handlers receive `{ event, instance, setResult }`. Call `setResult(value)` to
+ * trigger a re-render and make the value available via the `result` return property.
+ *
  * @param options - Configuration options
- * @returns Object with instance, state, and methods
+ * @returns Object with instance, state, triggered info, and result
  *
  * @example
  * ```tsx
  * import { useKeymash, ctrl, press } from 'keymash/react';
  *
- * function MyComponent() {
- *   const { isActive, setActive } = useKeymash({
+ * function Editor() {
+ *   const { result, triggered } = useKeymash({
  *     bindings: [
- *       { combo: ctrl + press.s, handler: () => save(), label: 'Save' },
- *       { combo: ctrl + press.z, handler: () => undo(), label: 'Undo' },
+ *       {
+ *         combo: ctrl + press.s,
+ *         handler: ({ setResult }) => setResult({ action: 'save' }),
+ *         label: 'Save',
+ *       },
+ *       {
+ *         combo: ctrl + press.z,
+ *         handler: ({ setResult }) => setResult({ action: 'undo' }),
+ *         label: 'Undo',
+ *       },
  *     ],
  *   });
  *
- *   return <div>Shortcuts {isActive ? 'enabled' : 'disabled'}</div>;
+ *   useEffect(() => {
+ *     if (result?.action === 'save') saveDocument();
+ *     if (result?.action === 'undo') undoLastChange();
+ *   }, [result]);
+ *
+ *   return <div>Last action: {triggered?.label}</div>;
  * }
  * ```
  *
  * @example
  * ```tsx
- * // Scoped to a specific element
- * function Modal() {
- *   const containerRef = useRef<HTMLDivElement>(null);
- *
- *   useKeymash({
- *     scope: containerRef,
- *     bindings: [
- *       { combo: press.escape, handler: () => close() },
- *     ],
- *   });
- *
- *   return <div ref={containerRef}>Modal content</div>;
- * }
- * ```
- *
- * @example
- * ```tsx
- * // With keyboard visualizer
- * function KeyboardVisualizer() {
- *   const { currentMask, isKeyActive } = useKeymash({
- *     bindings: [{ combo: press.any, handler: () => {} }],
- *   });
- *
- *   return (
- *     <div>
- *       Ctrl: {isKeyActive(hold.ctrl) ? 'pressed' : 'released'}
- *     </div>
- *   );
- * }
- * ```
- *
- * @example
- * ```tsx
- * // With sequences
- * function SecretMode() {
- *   const [secretEnabled, setSecretEnabled] = useState(false);
- *
- *   useKeymash({
- *     sequences: [
- *       { sequence: 'secret', handler: () => setSecretEnabled(true) },
- *     ],
- *   });
- *
- *   return secretEnabled ? <SecretPanel /> : null;
- * }
+ * // Handlers can also just do work directly
+ * useKeymash({
+ *   bindings: [
+ *     { combo: press.escape, handler: () => closeModal() },
+ *   ],
+ * });
  * ```
  */
-export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
+export function useKeymash<T = unknown>(options: UseKeymashOptions<T> = {}): UseKeymashReturn<T> {
   const { scope, bindings, sequences, active, label, onUpdate } = options;
 
-  // Track the keymash instance
-  const instanceRef = useRef<Keymash | null>(null);
+  // Store instance in state so changes trigger re-renders
+  const [instance, setInstance] = useState<Keymash | null>(null);
 
   // Track current mask for visualizers
   const [currentMask, setCurrentMask] = useState<bigint>(0n);
 
-  // Track active state for external sync
+  // Track active state
   const [isActive, setIsActiveState] = useState(false);
 
-  // Version counter for useSyncExternalStore
-  const versionRef = useRef(0);
+  // Track triggered binding and result
+  const [triggered, setTriggered] = useState<TriggeredBinding | null>(null);
+  const [result, setResult] = useState<T | undefined>(undefined);
+
+  // Ref for setResult to avoid stale closures in handlers
+  const setResultRef = useRef(setResult);
+  setResultRef.current = setResult;
+
+  // Ref for setTriggered
+  const setTriggeredRef = useRef(setTriggered);
+  setTriggeredRef.current = setTriggered;
 
   // Resolve scope - handle refs, elements, and window
   const resolvedScope = useMemo(() => {
@@ -270,8 +314,16 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
     return scope;
   }, [scope]);
 
-  // Create or update instance
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Intentionally only recreating on scope/label change. Other deps (active, bindings, onUpdate, scope.current) are handled in separate effects.
+  // Store onUpdate in a ref to avoid recreating instance when it changes
+  const onUpdateRef = useRef(onUpdate);
+  useEffect(() => {
+    onUpdateRef.current = onUpdate;
+  }, [onUpdate]);
+
+  // Track if we've set initial active state (declared before effect that uses it in cleanup)
+  const initialActiveSetRef = useRef(false);
+
+  // Create instance on mount
   useEffect(() => {
     // Don't create instance until scope is resolved (for refs)
     if (scope && 'current' in scope && !scope.current) {
@@ -283,75 +335,92 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
       label,
     });
 
-    instanceRef.current = km;
+    setInstance(km);
 
-    // Set up onUpdate handler
+    // Set up onUpdate handler using ref to always get latest callback
     km.onUpdate((mask) => {
       setCurrentMask(mask);
-      onUpdate?.(mask);
+      onUpdateRef.current?.(mask);
     });
-
-    // Determine initial active state
-    const shouldBeActive = active ?? (bindings && bindings.length > 0);
-    if (shouldBeActive) {
-      km.setActive(true);
-      setIsActiveState(true);
-    }
 
     return () => {
       km.destroy();
-      instanceRef.current = null;
+      setInstance(null);
       setIsActiveState(false);
       setCurrentMask(0n);
+      initialActiveSetRef.current = false;
     };
-  }, [resolvedScope, label]);
+  }, [resolvedScope, label, scope]);
 
-  // Sync onUpdate callback changes
+  // Handle initial active state (only once when instance is created)
   useEffect(() => {
-    const km = instanceRef.current;
-    if (!km) return;
+    if (!instance || initialActiveSetRef.current) return;
+    initialActiveSetRef.current = true;
 
-    km.onUpdate((mask) => {
-      setCurrentMask(mask);
-      onUpdate?.(mask);
-    });
-  }, [onUpdate]);
+    // Determine initial active state: explicit active prop, or auto-activate if bindings provided
+    const shouldBeActive = active ?? (bindings && bindings.length > 0);
+    if (shouldBeActive) {
+      instance.setActive(true);
+      setIsActiveState(true);
+    }
+  }, [instance, active, bindings]);
 
-  // Handle declarative bindings changes
+  // Handle declarative bindings changes - rebind ALL when array changes
   useEffect(() => {
-    const km = instanceRef.current;
-    if (!km || !bindings) return;
+    if (!instance || !bindings) return;
 
-    // Get current combo strings
-    const currentCombos = new Set(km.bindings.map((b) => b.combo.toString()));
-    const newCombos = new Set(bindings.map((b) => b.combo.toString()));
-
-    // Remove bindings that are no longer present
-    for (const binding of km.bindings) {
-      if (!newCombos.has(binding.combo.toString())) {
-        km.unbind(binding.combo);
-      }
+    // Clear all existing bindings
+    for (const binding of [...instance.bindings]) {
+      instance.unbind(binding.combo);
     }
 
-    // Add new bindings
+    // Add all bindings with wrapped handlers that include setResult
     for (const binding of bindings) {
-      if (!currentCombos.has(binding.combo.toString())) {
-        km.bind(binding);
-      }
-    }
+      const wrappedHandler: KeyComboHandler = ({ event, instance: inst }) => {
+        // Set triggered info
+        setTriggeredRef.current({
+          combo: binding.combo,
+          comboText:
+            getActiveBindings(inst as Keymash).find((b) => b.combo === binding.combo)?.comboText ??
+            '',
+          label: binding.label ?? '',
+          timestamp: Date.now(),
+        });
 
-    versionRef.current++;
-  }, [bindings]);
+        // Call user's handler with extended context
+        binding.handler({
+          event,
+          instance: inst,
+          setResult: (value: T) => setResultRef.current(value),
+        });
+      };
+
+      instance.bind({
+        combo: binding.combo,
+        handler: wrappedHandler,
+        label: binding.label,
+        delay: binding.delay,
+        repeat: binding.repeat,
+      });
+    }
+  }, [instance, bindings]);
 
   // Handle declarative sequences changes
   useEffect(() => {
-    const km = instanceRef.current;
-    if (!km || !sequences) return;
+    if (!instance || !sequences) return;
 
     const unsubscribers: Array<() => void> = [];
 
     for (const seq of sequences) {
-      const unsub = km.sequence(seq.sequence, seq.handler, { timeout: seq.timeout });
+      const wrappedHandler: SequenceHandler = ({ sequence: seqStr, instance: inst }) => {
+        seq.handler({
+          sequence: seqStr,
+          instance: inst,
+          setResult: (value: T) => setResultRef.current(value),
+        });
+      };
+
+      const unsub = instance.sequence(seq.sequence, wrappedHandler, { timeout: seq.timeout });
       unsubscribers.push(unsub);
     }
 
@@ -360,65 +429,92 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
         unsub();
       }
     };
-  }, [sequences]);
+  }, [instance, sequences]);
 
   // Handle active prop changes
   useEffect(() => {
-    const km = instanceRef.current;
-    if (!km || active === undefined) return;
+    if (!instance || active === undefined) return;
 
-    km.setActive(active);
+    instance.setActive(active);
     setIsActiveState(active);
-  }, [active]);
+  }, [instance, active]);
 
   // Stable setActive callback
-  const setActive = useCallback((value: boolean) => {
-    const km = instanceRef.current;
-    if (km) {
-      km.setActive(value);
-      setIsActiveState(value);
-    }
-  }, []);
+  const setActiveCallback = useCallback(
+    (value: boolean) => {
+      if (instance) {
+        instance.setActive(value);
+        setIsActiveState(value);
+      }
+    },
+    [instance],
+  );
 
   // Stable bind callback
-  const bind = useCallback((comboOrBinding: KeyCombo | Binding, handler?: KeyComboHandler) => {
-    const km = instanceRef.current;
-    if (!km) return;
+  const bind = useCallback(
+    (binding: ReactBinding<T>) => {
+      if (!instance) return;
 
-    if (typeof comboOrBinding === 'bigint') {
-      if (!handler)
-        throw new Error('useKeymash: bind() requires a handler when called with a KeyCombo');
-      km.bind(comboOrBinding, handler);
-    } else {
-      km.bind(comboOrBinding);
-    }
-    versionRef.current++;
-  }, []);
+      const wrappedHandler: KeyComboHandler = ({ event, instance: inst }) => {
+        setTriggeredRef.current({
+          combo: binding.combo,
+          comboText:
+            getActiveBindings(inst as Keymash).find((b) => b.combo === binding.combo)?.comboText ??
+            '',
+          label: binding.label ?? '',
+          timestamp: Date.now(),
+        });
+
+        binding.handler({
+          event,
+          instance: inst,
+          setResult: (value: T) => setResultRef.current(value),
+        });
+      };
+
+      instance.bind({
+        combo: binding.combo,
+        handler: wrappedHandler,
+        label: binding.label,
+        delay: binding.delay,
+        repeat: binding.repeat,
+      });
+    },
+    [instance],
+  );
 
   // Stable unbind callback
-  const unbind = useCallback((combo: KeyCombo) => {
-    const km = instanceRef.current;
-    if (km) {
-      km.unbind(combo);
-      versionRef.current++;
-    }
-  }, []);
+  const unbind = useCallback(
+    (combo: KeyCombo) => {
+      if (instance) {
+        instance.unbind(combo);
+      }
+    },
+    [instance],
+  );
 
   // Stable sequence callback
-  const sequence = useCallback(
-    (seq: string, handler: SequenceHandler, opts?: { timeout?: number }) => {
-      const km = instanceRef.current;
-      if (!km) return () => {};
-      return km.sequence(seq, handler, opts);
+  const sequenceCallback = useCallback(
+    (seq: string, handler: ReactSequenceHandler<T>, opts?: { timeout?: number }) => {
+      if (!instance) return () => {};
+
+      const wrappedHandler: SequenceHandler = ({ sequence: seqStr, instance: inst }) => {
+        handler({
+          sequence: seqStr,
+          instance: inst,
+          setResult: (value: T) => setResultRef.current(value),
+        });
+      };
+
+      return instance.sequence(seq, wrappedHandler, opts);
     },
-    [],
+    [instance],
   );
 
   // Stable getBindings callback
   const getBindings = useCallback(() => {
-    const km = instanceRef.current;
-    return km ? getActiveBindings(km) : [];
-  }, []);
+    return instance ? getActiveBindings(instance) : [];
+  }, [instance]);
 
   // isKeyActive helper
   const isKeyActive = useCallback(
@@ -429,14 +525,16 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
   );
 
   return {
-    instance: instanceRef.current,
+    instance,
     isActive,
-    setActive,
+    setActive: setActiveCallback,
     currentMask,
     isKeyActive,
+    triggered,
+    result,
     bind,
     unbind,
-    sequence,
+    sequence: sequenceCallback,
     getBindings,
   };
 }
@@ -444,9 +542,6 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
 /**
  * Hook to get the current key state mask.
  * Useful for components that only need to read key state, not bind shortcuts.
- *
- * This hook internally uses `press.any` to listen to all key events and track
- * the current key state. The handler is a no-op since we only care about the mask.
  *
  * @param scope - Optional scope element or ref
  * @returns Current key state mask (bigint)
@@ -459,17 +554,6 @@ export function useKeymash(options: UseKeymashOptions = {}): UseKeymashReturn {
  *   const mask = useKeyState();
  *   const isCtrl = (mask & hold.ctrl) !== 0n;
  *   return <span>{isCtrl ? 'Ctrl pressed' : 'Ctrl not pressed'}</span>;
- * }
- * ```
- *
- * @example
- * ```tsx
- * // Scoped to a specific element
- * function ScopedIndicator() {
- *   const containerRef = useRef<HTMLDivElement>(null);
- *   const mask = useKeyState(containerRef);
- *   // Only tracks keys when focus is within containerRef
- *   return <div ref={containerRef}>...</div>;
  * }
  * ```
  */
@@ -522,31 +606,14 @@ export interface GlobalBinding {
  * function KeyboardShortcutsDialog() {
  *   const bindings = useKeymashBindings();
  *
- *   // Group by instance label
- *   const grouped = bindings.reduce((acc, binding) => {
- *     const group = binding.instanceLabel || 'Global';
- *     if (!acc[group]) acc[group] = [];
- *     acc[group].push(binding);
- *     return acc;
- *   }, {} as Record<string, GlobalBinding[]>);
- *
  *   return (
- *     <div>
- *       {Object.entries(grouped).map(([group, bindings]) => (
- *         <section key={group}>
- *           <h3>{group}</h3>
- *           <ul>
- *             {bindings.map((b, i) => (
- *               <li key={i}>
- *                 <kbd>{b.comboText}</kbd>
- *                 {b.label && <span>{b.label}</span>}
- *                 {!b.isActive && <span>(inactive)</span>}
- *               </li>
- *             ))}
- *           </ul>
- *         </section>
+ *     <ul>
+ *       {bindings.map((b, i) => (
+ *         <li key={i}>
+ *           <kbd>{b.comboText}</kbd> {b.label}
+ *         </li>
  *       ))}
- *     </div>
+ *     </ul>
  *   );
  * }
  * ```
@@ -559,16 +626,16 @@ export function useKeymashBindings(): GlobalBinding[] {
     const allBindings: GlobalBinding[] = [];
     const instances = getAllKeymashInstances();
 
-    for (const instance of instances) {
-      const instanceBindings = getActiveBindings(instance);
-      const isActive = instance.isActive();
-      const instanceLabel = instance.label;
+    for (const inst of instances) {
+      const instanceBindings = getActiveBindings(inst);
+      const active = inst.isActive();
+      const instanceLabel = inst.label;
 
       for (const binding of instanceBindings) {
         allBindings.push({
-          instance,
+          instance: inst,
           instanceLabel,
-          isActive,
+          isActive: active,
           combo: binding.combo,
           comboText: binding.comboText,
           handler: binding.handler,
@@ -597,3 +664,7 @@ export function useKeymashBindings(): GlobalBinding[] {
 
   return bindings;
 }
+
+// Legacy type exports for backwards compatibility during migration
+/** @deprecated Use ReactBinding instead */
+export type SequenceBinding = ReactSequenceBinding;

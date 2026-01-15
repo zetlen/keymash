@@ -794,7 +794,7 @@ export class Keymash implements IKeymash {
       if (this._sequenceBuffer.endsWith(seq.sequence)) {
         // Reset buffer after match to prevent immediate re-triggering
         this._sequenceBuffer = '';
-        seq.handler(seq.sequence, undefined, this);
+        seq.handler({ sequence: seq.sequence, instance: this });
         break; // Only fire first matching sequence
       }
     }
@@ -941,7 +941,7 @@ export class Keymash implements IKeymash {
       // Key repeat - only fire if repeat is enabled for this binding
       if (binding?.repeat) {
         e.preventDefault();
-        binding.handler(e, this);
+        binding.handler({ event: e, instance: this });
       }
       return;
     }
@@ -952,9 +952,9 @@ export class Keymash implements IKeymash {
       e.preventDefault();
       // Handle delay if specified
       if (binding.delay && binding.delay > 0) {
-        setTimeout(() => binding.handler(e, this), binding.delay);
+        setTimeout(() => binding.handler({ event: e, instance: this }), binding.delay);
       } else {
-        binding.handler(e, this);
+        binding.handler({ event: e, instance: this });
       }
     }
 
