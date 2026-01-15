@@ -9,7 +9,13 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Binding, KeyCombo, KeyComboHandler, SequenceHandler } from '../types';
-import { getActiveBindings, type Keymash, keymash } from './keymash';
+import {
+  getActiveBindings,
+  getAllKeymashInstances,
+  type Keymash,
+  keymash,
+  onGlobalChange,
+} from './keymash';
 
 export type { Binding, FullBinding, KeyCombo, KeyComboHandler, SequenceHandler } from '../types';
 // Re-export everything from keymash for convenience
@@ -18,11 +24,13 @@ export {
   cmd,
   ctrl,
   getActiveBindings,
+  getAllKeymashInstances,
   hold,
   Keymash,
   key,
   keymash,
   meta,
+  onGlobalChange,
   press,
   shift,
   win,
@@ -417,4 +425,118 @@ export function useKeyState(
 ): bigint {
   const { currentMask } = useKeymash({ scope, bindings: [{ combo: 0n, handler: () => {} }] });
   return currentMask;
+}
+
+/**
+ * Represents a binding from a specific keymash instance,
+ * including metadata about the instance.
+ */
+export interface GlobalBinding {
+  /** The keymash instance this binding belongs to */
+  instance: Keymash;
+  /** Label of the keymash instance (for grouping in UI) */
+  instanceLabel: string;
+  /** Whether the keymash instance is currently active */
+  isActive: boolean;
+  /** The key combo bitmask */
+  combo: KeyCombo;
+  /** Human-readable combo text (e.g., "ctrl+s") */
+  comboText: string;
+  /** Handler function for this binding */
+  handler: KeyComboHandler;
+  /** Optional label for this specific binding */
+  label: string;
+  /** Delay in ms before handler fires */
+  delay: number;
+  /** Whether this binding fires on key repeat */
+  repeat: boolean;
+}
+
+/**
+ * Hook to get all bindings from all keymash instances.
+ * Useful for building keyboard shortcuts dialogs or help panels.
+ *
+ * @returns Array of GlobalBinding objects from all active keymash instances
+ *
+ * @example
+ * ```tsx
+ * import { useKeymashBindings } from 'keymash/react';
+ *
+ * function KeyboardShortcutsDialog() {
+ *   const bindings = useKeymashBindings();
+ *
+ *   // Group by instance label
+ *   const grouped = bindings.reduce((acc, binding) => {
+ *     const group = binding.instanceLabel || 'Global';
+ *     if (!acc[group]) acc[group] = [];
+ *     acc[group].push(binding);
+ *     return acc;
+ *   }, {} as Record<string, GlobalBinding[]>);
+ *
+ *   return (
+ *     <div>
+ *       {Object.entries(grouped).map(([group, bindings]) => (
+ *         <section key={group}>
+ *           <h3>{group}</h3>
+ *           <ul>
+ *             {bindings.map((b, i) => (
+ *               <li key={i}>
+ *                 <kbd>{b.comboText}</kbd>
+ *                 {b.label && <span>{b.label}</span>}
+ *                 {!b.isActive && <span>(inactive)</span>}
+ *               </li>
+ *             ))}
+ *           </ul>
+ *         </section>
+ *       ))}
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
+export function useKeymashBindings(): GlobalBinding[] {
+  const [bindings, setBindings] = useState<GlobalBinding[]>([]);
+
+  // Function to collect all bindings from all instances
+  const collectBindings = useCallback(() => {
+    const allBindings: GlobalBinding[] = [];
+    const instances = getAllKeymashInstances();
+
+    for (const instance of instances) {
+      const instanceBindings = getActiveBindings(instance);
+      const isActive = instance.isActive();
+      const instanceLabel = instance.label;
+
+      for (const binding of instanceBindings) {
+        allBindings.push({
+          instance,
+          instanceLabel,
+          isActive,
+          combo: binding.combo,
+          comboText: binding.comboText,
+          handler: binding.handler,
+          label: binding.label,
+          delay: binding.delay,
+          repeat: binding.repeat,
+        });
+      }
+    }
+
+    return allBindings;
+  }, []);
+
+  // Initial collection and subscription
+  useEffect(() => {
+    // Collect initial bindings
+    setBindings(collectBindings());
+
+    // Subscribe to global changes
+    const unsubscribe = onGlobalChange(() => {
+      setBindings(collectBindings());
+    });
+
+    return unsubscribe;
+  }, [collectBindings]);
+
+  return bindings;
 }

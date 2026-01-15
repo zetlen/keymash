@@ -401,6 +401,54 @@ function getKeymashInstances(target: HTMLElement | Window): Set<Keymash> | undef
 }
 
 // =============================================================================
+// GLOBAL INSTANCE REGISTRY
+// =============================================================================
+
+// Tracks ALL keymash instances for useKeymashBindings hook
+const globalRegistry = new Set<Keymash>();
+const globalChangeListeners = new Set<() => void>();
+
+function registerGlobal(instance: Keymash): void {
+  globalRegistry.add(instance);
+  notifyGlobalChange();
+}
+
+function unregisterGlobal(instance: Keymash): void {
+  globalRegistry.delete(instance);
+  notifyGlobalChange();
+}
+
+function notifyGlobalChange(): void {
+  for (const listener of globalChangeListeners) {
+    listener();
+  }
+}
+
+/**
+ * Get all currently instantiated (not destroyed) Keymash instances.
+ * Useful for building keyboard shortcuts dialogs.
+ *
+ * @returns Set of all active Keymash instances
+ * @category Utilities
+ */
+export function getAllKeymashInstances(): Set<Keymash> {
+  return globalRegistry;
+}
+
+/**
+ * Subscribe to changes in any keymash instance (creation, destruction, binding changes).
+ * Returns an unsubscribe function.
+ *
+ * @param listener - Function called when any keymash instance changes
+ * @returns Unsubscribe function
+ * @category Utilities
+ */
+export function onGlobalChange(listener: () => void): () => void {
+  globalChangeListeners.add(listener);
+  return () => globalChangeListeners.delete(listener);
+}
+
+// =============================================================================
 // KEYMASH CLASS
 // =============================================================================
 
@@ -438,20 +486,11 @@ interface SequenceBinding {
 export class Keymash implements IKeymash {
   label: string;
   /**
-   * The scope element for this keymash. Events are filtered by containment.
-   * @deprecated Use `scope` instead of `target`.
+   * @summary The element that all handlers are attached to.
+   * @description Events are actually bound to the window, but they are filtered by containment on this element if provided.
    */
-  target: HTMLElement | Window;
+  scope: HTMLElement | Window;
   bindings: Binding[] = [];
-
-  /**
-   * Alias for `target`. The scope element for this keymash.
-   * Events are captured at window level but only processed if the event
-   * originated from within this element (or window for global capture).
-   */
-  get scope(): HTMLElement | Window {
-    return this.target;
-  }
 
   private _active: boolean = false;
   private _activeKeys: Set<string> = new Set();
@@ -473,13 +512,15 @@ export class Keymash implements IKeymash {
 
   constructor(config: KeymashConfig = {}) {
     this.label = config.label ?? '';
-    // Prefer scope over deprecated target
-    this.target = config.scope ?? config.target ?? window;
+    this.scope = config.scope ?? window;
 
     // Bind event handlers
     this._boundHandleKeyDown = this._handleKeyDown.bind(this);
     this._boundHandleKeyUp = this._handleKeyUp.bind(this);
     this._boundHandleBlur = this._handleBlur.bind(this);
+
+    // Register in global registry
+    registerGlobal(this);
 
     // Add initial bindings
     if (config.bindings && config.bindings.length > 0) {
@@ -541,12 +582,12 @@ export class Keymash implements IKeymash {
       window.addEventListener('keydown', this._boundHandleKeyDown as EventListener);
       window.addEventListener('keyup', this._boundHandleKeyUp as EventListener);
       window.addEventListener('blur', this._boundHandleBlur);
-      registerTarget(this.target, this);
+      registerTarget(this.scope, this);
     } else {
       window.removeEventListener('keydown', this._boundHandleKeyDown as EventListener);
       window.removeEventListener('keyup', this._boundHandleKeyUp as EventListener);
       window.removeEventListener('blur', this._boundHandleBlur);
-      unregisterTarget(this.target, this);
+      unregisterTarget(this.scope, this);
       this._activeKeys.clear();
     }
 
@@ -584,6 +625,8 @@ export class Keymash implements IKeymash {
     this._onUpdate = undefined;
     this._sequences = [];
     this._sequenceBuffer = '';
+    // Remove from global registry
+    unregisterGlobal(this);
   }
 
   /**
@@ -715,6 +758,8 @@ export class Keymash implements IKeymash {
     for (const fn of this._changeListeners) {
       fn();
     }
+    // Also notify global listeners for useKeymashBindings
+    notifyGlobalChange();
   }
 
   private _getMask(k: string, offset: bigint, cache: NamedKeyMap): bigint {
@@ -737,13 +782,13 @@ export class Keymash implements IKeymash {
    */
   private _shouldHandleEvent(e: KeyboardEvent): boolean {
     // Window target means capture all events
-    if (this.target === window) return true;
+    if (this.scope === window) return true;
 
     // For element targets, check if the event originated from within the target
     const eventTarget = e.target as Node | null;
     if (!eventTarget) return false;
 
-    return (this.target as HTMLElement).contains(eventTarget);
+    return (this.scope as HTMLElement).contains(eventTarget);
   }
 
   private _handleKeyDown(e: KeyboardEvent): void {

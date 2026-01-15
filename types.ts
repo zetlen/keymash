@@ -160,10 +160,6 @@ export interface KeymashConfig {
    * @default window
    */
   scope?: HTMLElement | Window;
-  /**
-   * @deprecated Use `scope` instead. This will be removed in a future version.
-   */
-  target?: HTMLElement | Window;
   /** Initial bindings to register */
   bindings?: Binding[];
   /** Combo to activate this keymash (not yet implemented) */
@@ -185,13 +181,8 @@ export interface IKeymash {
   label: string;
   /**
    * The scope element for this keymash. Events are filtered by containment.
-   * Alias: `target` (deprecated)
    */
   scope: HTMLElement | Window;
-  /**
-   * @deprecated Use `scope` instead.
-   */
-  target: HTMLElement | Window;
   /** Array of all registered bindings */
   bindings: Binding[];
 

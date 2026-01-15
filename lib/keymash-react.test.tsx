@@ -1,6 +1,14 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ctrl, hold, press, useKeymash, useKeyState } from './keymash-react';
+import {
+  ctrl,
+  hold,
+  keymash,
+  press,
+  useKeymash,
+  useKeymashBindings,
+  useKeyState,
+} from './keymash-react';
 
 describe('keymash/react', () => {
   describe('useKeymash', () => {
@@ -297,6 +305,140 @@ describe('keymash/react', () => {
       expect(ctrl).toBeDefined();
       expect(hold).toBeDefined();
       expect(press).toBeDefined();
+    });
+  });
+
+  describe('useKeymashBindings', () => {
+    afterEach(() => {
+      // Clear key states after each test
+      window.dispatchEvent(new Event('blur'));
+    });
+
+    it('should return empty array when no instances exist', () => {
+      const { result } = renderHook(() => useKeymashBindings());
+      expect(result.current).toEqual([]);
+    });
+
+    it('should return bindings from all keymash instances', () => {
+      const handler1 = vi.fn();
+      const handler2 = vi.fn();
+
+      // Create two keymash instances with different labels
+      const km1 = keymash({ label: 'Editor' });
+      km1.bind({ combo: ctrl + press.s, handler: handler1, label: 'Save' });
+
+      const km2 = keymash({ label: 'Modal' });
+      km2.bind({ combo: press.escape, handler: handler2, label: 'Close' });
+
+      const { result } = renderHook(() => useKeymashBindings());
+
+      expect(result.current.length).toBe(2);
+
+      // Check first binding
+      const saveBinding = result.current.find((b) => b.label === 'Save');
+      expect(saveBinding).toBeDefined();
+      expect(saveBinding?.instanceLabel).toBe('Editor');
+      expect(saveBinding?.comboText).toBe('ctrl+s');
+      expect(saveBinding?.handler).toBe(handler1);
+
+      // Check second binding
+      const closeBinding = result.current.find((b) => b.label === 'Close');
+      expect(closeBinding).toBeDefined();
+      expect(closeBinding?.instanceLabel).toBe('Modal');
+      expect(closeBinding?.comboText).toBe('escape');
+      expect(closeBinding?.handler).toBe(handler2);
+
+      // Cleanup
+      km1.destroy();
+      km2.destroy();
+    });
+
+    it('should include isActive status', () => {
+      const handler = vi.fn();
+      const km = keymash({ label: 'Test' });
+      km.bind({ combo: press.a, handler, label: 'Test Binding' });
+      km.setActive(true);
+
+      const { result } = renderHook(() => useKeymashBindings());
+
+      expect(result.current[0].isActive).toBe(true);
+
+      // Deactivate and check again
+      act(() => {
+        km.setActive(false);
+      });
+
+      expect(result.current[0].isActive).toBe(false);
+
+      km.destroy();
+    });
+
+    it('should update when new bindings are added', () => {
+      const handler1 = vi.fn();
+      const handler2 = vi.fn();
+
+      const km = keymash({ label: 'Test' });
+      km.bind({ combo: press.a, handler: handler1, label: 'First' });
+
+      const { result } = renderHook(() => useKeymashBindings());
+
+      expect(result.current.length).toBe(1);
+      expect(result.current[0].label).toBe('First');
+
+      // Add another binding
+      act(() => {
+        km.bind({ combo: press.b, handler: handler2, label: 'Second' });
+      });
+
+      expect(result.current.length).toBe(2);
+      expect(result.current.find((b) => b.label === 'Second')).toBeDefined();
+
+      km.destroy();
+    });
+
+    it('should update when keymash is destroyed', () => {
+      const handler = vi.fn();
+      const km = keymash({ label: 'Test' });
+      km.bind({ combo: press.a, handler, label: 'Test Binding' });
+
+      const { result } = renderHook(() => useKeymashBindings());
+
+      expect(result.current.length).toBe(1);
+
+      // Destroy the keymash
+      act(() => {
+        km.destroy();
+      });
+
+      expect(result.current.length).toBe(0);
+    });
+
+    it('should work with useKeymash hook instances', () => {
+      const handler1 = vi.fn();
+      const handler2 = vi.fn();
+
+      // Create one instance with useKeymash hook
+      const { unmount } = renderHook(() =>
+        useKeymash({
+          label: 'HookInstance',
+          bindings: [{ combo: ctrl + press.k, handler: handler1, label: 'Hook Binding' }],
+        }),
+      );
+
+      // Create another with direct keymash()
+      const km = keymash({ label: 'DirectInstance' });
+      km.bind({ combo: press.j, handler: handler2, label: 'Direct Binding' });
+
+      const { result } = renderHook(() => useKeymashBindings());
+
+      // Should see bindings from both
+      expect(result.current.length).toBe(2);
+      expect(result.current.find((b) => b.instanceLabel === 'HookInstance')).toBeDefined();
+      expect(result.current.find((b) => b.instanceLabel === 'DirectInstance')).toBeDefined();
+
+      // Cleanup
+      unmount();
+      km.destroy();
     });
   });
 });
