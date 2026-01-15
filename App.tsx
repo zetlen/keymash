@@ -113,6 +113,60 @@ km.bind({
           </div>
         </section>
 
+        {/* MODULES_SECTION_START */}
+        <section className="py-10">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">Modules</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full max-w-2xl">
+              <tbody className="divide-y divide-gray-100">
+                <tr className="hover:bg-gray-50">
+                  <td className="py-4 pr-8">
+                    <a href="#two-entry-points" className="font-mono text-blue-600 hover:underline">
+                      keymash
+                    </a>
+                  </td>
+                  <td className="py-4 pr-8 text-gray-600">
+                    Full library with sequences, introspection, and dev warnings
+                  </td>
+                  <td className="py-4 text-gray-500 font-mono text-sm whitespace-nowrap">
+                    2.86 KB
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="py-4 pr-8">
+                    <a
+                      href="#core-package-1kb-gzipped"
+                      className="font-mono text-blue-600 hover:underline"
+                    >
+                      keymash/core
+                    </a>
+                  </td>
+                  <td className="py-4 pr-8 text-gray-600">
+                    Minimal core for basic keyboard bindings only
+                  </td>
+                  <td className="py-4 text-gray-500 font-mono text-sm whitespace-nowrap">
+                    1.07 KB
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="py-4 pr-8">
+                    <a href="#keymashreact" className="font-mono text-blue-600 hover:underline">
+                      keymash/react
+                    </a>
+                  </td>
+                  <td className="py-4 pr-8 text-gray-600">
+                    React hooks for declarative keyboard binding
+                  </td>
+                  <td className="py-4 text-gray-500 font-mono text-sm whitespace-nowrap">
+                    1.27 KB
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        {/* MODULES_SECTION_END */}
+
         <section id="demo" className="py-10">
           <div className="mb-16 space-y-4">
             <h2 className="text-3xl font-bold text-gray-900">Interactive Demo</h2>
