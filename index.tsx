@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import ApiReference from './components/ApiReference';
+import ExamplesPage from './components/ExamplesPage';
 import Nav from './components/Nav';
 
 // Simple hash-based router
@@ -45,6 +46,9 @@ const Router: React.FC = () => {
   const renderPage = () => {
     if (path === '/api') {
       return <ApiReference />;
+    }
+    if (path === '/examples') {
+      return <ExamplesPage />;
     }
     return <App />;
   };

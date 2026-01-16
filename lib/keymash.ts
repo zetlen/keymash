@@ -903,9 +903,10 @@ export class Keymash implements IKeymash {
 
     // Also include non-standard held keys (capslock, tab, etc.) from _activeKeys
     // These aren't available as event properties
+    // Skip the current key being pressed - it will be added as a press, not a hold
     for (const k of this._activeKeys) {
       const normalized = normalizeKey(k);
-      if (!['ctrl', 'shift', 'alt', 'meta'].includes(normalized)) {
+      if (!['ctrl', 'shift', 'alt', 'meta'].includes(normalized) && k !== e.key) {
         holdMask |= this._getMask(k, HOLD_OFFSET, hold);
       }
     }

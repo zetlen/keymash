@@ -692,4 +692,63 @@ describe('keymash', () => {
       km.destroy();
     });
   });
+
+  describe('key repeat handling', () => {
+    it('should fire handler on repeat when repeat: true', () => {
+      const handler = vi.fn();
+      const km = keymash();
+      km.bind({ combo: press.arrowright, handler, repeat: true });
+      km.setActive(true);
+
+      // First keydown (e.repeat = false)
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', repeat: false }));
+      expect(handler).toHaveBeenCalledTimes(1);
+
+      // Repeated keydown (e.repeat = true) - should still fire
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', repeat: true }));
+      expect(handler).toHaveBeenCalledTimes(2);
+
+      // Another repeat
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', repeat: true }));
+      expect(handler).toHaveBeenCalledTimes(3);
+
+      km.destroy();
+    });
+
+    it('should NOT fire handler on repeat when repeat: false (default)', () => {
+      const handler = vi.fn();
+      const km = keymash();
+      km.bind({ combo: press.arrowright, handler }); // repeat defaults to false
+      km.setActive(true);
+
+      // First keydown
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', repeat: false }));
+      expect(handler).toHaveBeenCalledTimes(1);
+
+      // Repeated keydown - should NOT fire
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', repeat: true }));
+      expect(handler).toHaveBeenCalledTimes(1); // Still 1, not 2
+
+      km.destroy();
+    });
+
+    it('should not include pressed key in hold mask on repeat', () => {
+      // This tests the specific bug fix: on repeat events, the current key
+      // should not be added to holdMask (which would cause lookup to fail)
+      const handler = vi.fn();
+      const km = keymash();
+      km.bind({ combo: press.a, handler, repeat: true });
+      km.setActive(true);
+
+      // First press adds 'a' to _activeKeys
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', repeat: false }));
+      expect(handler).toHaveBeenCalledTimes(1);
+
+      // Repeat should still work (key 'a' in _activeKeys shouldn't affect lookup)
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', repeat: true }));
+      expect(handler).toHaveBeenCalledTimes(2);
+
+      km.destroy();
+    });
+  });
 });

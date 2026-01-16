@@ -90,8 +90,8 @@ const KeyMashDemo: React.FC = () => {
     // Exit with Escape
     modalKm.bind({
       combo: press.escape,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         exitModalMode();
       },
       label: 'Exit Modal',
@@ -100,8 +100,8 @@ const KeyMashDemo: React.FC = () => {
     // Some fun bindings to show in the log
     modalKm.bind({
       combo: hold.ctrl + press.t,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('Ctrl+T - New tab (blocked!)', 'action');
       },
       label: 'New Tab',
@@ -109,8 +109,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: hold.ctrl + hold.shift + press.p,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('Ctrl+Shift+P - Command palette!', 'action');
       },
       label: 'Command Palette',
@@ -118,8 +118,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: hold.alt + (press.arrowup | press.arrowdown),
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('Alt+Arrow - Move line!', 'action');
       },
       label: 'Move Line',
@@ -129,8 +129,8 @@ const KeyMashDemo: React.FC = () => {
     // Arrow keys
     modalKm.bind({
       combo: press.arrowup,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('↑ Arrow Up', 'action');
       },
       label: 'Up',
@@ -139,8 +139,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.arrowdown,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('↓ Arrow Down', 'action');
       },
       label: 'Down',
@@ -149,8 +149,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.arrowleft,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('← Arrow Left', 'action');
       },
       label: 'Left',
@@ -159,8 +159,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.arrowright,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('→ Arrow Right', 'action');
       },
       label: 'Right',
@@ -169,8 +169,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.enter,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('Enter - Confirmed!', 'action');
       },
       label: 'Confirm',
@@ -178,8 +178,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.space,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('Space - Toggle!', 'action');
       },
       label: 'Toggle',
@@ -188,8 +188,8 @@ const KeyMashDemo: React.FC = () => {
     // Vim-style navigation
     modalKm.bind({
       combo: press.h,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('h (vim left)', 'action');
       },
       label: 'Vim Left',
@@ -198,8 +198,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.j,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('j (vim down)', 'action');
       },
       label: 'Vim Down',
@@ -208,8 +208,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.k,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('k (vim up)', 'action');
       },
       label: 'Vim Up',
@@ -218,8 +218,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.l,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('l (vim right)', 'action');
       },
       label: 'Vim Right',
@@ -228,8 +228,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: hold.shift + press.g,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('Shift+G - Go to end', 'action');
       },
       label: 'Go to End',
@@ -237,8 +237,8 @@ const KeyMashDemo: React.FC = () => {
 
     modalKm.bind({
       combo: press.g,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         addLog('g - Go to start', 'action');
       },
       label: 'Go to Start',
@@ -247,8 +247,8 @@ const KeyMashDemo: React.FC = () => {
     // Catch-all to trap ALL unbound keyboard input
     modalKm.bind({
       combo: press.any,
-      handler: (e) => {
-        e?.preventDefault();
+      handler: ({ event }) => {
+        event.preventDefault();
         // Silently trap - the keyboard visual shows what's pressed
       },
       label: 'Trap All Input',
@@ -558,8 +558,8 @@ globalKm.sequence('show me', () => enterTrapMode());
 
 // Modal keymash traps ALL input
 const modalKm = keymash({ scope: container });
-modalKm.bind(press.escape, exitTrapMode);
-modalKm.bind(press.any, (e) => e?.preventDefault());
+modalKm.bind(press.escape, () => exitTrapMode());
+modalKm.bind(press.any, ({ event }) => event.preventDefault());
 
 // Keyboard visualizer uses onUpdate
 modalKm.onUpdate((mask) => {
